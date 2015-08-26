@@ -1,0 +1,9 @@
+com/netas/avaya/ipps/SubscribeServlet.class
+com/netas/avaya/ipps/SearchPeopleServlet.class
+com/netas/avaya/IppsWebApplicationInitializer.class
+com/netas/avaya/WMLServlet.class
+com/netas/avaya/IppsServletFactory.class
+com/netas/avaya/ipps/ExchangeRatesServlet.class
+com/netas/avaya/ipps/StdPushNotification.class
+com/netas/avaya/AbstractBaseServlet.class
+com/netas/avaya/ipps/PushToplineServlet.class
