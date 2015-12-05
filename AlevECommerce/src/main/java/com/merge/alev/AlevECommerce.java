@@ -48,8 +48,8 @@ public class AlevECommerce {
 		dbServer.setPort(1453);
 		dbServer.setDatabaseName(0, "alevecom");
 		dbServer.setDatabasePath(0, "data/alevecom");
-		dbServer.setErrWriter(null);
-		dbServer.setLogWriter(null);
+//		dbServer.setErrWriter(null);
+//		dbServer.setLogWriter(null);
 		dbServer.start();
 	}
 	

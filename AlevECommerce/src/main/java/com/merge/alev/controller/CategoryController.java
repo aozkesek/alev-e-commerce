@@ -8,41 +8,41 @@ import org.springframework.web.bind.annotation.RestController;
 import com.merge.alev.dao.model.Category;
 
 @RestController
-public class CategoryController extends AbstractCRUDController<Category> {
+public class CategoryController extends GenericCRUDController<Category> {
 	
 	@Override
 	@RequestMapping("/category/create")
 	@ResponseBody
-	public GenericResponse<Category> create(@RequestBody GenericRequest<Category> requestModel) {
-		return operate(Operation.C, requestModel);
+	public GenericResponse<Category> create(@RequestBody GenericRequest<Category> request) {
+		return super.create(request);
 	}
 
 	@Override
 	@RequestMapping("/category/read")
 	@ResponseBody
-	public GenericResponse<Category> read(@RequestBody GenericRequest<Category> requestModel) {
-		return operate(Operation.R, requestModel);
+	public GenericResponse<Category> read(@RequestBody GenericRequest<Category> request) {
+		return super.read(request);
 	}
 
 	@Override
 	@RequestMapping("/category/update")
 	@ResponseBody
-	public GenericResponse<Category> update(@RequestBody GenericRequest<Category> requestModel) {
-		return operate(Operation.U, requestModel);
+	public GenericResponse<Category> update(@RequestBody GenericRequest<Category> request) {
+		return super.update(request);
 	}
 
 	@Override
 	@RequestMapping("/category/delete")
 	@ResponseBody
-	public GenericResponse<Category> delete(@RequestBody GenericRequest<Category> requestModel) {
-		return operate(Operation.D, requestModel);
+	public GenericResponse<Category> delete(@RequestBody GenericRequest<Category> request) {
+		return super.delete(request);
 	}	
 	
 	@Override
 	@RequestMapping("/category/list")
 	@ResponseBody
-	public GenericResponse<Category> list(@RequestBody GenericRequest<Category> requestModel) {
-		return operate(Operation.L, requestModel);
+	public GenericResponse<Category> list(@RequestBody GenericRequest<Category> request) {
+		return super.list(request);
 	}	
 	
 }

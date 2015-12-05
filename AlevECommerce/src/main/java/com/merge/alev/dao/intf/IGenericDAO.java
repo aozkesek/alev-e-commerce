@@ -11,6 +11,8 @@ public interface IGenericDAO<T extends AbstractModel> {
 	T update(T model);
 	T delete(T model);
 	
+	Integer getListMaxResult();
+	Integer getListByMaxResult(T model);
 	List<T> list(Integer firstResult, Integer maxResult);
 	List<T> listBy(T model, Integer firstResult, Integer maxResult);
 

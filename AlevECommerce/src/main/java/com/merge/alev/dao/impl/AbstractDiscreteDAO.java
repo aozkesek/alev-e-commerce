@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -88,46 +89,22 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 		return operate(Operation.D, model);
 	}
 
-	@Override
-	public List<T> list(Integer firstResult, Integer maxResult) {
+	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
 		Session session = getSessionFactory().openSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
 			
-			result = getListQuery(session)
-				.setFirstResult(firstResult)
-				.setMaxResults(maxResult)
-				.list();
+			Criteria criteria = 
+					model == null ? 
+							getListCriteria(session) 
+							: getListByCriteria(session, model);
 			
-			transaction.commit();
-			return result;
-		}
-		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
-			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
-			throw ex;
-		}
-		finally {
-			if (session.isOpen())
-				session.close();
-		}
-	}
-
-	@Override
-	public List<T> listBy(T model, Integer firstResult, Integer maxResult) {
-		List<T> result = new ArrayList<T>();
-		Session session = getSessionFactory().openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			
-			result = getListByCriteria(session, model)
-				.setFirstResult(firstResult)
-				.setMaxResults(maxResult)
-				.list();
+			result = criteria
+					.setFirstResult(firstResult)
+					.setMaxResults(maxResult)
+					.list();
 			
 			transaction.commit();
 			return result;
@@ -144,7 +121,58 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 		}
 	}
 	
-	public abstract Query getListQuery(Session session);
+	protected Integer operateMaxResult(T model) {
+		Long result;
+		Session session = getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			
+			Criteria criteria = 
+					model == null ? 
+							getListCriteria(session) 
+							: getListByCriteria(session, model);
+			
+			result = (Long) criteria
+					.setProjection(Projections.rowCount())
+					.uniqueResult();
+			
+			transaction.commit();
+			return result.intValue();
+		}
+		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
+			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			throw ex;
+		}
+		finally {
+			if (session.isOpen())
+				session.close();
+		}
+	}
+	
+	@Override
+	public Integer getListMaxResult() {
+		return operateMaxResult(null);
+	}
+	
+	@Override
+	public Integer getListByMaxResult(T model) {
+		return operateMaxResult(model);
+	}
+	
+	@Override
+	public List<T> list(Integer firstResult, Integer maxResult) {
+		return operateList(null, firstResult, maxResult);
+	}
+
+	@Override
+	public List<T> listBy(T model, Integer firstResult, Integer maxResult) {
+		return operateList(model, firstResult, maxResult);
+	}
+	
+	public abstract Criteria getListCriteria(Session session);
 	public abstract Criteria getListByCriteria(Session session, T model);
 	
 }

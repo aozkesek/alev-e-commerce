@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.merge.alev.dao.intf.IGenericDAO;
 import com.merge.alev.dao.model.AbstractModel;
 
-public abstract class AbstractCRUDController<T extends AbstractModel> {
+public class GenericCRUDController<T extends AbstractModel> {
 
-	protected enum Operation { C, R, U, D, L }
+	private enum Operation { C, R, U, D, L }
 	
 	@Autowired
 	private IGenericDAO<T> dao;
@@ -21,7 +21,7 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 		this.dao = dao;
 	}
 
-	protected GenericResponse<T> operate(Operation operator, GenericRequest<T> model) {
+	private GenericResponse<T> operate(Operation operator, GenericRequest<T> request) {
 		
 		GenericResponse<T> res = new GenericResponse<T>();
 		res.setResponseCode(ResponseCode.OK);
@@ -30,18 +30,23 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 		
 		try {
 			
-			if (operator != Operation.L && (model == null || model.getModel() == null || model.getModel().isEmpty())) {
+			boolean isModelNullOrEmpty = request == null || request.getModel() == null || request.getModel().isEmpty();
+			
+			if (operator != Operation.L && isModelNullOrEmpty) {
 				res.setResponseCode(ResponseCode.ERROR);
 				res.getResponseMesage().add("ArgumentNull");
 				return res;
 			}
 			
-			if (model == null || model.getModel() == null || model.getModel().isEmpty()) {
-				res.setModel(dao.list(model.getFirstRecordNumber(), model.getMaxRecordNumber()));
+			res.setFirstRecordNumber(request.getFirstRecordNumber());
+			
+			if (isModelNullOrEmpty) {
+				res.setTotalRecordNumber(dao.getListMaxResult());
+				res.setModel(dao.list(request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 			}
 			else {
 				boolean oneSucceded = false;
-				for (T m : model.getModel()) {
+				for (T m : request.getModel()) {
 					
 					try {
 	
@@ -63,7 +68,8 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 							break;
 						
 						case L:
-							res.setModel(dao.listBy(m, model.getFirstRecordNumber(), model.getMaxRecordNumber()));
+							res.setTotalRecordNumber(dao.getListByMaxResult(m));
+							res.setModel(dao.listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 							break;
 							
 						}
@@ -90,14 +96,24 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 		
 	}
 
-	public abstract GenericResponse<T> create(GenericRequest<T> model);
+	public GenericResponse<T> create(GenericRequest<T> request) {
+		return operate(Operation.C, request);
+	}
 
-	public abstract GenericResponse<T> read(GenericRequest<T> model);
+	public GenericResponse<T> read(GenericRequest<T> request) {
+		return operate(Operation.R, request);
+	}
 
-	public abstract GenericResponse<T> update(GenericRequest<T> model);
+	public GenericResponse<T> update(GenericRequest<T> request) {
+		return operate(Operation.U, request);
+	}
 
-	public abstract GenericResponse<T> delete(GenericRequest<T> model);
+	public GenericResponse<T> delete(GenericRequest<T> request) {
+		return operate(Operation.D, request);
+	}
 
-	public abstract GenericResponse<T> list(GenericRequest<T> model);
+	public GenericResponse<T> list(GenericRequest<T> request) {
+		return operate(Operation.L, request);
+	}
 	
 }

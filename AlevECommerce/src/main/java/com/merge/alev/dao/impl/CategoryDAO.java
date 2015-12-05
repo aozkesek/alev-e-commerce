@@ -1,7 +1,6 @@
 package com.merge.alev.dao.impl;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
@@ -12,8 +11,8 @@ import com.merge.alev.dao.model.Category;
 public class CategoryDAO extends AbstractDiscreteDAO<Category> {
 
 	@Override
-	public Query getListQuery(Session session) {
-		return session.createQuery("from Category c");
+	public Criteria getListCriteria(Session session) {
+		return session.createCriteria(Category.class);
 	}
 
 	@Override
