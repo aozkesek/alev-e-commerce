@@ -1,0 +1,150 @@
+package com.merge.alev.dao.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.merge.alev.dao.intf.IGenericDAO;
+import com.merge.alev.dao.model.AbstractModel;
+
+public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IGenericDAO<T> {
+
+	protected enum Operation { C, R, U, D }
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	protected T operate(Operation operation, T model) {
+		Session session = getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			switch(operation) {
+			case C:
+				session.save(model);
+				break;
+				
+			case R:
+				model = (T) session.get(model.getClass(), model.getId());
+				break;
+				
+			case U:
+				session.update(model);
+				break;
+				
+			case D:
+				session.delete(model);
+				break;
+				
+			}
+			
+			transaction.commit();
+			return model;
+		}
+		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
+			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			throw ex;
+		}
+		finally {
+			if (session.isOpen())
+				session.close();
+		}		
+	}
+	
+	@Override
+	public T create(T model) {
+		return operate(Operation.C, model);
+	}
+
+	@Override
+	public T read(T model) {
+		return operate(Operation.R, model);
+	}
+	
+	@Override
+	public T update(T model) {
+		return operate(Operation.U, model);
+	}
+
+	@Override
+	public T delete(T model) {
+		return operate(Operation.D, model);
+	}
+
+	@Override
+	public List<T> list(Integer firstResult, Integer maxResult) {
+		List<T> result = new ArrayList<T>();
+		Session session = getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			
+			result = getListQuery(session)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxResult)
+				.list();
+			
+			transaction.commit();
+			return result;
+		}
+		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
+			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			throw ex;
+		}
+		finally {
+			if (session.isOpen())
+				session.close();
+		}
+	}
+
+	@Override
+	public List<T> listBy(T model, Integer firstResult, Integer maxResult) {
+		List<T> result = new ArrayList<T>();
+		Session session = getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			
+			result = getListByCriteria(session, model)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxResult)
+				.list();
+			
+			transaction.commit();
+			return result;
+		}
+		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
+			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			throw ex;
+		}
+		finally {
+			if (session.isOpen())
+				session.close();
+		}
+	}
+	
+	public abstract Query getListQuery(Session session);
+	public abstract Criteria getListByCriteria(Session session, T model);
+	
+}
