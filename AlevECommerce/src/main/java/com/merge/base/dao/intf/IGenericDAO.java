@@ -1,8 +1,8 @@
-package com.merge.alev.dao.intf;
+package com.merge.base.dao.intf;
 
 import java.util.List;
 
-import com.merge.alev.dao.model.AbstractModel;
+import com.merge.base.dao.model.AbstractModel;
 
 public interface IGenericDAO<T extends AbstractModel> {
 	

@@ -1,10 +1,11 @@
-package com.merge.alev.controller;
+package com.merge.base.controller;
 
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.merge.alev.dao.intf.IGenericDAO;
-import com.merge.alev.dao.model.AbstractModel;
+
+import com.merge.base.dao.intf.IGenericDAO;
+import com.merge.base.dao.model.AbstractModel;
 
 public class GenericCRUDController<T extends AbstractModel> {
 

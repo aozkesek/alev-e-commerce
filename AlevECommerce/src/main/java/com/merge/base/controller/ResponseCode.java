@@ -1,4 +1,4 @@
-package com.merge.alev.controller;
+package com.merge.base.controller;
 
 public final class ResponseCode {
 

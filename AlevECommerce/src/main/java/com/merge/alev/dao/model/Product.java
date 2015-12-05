@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.merge.base.dao.model.AbstractModel;
+
 @Entity
 @Table(name="PRODUCTS", schema="ALEVECOM")
 public class Product extends AbstractModel {

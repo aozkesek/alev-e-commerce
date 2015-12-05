@@ -1,20 +1,12 @@
 package com.merge.alev;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.hsqldb.HsqlException;
-import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.Server;
-import org.hsqldb.server.ServerAcl.AclFormatException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

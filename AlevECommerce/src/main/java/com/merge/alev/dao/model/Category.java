@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.merge.base.dao.model.AbstractModel;
+
 @Entity
 @Table(name="CATEGORIES", schema="ALEVECOM")
 public class Category extends AbstractModel {

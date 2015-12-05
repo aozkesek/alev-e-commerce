@@ -1,4 +1,4 @@
-package com.merge.alev.dao.model;
+package com.merge.base.dao.model;
 
 import java.io.Serializable;
 

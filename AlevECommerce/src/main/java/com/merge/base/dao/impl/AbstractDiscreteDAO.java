@@ -1,4 +1,4 @@
-package com.merge.alev.dao.impl;
+package com.merge.base.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.hibernate.criterion.Projections;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.merge.alev.dao.intf.IGenericDAO;
-import com.merge.alev.dao.model.AbstractModel;
+import com.merge.base.dao.intf.IGenericDAO;
+import com.merge.base.dao.model.AbstractModel;
 
 public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IGenericDAO<T> {
 

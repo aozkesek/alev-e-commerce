@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.merge.alev.dao.model.Product;
+import com.merge.base.controller.GenericCRUDController;
+import com.merge.base.controller.GenericRequest;
+import com.merge.base.controller.GenericResponse;
 
 @RestController
 public class ProductController extends GenericCRUDController<Product> {

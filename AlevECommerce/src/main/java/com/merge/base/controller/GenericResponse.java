@@ -1,8 +1,8 @@
-package com.merge.alev.controller;
+package com.merge.base.controller;
 
 import java.util.List;
 
-import com.merge.alev.dao.model.AbstractModel;
+import com.merge.base.dao.model.AbstractModel;
 
 public class GenericResponse<T extends AbstractModel> {
 

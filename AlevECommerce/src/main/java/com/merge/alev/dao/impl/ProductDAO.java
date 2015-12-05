@@ -6,6 +6,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import com.merge.alev.dao.model.Product;
+import com.merge.base.dao.impl.AbstractDiscreteDAO;
 
 @Component
 public class ProductDAO extends AbstractDiscreteDAO<Product> {
