@@ -3,7 +3,8 @@ package com.merge.base.dao.model;
 public abstract class AbstractModel {
 	
 	public abstract Integer getId();
-
+	public abstract Integer getVersion();
+	
 	@Override
 	public int hashCode() {
 		return getId() != null ? getId().hashCode() : 0;
