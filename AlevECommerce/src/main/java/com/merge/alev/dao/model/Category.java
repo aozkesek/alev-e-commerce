@@ -39,24 +39,5 @@ public class Category extends AbstractModel {
 	public String toString() {
 		return String.format("{id=%d, categoryName=%s}", getId(), getCategoryName());
 	}
-	
-	@Override
-	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		
-		if (!(o instanceof Category))
-			return false;
-
-		if (id == null)
-			return false;
-		
-		return id.equals(((Category)o).getId());
-	}
 
 }

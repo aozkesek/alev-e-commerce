@@ -30,7 +30,7 @@ public class Product extends AbstractModel {
 	private String colors;
 	@Column(name="SIZES")
 	private String sizes;
-	@Column(name="PROCE")
+	@Column(name="PRICE")
 	private Double price;
 	@Column(name="ACTUALPRICE")
 	private Double actualPrice;
@@ -130,27 +130,8 @@ public class Product extends AbstractModel {
 
 	@Override
 	public String toString() {
-		return String.format("{id=%d, categoryId=%s, getName=%s, getTitle=%s, getDescription=%s, getColors=%s, getSizes=%s, getPrice=%f, getActualPrice=%f, getCreateDate=%t, getUpdateDate=%t}"
+		return String.format("{id=%d, categoryId=%s, name=%s, title=%s, description=%s, colors=%s, sizes=%s, price=%f, actualPrice=%f, createDate=%t, updateDate=%t}"
 				, getId(), getCategoryId(), getName(), getTitle(), getDescription(), getColors(), getSizes(), getPrice(), getActualPrice(), getCreateDate(), getUpdateDate());
 	}
 	
-	@Override
-	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		
-		if (!(o instanceof Product))
-			return false;
-
-		if (id == null)
-			return false;
-		
-		return id.equals(((Product)o).getId());
-	}
-
 }
