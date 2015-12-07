@@ -79,7 +79,7 @@ public class GenericCRUDController<T extends AbstractModel> {
 					}
 					catch(Exception ex) {
 						res.setResponseCode(ResponseCode.ERROR);
-						res.getResponseMesage().add(ex.getMessage());
+						res.getResponseMesage().add(ex.getMessage().concat("\n").concat(m.toString()));
 					}
 					
 					if (oneSucceded && res.getResponseCode() == ResponseCode.ERROR)

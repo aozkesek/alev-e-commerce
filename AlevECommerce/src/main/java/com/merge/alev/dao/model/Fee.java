@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
-@Table(name="FESS", schema="ALEVECOM")
+@Table(name="FEES", schema="ALEVECOM")
 public class Fee extends AbstractModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

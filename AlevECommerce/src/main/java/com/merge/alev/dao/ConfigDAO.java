@@ -10,7 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.merge.alev.dao.model.Category;
+import com.merge.alev.dao.model.Fee;
+import com.merge.alev.dao.model.Order;
+import com.merge.alev.dao.model.OrderDetail;
 import com.merge.alev.dao.model.Product;
+import com.merge.alev.dao.model.ProductPicture;
 
 @Configuration
 public class ConfigDAO {
@@ -36,10 +40,15 @@ public class ConfigDAO {
 		StandardServiceRegistry ssr = ssrb.build();
 		
 		MetadataSources mds = new MetadataSources(ssr);
+		
 		mds.addAnnotatedClass(Category.class);
 		mds.addAnnotatedClass(Product.class);
+		mds.addAnnotatedClass(Fee.class);
+		mds.addAnnotatedClass(ProductPicture.class);
+		mds.addAnnotatedClass(Order.class);
+		mds.addAnnotatedClass(OrderDetail.class);
 		
-		//mds.addPackage("com.merge.alev.dao");
+//		mds.addPackage("com.merge.alev.dao.model");
 		
 		Metadata md = mds.buildMetadata();
 		
