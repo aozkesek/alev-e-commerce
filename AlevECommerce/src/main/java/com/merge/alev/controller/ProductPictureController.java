@@ -14,35 +14,35 @@ import com.merge.base.controller.GenericResponse;
 public class ProductPictureController extends GenericCRUDController<ProductPicture> {
 	
 	@Override
-	@RequestMapping("/orderdetail/create")
+	@RequestMapping("/productpicture/create")
 	@ResponseBody
 	public GenericResponse<ProductPicture> create(@RequestBody GenericRequest<ProductPicture> request) {
 		return super.create(request);
 	}
 
 	@Override
-	@RequestMapping("/orderdetail/read")
+	@RequestMapping("/productpicture/read")
 	@ResponseBody
 	public GenericResponse<ProductPicture> read(@RequestBody GenericRequest<ProductPicture> request) {
 		return super.read(request);
 	}
 
 	@Override
-	@RequestMapping("/orderdetail/update")
+	@RequestMapping("/productpicture/update")
 	@ResponseBody
 	public GenericResponse<ProductPicture> update(@RequestBody GenericRequest<ProductPicture> request) {
 		return super.update(request);
 	}
 
 	@Override
-	@RequestMapping("/orderdetail/delete")
+	@RequestMapping("/productpicture/delete")
 	@ResponseBody
 	public GenericResponse<ProductPicture> delete(@RequestBody GenericRequest<ProductPicture> request) {
 		return super.delete(request);
 	}	
 	
 	@Override
-	@RequestMapping("/orderdetail/list")
+	@RequestMapping("/productpicture/list")
 	@ResponseBody
 	public GenericResponse<ProductPicture> list(@RequestBody GenericRequest<ProductPicture> request) {
 		return super.list(request);
