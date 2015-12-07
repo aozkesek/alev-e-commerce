@@ -1,5 +1,8 @@
 package com.merge.alev.dao.impl;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -33,5 +36,23 @@ public class ProductDAO extends AbstractDiscreteDAO<Product> {
 		return criteria;
 	}
 
+	@Override
+	public Product create(Product product) {
+		
+		Date now = Calendar.getInstance().getTime();
+		product.setCreateDate(now);
+		product.setUpdateDate(now);
+		
+		return super.create(product);
+	}
+	
+	@Override
+	public Product update(Product product) {
+		
+		Date now = Calendar.getInstance().getTime();
+		product.setUpdateDate(now);
+		
+		return super.create(product);
+	}
 	
 }

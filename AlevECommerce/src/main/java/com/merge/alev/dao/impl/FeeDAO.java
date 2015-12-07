@@ -22,8 +22,8 @@ public class FeeDAO extends AbstractDiscreteDAO<Fee> {
 				.createCriteria(Fee.class)
 				.add(Restrictions.like("name", model.getName().concat("%")));
 	
-		if (model.getPostCode() != null && !model.getPostCode().isEmpty())
-			criteria.add(Restrictions.like("postCode", model.getPostCode().concat("%")));
+		if (model.getName() != null && !model.getName().isEmpty())
+			criteria.add(Restrictions.like("name", model.getName().concat("%")));
 			
 		return criteria;
 	}

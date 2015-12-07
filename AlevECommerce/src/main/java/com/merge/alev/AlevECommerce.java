@@ -133,8 +133,7 @@ public class AlevECommerce {
 							);
 
 					stmt.execute("CREATE CACHED TABLE ALEVECOM.FEES"
-							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY "	
-							+ " , POSTCODE VARCHAR(30) NOT NULL"		
+							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY "			
 							+ " , AMOUNT DOUBLE"		
 							+ " , NAME VARCHAR(200) NOT NULL UNIQUE"		
 							+ " )"

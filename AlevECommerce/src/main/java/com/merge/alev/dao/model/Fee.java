@@ -16,8 +16,6 @@ public class Fee extends AbstractModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	@Column(name="POSTCODE")
-	private String postCode;
 	@Column(name="NAME")
 	private String name;
 	@Column(name="AMOUNT")
@@ -30,14 +28,6 @@ public class Fee extends AbstractModel {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getPostCode() {
-		return postCode;
-	}
-
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
 	}
 
 	public String getName() {
@@ -58,8 +48,8 @@ public class Fee extends AbstractModel {
 
 	@Override
 	public String toString() {
-		return String.format("{id=%d, postCode=%s, name=%s, amount=%f}"
-				, getId(), getPostCode(), getName(), getAmount());
+		return String.format("{id=%d, name=%s, amount=%f}"
+				, getId(), getName(), getAmount());
 	}
 	
 
