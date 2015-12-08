@@ -20,6 +20,7 @@ public class Category extends AbstractModel {
 	private Integer id;
 	
 	@Version
+	@Column(name="VERSION")
 	private Integer version;
 	
 	@Column(name="CATEGORYNAME")

@@ -72,7 +72,8 @@ public class AlevECommerce {
 					stmt.execute("ALTER USER \"alevecom\" SET INITIAL SCHEMA ALEVECOM");
 					
 					stmt.execute("CREATE CACHED TABLE ALEVECOM.CATEGORIES"
-							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY "	
+							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY"
+							+ " , VERSION INTEGER"
 							+ " , CATEGORYNAME VARCHAR(100) NOT NULL UNIQUE"		
 							+ " )"
 							);
