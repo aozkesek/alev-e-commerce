@@ -1,53 +1,69 @@
 package com.merge.alev.dao.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Proxy;
+
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
+@Proxy(lazy=false)
 @Table(name="PRODUCTS", schema="ALEVECOM")
-public class Product extends AbstractModel {
+public class Product extends AbstractModel implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
+	
 	@Version
+	@Column(name="VERSION")
 	private Integer version;
-	@Column(name="CATEGORYID")
+	
+	@JoinColumn(nullable=false)
+	@Column(name="CATEGORY_ID")
 	private Integer categoryId;
+	
 	@Column(name="NAME")
 	private String name;
+	
 	@Column(name="TITLE")
 	private String title;
+	
 	@Column(name="DESCRIPTION")
 	private String description;
+	
 	@Column(name="COLORS")
 	private String colors;
+	
 	@Column(name="SIZES")
 	private String sizes;
+	
 	@Column(name="PRICE")
 	private Double price;
+	
 	@Column(name="ACTUALPRICE")
 	private Double actualPrice;
+	
 	@Column(name="CREATEDATE")
 	private Date createDate;
+	
 	@Column(name="UPDATEDATE")
 	private Date updateDate;
-	
-	@OneToMany(cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
-	private List<ProductPicture> pictures;
 	
 	public Product() {
 		
@@ -151,18 +167,10 @@ public class Product extends AbstractModel {
 		this.updateDate = updateDate;
 	}
 	
-	public List<ProductPicture> getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(List<ProductPicture> pictures) {
-		this.pictures = pictures;
-	}
-	
 	@Override
 	public String toString() {
-		return String.format("{id=%d, categoryId=%s, name=%s, title=%s, description=%s, colors=%s, sizes=%s, price=%f, actualPrice=%f, createDate=%s, updateDate=%s}"
-				, getId(), getCategoryId(), getName(), getTitle(), getDescription(), getColors(), getSizes(), getPrice(), getActualPrice(), getCreateDate().toString(), getUpdateDate().toString());
+		return String.format("{id=%d, categoryId=%s, name=%s, title=%s, description=%s, colors=%s, sizes=%s, price=%f, actualPrice=%f, createDate=%c, updateDate=%c}"
+				, getId(), getCategoryId(), getName(), getTitle(), getDescription(), getColors(), getSizes(), getPrice(), getActualPrice(), getCreateDate(), getUpdateDate());
 	}
 	
 }

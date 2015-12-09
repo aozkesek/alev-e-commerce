@@ -12,47 +12,67 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Proxy;
+
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
+@Proxy(lazy=false)
 @Table(name="ORDERS", schema="ALEVECOM")
 public class Order extends AbstractModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
+	
 	@Version
+	@Column(name="VERSION")
 	private Integer version;
+	
 	@Column(name="ORDERNO")
 	private String orderNo;
+	
 	@Column(name="CUSTOMERNAME")
 	private String customerName;
+	
 	@Column(name="CUSTOMERMIDDLE")
 	private String customerMiddle;
+	
 	@Column(name="CUSTOMERLASTNAME")
 	private String customerLastname;
+	
 	@Column(name="CUSTOMERTELNO")
 	private String customerTelNo;
+	
 	@Column(name="CUSTOMEREMAIL")
 	private String customerEmail;
+	
 	@Column(name="POSTCODE")
 	private String postCode;
+	
 	@Column(name="DELIVERTO")
 	private String deliverTo;
+	
 	@Column(name="DELIVERYADDRESS")
 	private String deliveryAddress;
+	
 	@Column(name="TOTALAMOUNT")
 	private Double totalAmount;
+	
 	@Column(name="TOTALFEES")
 	private Double totalFees;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name="ORDERSTATUS")
 	private STATUS orderStatus;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name="PAYMENTSTATUS")
 	private STATUS paymentStatus;
+	
 	@Column(name="TRACKNUMBER")
 	private String trackNumber;
+	
 	@Column(name="ORDERDATE")
 	private Date createDate;
 	

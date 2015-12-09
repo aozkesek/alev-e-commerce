@@ -8,29 +8,41 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Proxy;
+
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
+@Proxy(lazy=false)
 @Table(name="ORDERDETAILS", schema="ALEVECOM")
 public class OrderDetail extends AbstractModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
+	
 	@Version
+	@Column(name="VERSION")
 	private Integer version;
-	@Column(name="ORDERID")
+	
+	@Column(name="ORDER_ID")
 	private Integer orderId;
-	@Column(name="PRODUCTID")
+	
+	@Column(name="PRODUCT_ID")
 	private Integer productId;
+	
 	@Column(name="SIZE")
 	private String size;
+	
 	@Column(name="COLOR")
 	private String color;
+	
 	@Column(name="QUANTITY")
 	private Integer quantity;
+	
 	@Column(name="TOTALPRICE")
 	private Double totalPrice;
+	
 	@Column(name="ACTUALPRICE")
 	private Double actualPrice;
 	

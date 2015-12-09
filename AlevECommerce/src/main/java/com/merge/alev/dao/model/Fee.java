@@ -8,19 +8,26 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Proxy;
+
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
+@Proxy(lazy=false)
 @Table(name="FEES", schema="ALEVECOM")
 public class Fee extends AbstractModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
+	
 	@Version
+	@Column(name="VERSION")
 	private Integer version;
+	
 	@Column(name="NAME")
 	private String name;
+	
 	@Column(name="AMOUNT")
 	private Double amount;
 	

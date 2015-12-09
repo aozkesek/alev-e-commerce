@@ -21,7 +21,20 @@ public abstract class AbstractModel {
 		if (getId() == null)
 			return false;
 		
-		return getId().equals(((AbstractModel)o).getId());
+		AbstractModel co = (AbstractModel)o;
+		if (!getId().equals(co.getId()))
+			return false;
+		
+		//even if ID is equal, we also make sure that two's version is equal, only than we can say both are equal each other.
+		if (getVersion() != null)
+			if (co.getVersion() != null) {
+				if (!getVersion().equals(co.getVersion()))
+					return false;
+			}
+			else
+				return false;
+		
+		return true;
 	}
 
 }

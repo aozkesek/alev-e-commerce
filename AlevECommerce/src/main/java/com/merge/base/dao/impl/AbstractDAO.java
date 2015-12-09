@@ -10,10 +10,12 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.merge.base.dao.intf.IGenericDAO;
 import com.merge.base.dao.model.AbstractModel;
 
-public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IGenericDAO<T> {
+public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDAO<T> {
 
 	protected enum Operation { C, R, U, D }
 	
@@ -28,12 +30,11 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 		this.sessionFactory = sessionFactory;
 	}
 
+	@Transactional
 	protected T operate(Operation operation, T model) {
-		Session session = getSessionFactory().openSession();
-		Transaction transaction = null;
+		Session session = getSessionFactory().getCurrentSession();
 		
 		try {
-			transaction = session.beginTransaction();
 			switch(operation) {
 			case C:
 				session.save(model);
@@ -53,18 +54,14 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 				
 			}
 			
-			transaction.commit();
 			return model;
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
 		finally {
-			if (session.isOpen())
-				session.close();
+			
 		}		
 	}
 	
@@ -88,12 +85,12 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 		return operate(Operation.D, model);
 	}
 
+	@Transactional
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-		Session session = getSessionFactory().openSession();
-		Transaction transaction = null;
+		Session session = getSessionFactory().getCurrentSession();
+
 		try {
-			transaction = session.beginTransaction();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -105,27 +102,22 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 					.setMaxResults(maxResult)
 					.list();
 			
-			transaction.commit();
 			return result;
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
 		finally {
-			if (session.isOpen())
-				session.close();
 		}
 	}
 	
+	@Transactional
 	protected Integer operateMaxResult(T model) {
 		Long result;
-		Session session = getSessionFactory().openSession();
-		Transaction transaction = null;
+		Session session = getSessionFactory().getCurrentSession();
+		
 		try {
-			transaction = session.beginTransaction();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -136,18 +128,13 @@ public abstract class AbstractDiscreteDAO<T extends AbstractModel> implements IG
 					.setProjection(Projections.rowCount())
 					.uniqueResult();
 			
-			transaction.commit();
 			return result.intValue();
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
 		finally {
-			if (session.isOpen())
-				session.close();
 		}
 	}
 	
