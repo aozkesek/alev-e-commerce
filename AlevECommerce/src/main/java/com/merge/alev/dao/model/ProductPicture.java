@@ -5,24 +5,35 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
+import org.hibernate.annotations.Proxy;
 
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
+@Proxy(lazy=false)
 @Table(name="PRODUCTPICTURES", schema="ALEVECOM")
 public class ProductPicture extends AbstractModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
+	
 	@Version
+	@Column(name="VERSION")
 	private Integer version;
-	@Column(name="PRODUCTID")
+	
+	@JoinColumn(nullable=false)
+	@Column(name="PRODUCT_ID")
 	private Integer productId;
+	
 	@Column(name="NAME")
 	private String name;
+	
 	@Column(name="PATH")
 	private String path;
 	
@@ -71,7 +82,7 @@ public class ProductPicture extends AbstractModel {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format("{id=%d, productId=%s, name=%s, path=%s}"

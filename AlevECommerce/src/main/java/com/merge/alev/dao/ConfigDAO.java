@@ -8,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 
 import com.merge.alev.dao.model.Category;
 import com.merge.alev.dao.model.Fee;
@@ -30,6 +31,7 @@ public class ConfigDAO {
 			.applySetting("hibernate.connection.password", "AlevECom")
 			
 			.applySetting("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
+			.applySetting("hibernate.current_session_context_class", "thread")
 
 			.applySetting("hibernate.c3p0.timeout", "10")
 			.applySetting("hibernate.c3p0.max_size", "16")
@@ -40,7 +42,7 @@ public class ConfigDAO {
 		StandardServiceRegistry ssr = ssrb.build();
 		
 		MetadataSources mds = new MetadataSources(ssr);
-		
+
 		mds.addAnnotatedClass(Category.class);
 		mds.addAnnotatedClass(Product.class);
 		mds.addAnnotatedClass(Fee.class);
@@ -58,6 +60,11 @@ public class ConfigDAO {
 		
 		return sf;
 
+	}
+	
+	@Bean
+	public HibernateTransactionManager txManager() {
+		return new HibernateTransactionManager(sessionFactory());
 	}
 	
 	
