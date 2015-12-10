@@ -13,7 +13,7 @@ import com.merge.base.dao.intf.IGenericDAO;
 public class ProductCommandController {
 	
 	
-	@RequestMapping("/product/create")
+	@RequestMapping("/productcommand/create")
 	@ResponseBody
 	public ProductCommandResponse create(@RequestBody ProductCommandRequest request) {
 		ProductCommandResponse response = new ProductCommandResponse();
