@@ -2,14 +2,13 @@ package com.merge.alev.dao.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import com.merge.alev.dao.model.Order;
-import com.merge.base.dao.impl.AbstractDiscreteDAO;
+import com.merge.base.dao.impl.AbstractDAO;
 
 @Component
-public class OrderDAO extends AbstractDiscreteDAO<Order> {
+public class OrderDAO extends AbstractDAO<Order> {
 
 	@Override
 	public Criteria getListCriteria(Session session) {

@@ -6,10 +6,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import com.merge.alev.dao.model.Fee;
-import com.merge.base.dao.impl.AbstractDiscreteDAO;
+import com.merge.base.dao.impl.AbstractDAO;
 
 @Component
-public class FeeDAO extends AbstractDiscreteDAO<Fee> {
+public class FeeDAO extends AbstractDAO<Fee> {
 
 	@Override
 	public Criteria getListCriteria(Session session) {

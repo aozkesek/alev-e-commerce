@@ -1,10 +1,7 @@
-package com.merge.alev.controller.model;
+package com.merge.alev.dao.model;
 
 import java.io.Serializable;
 import java.util.List;
-
-import com.merge.alev.dao.model.Product;
-import com.merge.alev.dao.model.ProductPicture;
 
 public class ProductCommand extends Product implements Serializable {
 

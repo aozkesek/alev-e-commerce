@@ -2,10 +2,10 @@ package com.merge.alev.controller.response;
 
 import java.util.List;
 
-import com.merge.alev.controller.model.ProductCommand;
-import com.merge.base.controller.BaseRequest;
+import com.merge.alev.dao.model.ProductCommand;
+import com.merge.base.controller.BaseResponse;
 
-public class ProductCommandResponse extends BaseRequest {
+public class ProductCommandResponse extends BaseResponse {
 
 	private List<ProductCommand> model;
 
