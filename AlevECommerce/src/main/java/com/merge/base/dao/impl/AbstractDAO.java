@@ -6,21 +6,32 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.merge.base.dao.intf.IGenericDAO;
 import com.merge.base.dao.model.AbstractModel;
+import com.merge.base.dao.model.CrudEnumeration;
 
 public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDAO<T> {
 
-	protected enum Operation { C, R, U, D }
+	private boolean isTransactionDiscrete;
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	public boolean isTransactionDiscrete() {
+		return isTransactionDiscrete;
+	}
+
+	public void setTransactionDiscrete(boolean isTransactionDiscrete) {
+		this.isTransactionDiscrete = isTransactionDiscrete;
+	}
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -30,10 +41,16 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	}
 
 	@Transactional
-	protected T operate(Operation operation, T model) {
-		Session session = getSessionFactory().getCurrentSession();
+	protected T operate(CrudEnumeration operation, T model) {
+		Session session = null;
+		Transaction transaction = null;
 		
 		try {
+			session = getSessionFactory().getCurrentSession();
+			
+			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+				transaction = session.beginTransaction();
+			
 			switch(operation) {
 			case C:
 				session.save(model);
@@ -53,88 +70,111 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 				
 			}
 			
+			if (transaction != null)
+				transaction.commit();
+			
 			return model;
 		}
 		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
-		finally {
-			
-		}		
+		
 	}
 	
-	@Override
-	public T create(T model) {
-		return operate(Operation.C, model);
-	}
-
-	@Override
-	public T read(T model) {
-		return operate(Operation.R, model);
-	}
-	
-	@Override
-	public T update(T model) {
-		return operate(Operation.U, model);
-	}
-
-	@Override
-	public T delete(T model) {
-		return operate(Operation.D, model);
-	}
-
 	@Transactional
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-		Session session = getSessionFactory().getCurrentSession();
+		Session session = null;
+		Transaction transaction = null;
 
 		try {
+			
+			session = getSessionFactory().getCurrentSession();
+			
+			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+				transaction = session.beginTransaction();
 			
 			Criteria criteria = 
 					model == null ? 
 							getListCriteria(session) 
-							: getListByCriteria(session, model);
+							: getListCriteriaBy(session, model);
 			
 			result = criteria
 					.setFirstResult(firstResult)
 					.setMaxResults(maxResult)
 					.list();
 			
+			if (transaction != null)
+				transaction.commit();
+
 			return result;
 		}
 		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
-		finally {
-		}
+
 	}
-	
+
 	@Transactional
 	protected Integer operateMaxResult(T model) {
 		Long result;
-		Session session = getSessionFactory().getCurrentSession();
+		Session session = null;
+		Transaction transaction = null;
 		
 		try {
+			
+			session = getSessionFactory().getCurrentSession();
+			
+			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+				transaction = session.beginTransaction();
 			
 			Criteria criteria = 
 					model == null ? 
 							getListCriteria(session) 
-							: getListByCriteria(session, model);
+							: getListCriteriaBy(session, model);
 			
 			result = (Long) criteria
 					.setProjection(Projections.rowCount())
 					.uniqueResult();
 			
+			if (transaction != null)
+				transaction.commit();
+
 			return result.intValue();
 		}
 		catch (Exception ex) {
+			if (transaction != null)
+				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
-		finally {
-		}
+		
+	}
+	
+	@Override
+	public T create(T model) {
+		return operate(CrudEnumeration.C, model);
+	}
+
+	@Override
+	public T read(T model) {
+		return operate(CrudEnumeration.R, model);
+	}
+	
+	@Override
+	public T update(T model) {
+		return operate(CrudEnumeration.U, model);
+	}
+
+	@Override
+	public T delete(T model) {
+		return operate(CrudEnumeration.D, model);
 	}
 	
 	@Override
@@ -143,7 +183,7 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	}
 	
 	@Override
-	public Integer getListByMaxResult(T model) {
+	public Integer getListMaxResultBy(T model) {
 		return operateMaxResult(model);
 	}
 	
@@ -158,6 +198,6 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	}
 	
 	public abstract Criteria getListCriteria(Session session);
-	public abstract Criteria getListByCriteria(Session session, T model);
+	public abstract Criteria getListCriteriaBy(Session session, T model);
 	
 }

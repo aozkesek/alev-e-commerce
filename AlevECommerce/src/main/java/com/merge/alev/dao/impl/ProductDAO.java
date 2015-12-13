@@ -20,7 +20,7 @@ public class ProductDAO extends AbstractDAO<Product> {
 	}
 
 	@Override
-	public Criteria getListByCriteria(Session session, Product model) {
+	public Criteria getListCriteriaBy(Session session, Product model) {
 		Criteria criteria = session.createCriteria(Product.class);
 		
 		if (model.getCategoryId() != null)

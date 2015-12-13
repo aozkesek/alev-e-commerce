@@ -20,9 +20,15 @@ import com.merge.alev.dao.model.ProductPicture;
 @Configuration
 public class ConfigDAO {
 
-	@Bean
-	public SessionFactory sessionFactory() {
+	private static SessionFactory sessionFactory;
+	
+	public ConfigDAO() {
+	
+		initSessionFactory();
 		
+	}
+	
+	private void initSessionFactory() {
 		StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder();
 		
 		ssrb.applySetting("hibernate.connection.driver_class", "org.hsqldb.jdbc.JDBCDriver")
@@ -56,10 +62,13 @@ public class ConfigDAO {
 		
 		SessionFactoryBuilder sfb = md.getSessionFactoryBuilder();
 
-		SessionFactory sf = sfb.build();
-		
-		return sf;
+		sessionFactory = sfb.build();
 
+	}
+	
+	@Bean
+	public SessionFactory sessionFactory() {
+		return sessionFactory;
 	}
 	
 	@Bean

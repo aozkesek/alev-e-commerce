@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 import com.merge.alev.dao.model.Product;
 import com.merge.alev.dao.model.ProductCommand;
 import com.merge.alev.dao.model.ProductPicture;
-import com.merge.base.dao.impl.AbstractDiscreteCommandDAO;
+import com.merge.base.dao.impl.AbstractCommandDAO;
 import com.merge.base.dao.intf.IGenericDAO;
 
 @Component
-public class ProductCommandDAO extends AbstractDiscreteCommandDAO<ProductCommand> {
+public class ProductCommandDAO extends AbstractCommandDAO<ProductCommand> {
 
 	@Autowired
 	private IGenericDAO<Product> productDao;
@@ -45,7 +45,7 @@ public class ProductCommandDAO extends AbstractDiscreteCommandDAO<ProductCommand
 	}
 
 	@Override
-	public Criteria getListByCriteria(Session session, ProductCommand model) {
+	public Criteria getListCriteriaBy(Session session, ProductCommand model) {
 		// TODO Auto-generated method stub
 		return null;
 	}

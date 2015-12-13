@@ -17,7 +17,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
 	}
 
 	@Override
-	public Criteria getListByCriteria(Session session, Category model) {
+	public Criteria getListCriteriaBy(Session session, Category model) {
 		return session
 				.createCriteria(Category.class)
 				.add(Restrictions.like("categoryName", model.getCategoryName().concat("%")));

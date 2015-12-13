@@ -17,7 +17,7 @@ public class OrderDAO extends AbstractDAO<Order> {
 	}
 
 	@Override
-	public Criteria getListByCriteria(Session session, Order model) {
+	public Criteria getListCriteriaBy(Session session, Order model) {
 		Criteria criteria = session
 				.createCriteria(Order.class);
 		

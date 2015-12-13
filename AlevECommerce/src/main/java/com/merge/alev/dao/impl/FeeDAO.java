@@ -17,7 +17,7 @@ public class FeeDAO extends AbstractDAO<Fee> {
 	}
 
 	@Override
-	public Criteria getListByCriteria(Session session, Fee model) {
+	public Criteria getListCriteriaBy(Session session, Fee model) {
 		Criteria criteria = session
 				.createCriteria(Fee.class)
 				.add(Restrictions.like("name", model.getName().concat("%")));

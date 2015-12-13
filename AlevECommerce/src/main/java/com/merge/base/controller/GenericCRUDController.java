@@ -69,7 +69,7 @@ public class GenericCRUDController<T extends AbstractModel> {
 							break;
 						
 						case L:
-							res.setTotalRecordNumber(dao.getListByMaxResult(m));
+							res.setTotalRecordNumber(dao.getListMaxResultBy(m));
 							res.setModel(dao.listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 							break;
 							

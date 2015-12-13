@@ -16,7 +16,7 @@ public class ProductPictureDAO extends AbstractDAO<ProductPicture> {
 	}
 
 	@Override
-	public Criteria getListByCriteria(Session session, ProductPicture model) {
+	public Criteria getListCriteriaBy(Session session, ProductPicture model) {
 		Criteria criteria = session
 				.createCriteria(ProductPicture.class);
 //				.add(Restrictions.like("name", model.getName().concat("%")));
