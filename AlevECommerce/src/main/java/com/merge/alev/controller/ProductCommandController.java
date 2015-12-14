@@ -65,4 +65,40 @@ public class ProductCommandController {
 		return response;
 	}
 
+	@RequestMapping("/productcommand/read")
+	@ResponseBody
+	public ProductCommandResponse read(@RequestBody ProductCommandRequest request) {
+		ProductCommandResponse response = new ProductCommandResponse();
+		
+		response.setModel(new ArrayList<ProductCommand>());
+		response.setResponseMesage(new ArrayList<String>());
+		
+		try {
+		
+			assert request == null : ARGUMENTISNULL;
+			assert request.getModel() == null : ARGUMENTISNULL;
+			assert request.getModel().isEmpty() : ARGUMENTISNULL;
+			
+			for (ProductCommand pc : request.getModel()) {
+				
+				try {
+					response.getModel().add(getProductCommandDao().read(pc));
+						
+				}
+				catch(Exception ex) {
+					response.getResponseMesage().add(ex.getMessage());
+					
+				}
+				
+			}
+			
+			
+		}
+		catch(Exception ex) {
+			
+		}
+		
+		return response;
+	}
+
 }

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.Proxy;
@@ -17,6 +18,10 @@ import com.merge.base.dao.model.AbstractModel;
 @Proxy(lazy=false)
 @Table(name="PRODUCTPICTURES", schema="ALEVECOM")
 public class ProductPicture extends AbstractModel {
+	
+	@Transient
+	public static int MAX_PICTURE = 8;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
