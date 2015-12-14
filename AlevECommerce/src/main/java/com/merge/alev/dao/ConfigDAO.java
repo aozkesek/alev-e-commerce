@@ -21,14 +21,16 @@ import com.merge.alev.dao.model.ProductPicture;
 public class ConfigDAO {
 
 	private static SessionFactory sessionFactory;
+	private static HibernateTransactionManager transactionManager;
 	
 	public ConfigDAO() {
 	
 		initSessionFactory();
+		transactionManager = new HibernateTransactionManager(sessionFactory);
 		
 	}
 	
-	private void initSessionFactory() {
+	private static void initSessionFactory() {
 		StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder();
 		
 		ssrb.applySetting("hibernate.connection.driver_class", "org.hsqldb.jdbc.JDBCDriver")
@@ -43,6 +45,7 @@ public class ConfigDAO {
 			.applySetting("hibernate.c3p0.max_size", "16")
 			.applySetting("hibernate.c3p0.min_size", "1")
 			.applySetting("hibernate.c3p0.max_statements", "32")
+			
 			;
 			
 		StandardServiceRegistry ssr = ssrb.build();
@@ -73,7 +76,7 @@ public class ConfigDAO {
 	
 	@Bean
 	public HibernateTransactionManager txManager() {
-		return new HibernateTransactionManager(sessionFactory());
+		return transactionManager;
 	}
 	
 	
