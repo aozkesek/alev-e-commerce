@@ -36,12 +36,12 @@ public class AlevECommerce {
 
 	static void startDb() throws Exception {
 		dbServer = new Server();
+//		dbServer.setErrWriter(null);
+		dbServer.setLogWriter(null);
 		dbServer.setAddress("localhost");
 		dbServer.setPort(1453);
 		dbServer.setDatabaseName(0, "alevecom");
 		dbServer.setDatabasePath(0, "data/alevecom");
-//		dbServer.setErrWriter(null);
-//		dbServer.setLogWriter(null);
 		dbServer.start();
 	}
 	
@@ -81,7 +81,7 @@ public class AlevECommerce {
 					stmt.execute("CREATE CACHED TABLE ALEVECOM.PRODUCTS"
 							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY "	
 							+ " , VERSION INTEGER"
-							+ " , CATEGORY_ID INTEGER NOT NULL FOREIGN KEY REFERENCES CATEGORIES(ID)"	
+							+ " , CATEGORY_ID INTEGER FOREIGN KEY REFERENCES CATEGORIES(ID)"	
 							+ " , NAME VARCHAR(200) NOT NULL UNIQUE"		
 							+ " , TITLE VARCHAR(100) NOT NULL"		
 							+ " , DESCRIPTION VARCHAR(2000)"		
@@ -97,7 +97,7 @@ public class AlevECommerce {
 					stmt.execute("CREATE CACHED TABLE ALEVECOM.PRODUCTPICTURES"
 							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY "	
 							+ " , VERSION INTEGER"
-							+ " , PRODUCT_ID INTEGER NOT NULL FOREIGN KEY REFERENCES PRODUCTS(ID)"		
+							+ " , PRODUCT_ID INTEGER FOREIGN KEY REFERENCES PRODUCTS(ID)"		
 							+ " , PATH VARCHAR(1000)"		
 							+ " , NAME VARCHAR(200)"		
 							+ " )"
@@ -127,8 +127,8 @@ public class AlevECommerce {
 					stmt.execute("CREATE CACHED TABLE ALEVECOM.ORDERDETAILS"
 							+ " ( ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY "	
 							+ " , VERSION INTEGER"
-							+ " , ORDER_ID INTEGER NOT NULL FOREIGN KEY REFERENCES ORDERS(ID)"		
-							+ " , PRODUCT_ID INTEGER NOT NULL FOREIGN KEY REFERENCES PRODUCTS(ID)"		
+							+ " , ORDER_ID INTEGER FOREIGN KEY REFERENCES ORDERS(ID)"		
+							+ " , PRODUCT_ID INTEGER FOREIGN KEY REFERENCES PRODUCTS(ID)"		
 							+ " , SIZE VARCHAR(30) NOT NULL"		
 							+ " , COLOR VARCHAR(30) NOT NULL"		
 							+ " , QUANTITY INTEGER"		

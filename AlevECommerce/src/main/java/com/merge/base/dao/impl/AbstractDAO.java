@@ -24,20 +24,8 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	public boolean isTransactionDiscrete() {
-		return isTransactionDiscrete;
-	}
-
 	public void setTransactionDiscrete(boolean isTransactionDiscrete) {
 		this.isTransactionDiscrete = isTransactionDiscrete;
-	}
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 	}
 
 	@Transactional
@@ -46,9 +34,9 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		Transaction transaction = null;
 		
 		try {
-			session = getSessionFactory().getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			
-			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
 				transaction = session.beginTransaction();
 			
 			switch(operation) {
@@ -76,15 +64,14 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			return model;
 		}
 		catch (Exception ex) {
+			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			if (transaction != null)
 				transaction.rollback();
-			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
 		
 	}
 	
-	@Transactional
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
 		Session session = null;
@@ -92,10 +79,7 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 
 		try {
 			
-			session = getSessionFactory().getCurrentSession();
-			
-			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
-				transaction = session.beginTransaction();
+			session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -107,21 +91,15 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 					.setMaxResults(maxResult)
 					.list();
 			
-			if (transaction != null)
-				transaction.commit();
-
 			return result;
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
 
 	}
 
-	@Transactional
 	protected Integer operateMaxResult(T model) {
 		Long result;
 		Session session = null;
@@ -129,10 +107,7 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		
 		try {
 			
-			session = getSessionFactory().getCurrentSession();
-			
-			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
-				transaction = session.beginTransaction();
+			session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -143,14 +118,9 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 					.setProjection(Projections.rowCount())
 					.uniqueResult();
 			
-			if (transaction != null)
-				transaction.commit();
-
 			return result.intValue();
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}

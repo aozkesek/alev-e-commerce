@@ -1,23 +1,27 @@
 package com.merge.alev.dao.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.Proxy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
 @Proxy(lazy=false)
 @Table(name="PRODUCTPICTURES", schema="ALEVECOM")
-public class ProductPicture extends AbstractModel {
+public class ProductPicture extends AbstractModel implements Serializable {
 	
 	@Transient
 	public static int MAX_PICTURE = 8;
@@ -31,16 +35,17 @@ public class ProductPicture extends AbstractModel {
 	@Column(name="VERSION")
 	private Integer version;
 	
-	@JoinColumn(nullable=false)
-	@Column(name="PRODUCT_ID")
-	private Integer productId;
-	
 	@Column(name="NAME")
 	private String name;
 	
 	@Column(name="PATH")
 	private String path;
 	
+	@ManyToOne
+	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+	@JsonIgnore
+	protected Product product;
+
 	public ProductPicture() {
 		
 	}
@@ -63,12 +68,12 @@ public class ProductPicture extends AbstractModel {
 		this.version = version;
 	}
 
-	public Integer getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public String getName() {
@@ -90,7 +95,7 @@ public class ProductPicture extends AbstractModel {
 	@Override
 	public String toString() {
 		return String.format("{id=%d, productId=%s, name=%s, path=%s}"
-				, getId(), getProductId(), getName(), getPath());
+				, id, product.getId(), name, path);
 	}
 	
 }

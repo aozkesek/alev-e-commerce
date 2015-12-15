@@ -20,7 +20,7 @@ public class ProductPictureDAO extends AbstractDAO<ProductPicture> {
 	public Criteria getListCriteriaBy(Session session, ProductPicture model) {
 		Criteria criteria = session
 				.createCriteria(ProductPicture.class)
-				.add(Restrictions.eq("productId", model.getProductId()));
+				.add(Restrictions.eq("productId", model.getProduct().getId()));
 
 		return criteria;
 	}

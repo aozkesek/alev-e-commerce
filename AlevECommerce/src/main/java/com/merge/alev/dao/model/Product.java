@@ -1,9 +1,9 @@
 package com.merge.alev.dao.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,48 +25,53 @@ import com.merge.base.dao.model.AbstractModel;
 @Proxy(lazy=false)
 @Table(name="PRODUCTS", schema="ALEVECOM")
 public class Product extends AbstractModel implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
-	private Integer id;
+	protected Integer id;
 	
 	@Version
 	@Column(name="VERSION")
-	private Integer version;
-	
-	@JoinColumn(nullable=false)
-	@Column(name="CATEGORY_ID")
-	private Integer categoryId;
+	protected Integer version;
 	
 	@Column(name="NAME")
-	private String name;
+	protected String name;
 	
 	@Column(name="TITLE")
-	private String title;
+	protected String title;
 	
 	@Column(name="DESCRIPTION")
-	private String description;
+	protected String description;
 	
 	@Column(name="COLORS")
-	private String colors;
+	protected String colors;
 	
 	@Column(name="SIZES")
-	private String sizes;
+	protected String sizes;
 	
 	@Column(name="PRICE")
-	private Double price;
+	protected Double price;
 	
 	@Column(name="ACTUALPRICE")
-	private Double actualPrice;
+	protected Double actualPrice;
 	
 	@Column(name="CREATEDATE")
-	private Date createDate;
+	protected Date createDate;
 	
 	@Column(name="UPDATEDATE")
-	private Date updateDate;
+	protected Date updateDate;
+	
+	@ManyToOne
+	@JoinColumn(name="CATEGORY_ID", referencedColumnName="ID")
+	protected Category category;
+	
+	@OneToMany(targetEntity=ProductPicture.class, cascade=CascadeType.ALL)
+	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+	protected List<ProductPicture> pictures;
 	
 	public Product() {
-		
+		setPictures(new ArrayList<ProductPicture>());
 	}
 	
 	@Override
@@ -87,12 +92,12 @@ public class Product extends AbstractModel implements Serializable {
 		this.version = version;
 	}
 
-	public Integer getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public String getName() {
@@ -167,10 +172,18 @@ public class Product extends AbstractModel implements Serializable {
 		this.updateDate = updateDate;
 	}
 	
+	public List<ProductPicture> getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(List<ProductPicture> pictures) {
+		this.pictures = pictures;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("{id=%d, categoryId=%s, name=%s, title=%s, description=%s, colors=%s, sizes=%s, price=%f, actualPrice=%f, createDate=%c, updateDate=%c}"
-				, getId(), getCategoryId(), getName(), getTitle(), getDescription(), getColors(), getSizes(), getPrice(), getActualPrice(), getCreateDate(), getUpdateDate());
+				, id, category.getId(), name, title, description, colors, sizes, price, actualPrice, createDate, updateDate);
 	}
 	
 }

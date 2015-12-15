@@ -41,6 +41,9 @@ public class ConfigDAO {
 			.applySetting("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
 			.applySetting("hibernate.current_session_context_class", "thread")
 
+			.applySetting("hibernate.show_sql", "true")
+			.applySetting("hibernate.format_sql", "true")
+
 			.applySetting("hibernate.c3p0.timeout", "10")
 			.applySetting("hibernate.c3p0.max_size", "16")
 			.applySetting("hibernate.c3p0.min_size", "1")

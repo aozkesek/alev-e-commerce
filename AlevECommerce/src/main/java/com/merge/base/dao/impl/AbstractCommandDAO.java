@@ -23,21 +23,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	public boolean isTransactionDiscrete() {
-		return isTransactionDiscrete;
-	}
 
 	public void setTransactionDiscrete(boolean isTransactionDiscrete) {
 		this.isTransactionDiscrete = isTransactionDiscrete;
-	}
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 	}
 
 	@Transactional
@@ -46,9 +34,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 		Transaction transaction = null;
 		
 		try {
-			session = getSessionFactory().getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			
-			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
 				transaction = session.beginTransaction();
 			
 			switch(operation) {
@@ -90,9 +78,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 		Transaction transaction = null;
 		
 		try {
-			session = getSessionFactory().getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			
-			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
 				transaction = session.beginTransaction();
 			
 			Criteria criteria = 
@@ -126,9 +114,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 		Transaction transaction = null;
 		
 		try {
-			session = getSessionFactory().getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			
-			if (isTransactionDiscrete() || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
+			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
 				transaction = session.beginTransaction();
 			
 			Criteria criteria = 
