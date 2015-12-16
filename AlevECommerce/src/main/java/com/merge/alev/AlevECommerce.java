@@ -171,6 +171,7 @@ public class AlevECommerce {
 		return applicationContext.getBean(clazz);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String beanName) {
 	
 		if (applicationContext.containsBean(beanName))

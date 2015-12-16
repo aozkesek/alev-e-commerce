@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.merge.base.dao.intf.IGenericDAO;
 import com.merge.base.dao.model.AbstractModel;
+import com.merge.base.dao.model.CrudEnumeration;
 
 public class GenericCRUDController<T extends AbstractModel> {
 
-	private enum Operation { C, R, U, D, L }
-	
 	@Autowired
 	private IGenericDAO<T> dao;
 	
@@ -22,7 +21,7 @@ public class GenericCRUDController<T extends AbstractModel> {
 		this.dao = dao;
 	}
 
-	private GenericResponse<T> operate(Operation operator, GenericRequest<T> request) {
+	private GenericResponse<T> operate(CrudEnumeration operator, GenericRequest<T> request) {
 		
 		GenericResponse<T> res = new GenericResponse<T>();
 		res.setResponseCode(ResponseCode.OK);
@@ -33,7 +32,7 @@ public class GenericCRUDController<T extends AbstractModel> {
 			
 			boolean isModelNullOrEmpty = request == null || request.getModel() == null || request.getModel().isEmpty();
 			
-			if (operator != Operation.L && isModelNullOrEmpty) {
+			if (operator != CrudEnumeration.Q && isModelNullOrEmpty) {
 				res.setResponseCode(ResponseCode.ERROR);
 				res.getResponseMesage().add("ArgumentNull");
 				return res;
@@ -68,7 +67,7 @@ public class GenericCRUDController<T extends AbstractModel> {
 							res.getModel().add(dao.delete(m));
 							break;
 						
-						case L:
+						case Q:
 							res.setTotalRecordNumber(dao.getListMaxResultBy(m));
 							res.setModel(dao.listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 							break;
@@ -101,23 +100,23 @@ public class GenericCRUDController<T extends AbstractModel> {
 	}
 
 	public GenericResponse<T> create(GenericRequest<T> request) {
-		return operate(Operation.C, request);
+		return operate(CrudEnumeration.C, request);
 	}
 
 	public GenericResponse<T> read(GenericRequest<T> request) {
-		return operate(Operation.R, request);
+		return operate(CrudEnumeration.R, request);
 	}
 
 	public GenericResponse<T> update(GenericRequest<T> request) {
-		return operate(Operation.U, request);
+		return operate(CrudEnumeration.U, request);
 	}
 
 	public GenericResponse<T> delete(GenericRequest<T> request) {
-		return operate(Operation.D, request);
+		return operate(CrudEnumeration.D, request);
 	}
 
 	public GenericResponse<T> list(GenericRequest<T> request) {
-		return operate(Operation.L, request);
+		return operate(CrudEnumeration.Q, request);
 	}
 	
 }

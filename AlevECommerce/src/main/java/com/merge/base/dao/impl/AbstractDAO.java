@@ -28,6 +28,7 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		this.isTransactionDiscrete = isTransactionDiscrete;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	protected T operate(CrudEnumeration operation, T model) {
 		Session session = null;
@@ -55,6 +56,9 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			case D:
 				session.delete(model);
 				break;
+			
+			case Q:
+				break;
 				
 			}
 			
@@ -72,14 +76,13 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-		Session session = null;
-		Transaction transaction = null;
 
 		try {
 			
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -102,12 +105,10 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 
 	protected Integer operateMaxResult(T model) {
 		Long result;
-		Session session = null;
-		Transaction transaction = null;
 		
 		try {
 			
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 

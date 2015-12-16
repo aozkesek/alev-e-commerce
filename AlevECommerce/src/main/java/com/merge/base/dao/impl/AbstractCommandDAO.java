@@ -55,6 +55,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			case D:
 				deleteCommand(model);
 				break;
+				
+			case Q:
+				break;
 			}
 			
 			if (transaction != null)
@@ -71,17 +74,12 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 		
 	}
 	
-	@Transactional
+	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-		Session session = null;
-		Transaction transaction = null;
 		
 		try {
-			session = sessionFactory.getCurrentSession();
-			
-			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
-				transaction = session.beginTransaction();
+			Session session = sessionFactory.getCurrentSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -93,31 +91,20 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 					.setMaxResults(maxResult)
 					.list();
 			
-			if (transaction != null)
-				transaction.commit();
-			
 			return result;
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
 		
 	}
 	
-	@Transactional
 	protected Integer operateMaxResult(T model) {
 		Long result;
-		Session session = null;
-		Transaction transaction = null;
 		
 		try {
-			session = sessionFactory.getCurrentSession();
-			
-			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
-				transaction = session.beginTransaction();
+			Session session = sessionFactory.getCurrentSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -128,14 +115,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 					.setProjection(Projections.rowCount())
 					.uniqueResult();
 			
-			if (transaction != null)
-				transaction.commit();
-			
 			return result.intValue();
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
