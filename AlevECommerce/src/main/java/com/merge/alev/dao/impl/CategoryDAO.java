@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.merge.alev.dao.model.Category;
 import com.merge.base.dao.impl.AbstractDAO;
 
-@Component
+@Component(value="categoryDao")
 public class CategoryDAO extends AbstractDAO<Category> {
 
 	@Override

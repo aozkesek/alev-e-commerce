@@ -1,6 +1,5 @@
 package com.merge.alev.controller;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +23,6 @@ public class ProductController extends GenericCRUDController<Product> {
 	@Override
 	@RequestMapping("/product/read")
 	@ResponseBody
-	@Transactional
 	public GenericResponse<Product> read(@RequestBody GenericRequest<Product> request) {
 		GenericResponse<Product> response = super.read(request);
 		

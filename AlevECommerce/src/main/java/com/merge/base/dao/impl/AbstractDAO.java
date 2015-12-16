@@ -28,27 +28,33 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		this.isTransactionDiscrete = isTransactionDiscrete;
 	}
 
+	public abstract Criteria getListCriteria(Session session);
+	public abstract Criteria getListCriteriaBy(Session session, T model);
+	
 	@SuppressWarnings("unchecked")
-	@Transactional
 	protected T operate(CrudEnumeration operation, T model) throws Exception {
-		Session session = null;
+
 		Transaction transaction = null;
 		
 		try {
-			session = sessionFactory.getCurrentSession();
+			Session session = sessionFactory.getCurrentSession();
 			
 			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
 				transaction = session.beginTransaction();
 			
 			switch(operation) {
 			case C:
+				beforeCreate(model);
 				session.save(model);
+				afterCreate(model);
 				if (!model.isValid())
 					throw new Exception(AbstractModel.INVALID);
 				break;
 				
 			case R:
+				beforeRead(model);
 				model = (T) session.load(model.getClass(), model.getId());
+				afterRead(model);
 				if (!model.isValid())
 					throw new Exception(AbstractModel.INVALID);
 				break;
@@ -56,11 +62,15 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			case U:
 				if (!model.isValid())
 					throw new Exception(AbstractModel.INVALID);
+				beforeUpdate(model);
 				session.update(model);
+				afterUpdate(model);
 				break;
 				
 			case D:
+				beforeDelete(model);
 				session.delete(model);
+				afterDelete(model);
 				break;
 			
 			case Q:
@@ -85,10 +95,11 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-
+		Session session = null;
+		
 		try {
 			
-			Session session = sessionFactory.openSession();
+			session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -106,15 +117,20 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
+		finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
 
 	}
 
 	protected Integer operateMaxResult(T model) {
 		Long result;
+		Session session = null;
 		
 		try {
 			
-			Session session = sessionFactory.openSession();
+			session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -131,25 +147,33 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
+		finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
 		
 	}
 	
 	@Override
+	@Transactional
 	public T create(T model) throws Exception {
 		return operate(CrudEnumeration.C, model);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public T read(T model) throws Exception {
 		return operate(CrudEnumeration.R, model);
 	}
 	
 	@Override
+	@Transactional
 	public T update(T model) throws Exception {
 		return operate(CrudEnumeration.U, model);
 	}
 
 	@Override
+	@Transactional
 	public T delete(T model) throws Exception {
 		return operate(CrudEnumeration.D, model);
 	}
@@ -174,7 +198,36 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		return operateList(model, firstResult, maxResult);
 	}
 	
-	public abstract Criteria getListCriteria(Session session);
-	public abstract Criteria getListCriteriaBy(Session session, T model);
+	public T beforeCreate(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterCreate(T model) throws Exception {
+		return model;
+	};
+	
+	public T beforeRead(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterRead(T model) throws Exception {
+		return model;
+	};
+	
+	public T beforeUpdate(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterUpdate(T model) throws Exception {
+		return model;
+	};
+	
+	public T beforeDelete(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterDelete(T model) throws Exception {
+		return model;
+	};
 	
 }

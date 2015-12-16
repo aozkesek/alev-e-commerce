@@ -28,8 +28,14 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 		this.isTransactionDiscrete = isTransactionDiscrete;
 	}
 
-	@Transactional
-	protected T operate(CrudEnumeration operation, T model) {
+	public abstract Criteria getListCriteria(Session session);
+	public abstract Criteria getListCriteriaBy(Session session, T model);
+	public abstract T createCommand(T model);
+	public abstract T readCommand(T model);
+	public abstract T updateCommand(T model);
+	public abstract T deleteCommand(T model);
+	
+	protected T operate(CrudEnumeration operation, T model) throws Exception {
 		Session session = null;
 		Transaction transaction = null;
 		
@@ -41,19 +47,27 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			
 			switch(operation) {
 			case C:
+				beforeCreate(model);
 				createCommand(model);
+				afterCreate(model);
 				break;
 				
 			case R:
+				beforeRead(model);
 				readCommand(model);
+				afterRead(model);
 				break;
 				
 			case U:
+				beforeUpdate(model);
 				updateCommand(model);
+				afterUpdate(model);
 				break;
 				
 			case D:
+				beforeDelete(model);
 				deleteCommand(model);
+				afterDelete(model);
 				break;
 				
 			case Q:
@@ -77,9 +91,10 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
+		Session session = null;
 		
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -97,14 +112,19 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
+		finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
 		
 	}
 	
 	protected Integer operateMaxResult(T model) {
 		Long result;
+		Session session = null;
 		
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			session = sessionFactory.openSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -121,26 +141,34 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
+		finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
 
 	}
 	
 	@Override
-	public T create(T model) {
+	@Transactional
+	public T create(T model) throws Exception {
 		return operate(CrudEnumeration.C, model);
 	}
 
 	@Override
-	public T read(T model) {
+	@Transactional
+	public T read(T model) throws Exception {
 		return operate(CrudEnumeration.R, model);
 	}
 	
 	@Override
-	public T update(T model) {
+	@Transactional
+	public T update(T model) throws Exception {
 		return operate(CrudEnumeration.U, model);
 	}
 
 	@Override
-	public T delete(T model) {
+	@Transactional
+	public T delete(T model) throws Exception {
 		return operate(CrudEnumeration.D, model);
 	}
 
@@ -163,13 +191,37 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	public List<T> listBy(T model, Integer firstResult, Integer maxResult) {
 		return operateList(model, firstResult, maxResult);
 	}
+
+	public T beforeCreate(T model) throws Exception {
+		return model;
+	};
 	
-	public abstract Criteria getListCriteria(Session session);
-	public abstract Criteria getListCriteriaBy(Session session, T model);
-	public abstract T createCommand(T model);
-	public abstract T readCommand(T model);
-	public abstract T updateCommand(T model);
-	public abstract T deleteCommand(T model);
+	public T afterCreate(T model) throws Exception {
+		return model;
+	};
 	
+	public T beforeRead(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterRead(T model) throws Exception {
+		return model;
+	};
+	
+	public T beforeUpdate(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterUpdate(T model) throws Exception {
+		return model;
+	};
+	
+	public T beforeDelete(T model) throws Exception {
+		return model;
+	};
+	
+	public T afterDelete(T model) throws Exception {
+		return model;
+	};	
 	
 }

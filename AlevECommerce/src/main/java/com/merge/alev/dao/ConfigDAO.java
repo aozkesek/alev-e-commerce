@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.merge.alev.dao.model.Category;
 import com.merge.alev.dao.model.Fee;
@@ -18,6 +19,7 @@ import com.merge.alev.dao.model.Product;
 import com.merge.alev.dao.model.ProductPicture;
 
 @Configuration
+@EnableTransactionManagement
 public class ConfigDAO {
 
 	private static SessionFactory sessionFactory;
@@ -44,10 +46,10 @@ public class ConfigDAO {
 			.applySetting("hibernate.show_sql", "true")
 			.applySetting("hibernate.format_sql", "true")
 
-			.applySetting("hibernate.c3p0.timeout", "10")
+			.applySetting("hibernate.c3p0.timeout", "30")
 			.applySetting("hibernate.c3p0.max_size", "16")
-			.applySetting("hibernate.c3p0.min_size", "1")
-			.applySetting("hibernate.c3p0.max_statements", "32")
+			.applySetting("hibernate.c3p0.min_size", "4")
+			.applySetting("hibernate.c3p0.max_statements", "64")
 			
 			;
 			
