@@ -6,13 +6,19 @@ import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.merge.alev.dao.model.Category;
 import com.merge.alev.dao.model.Product;
 import com.merge.base.dao.impl.AbstractDAO;
+import com.merge.base.dao.intf.IGenericDAO;
 
 @Component
 public class ProductDAO extends AbstractDAO<Product> {
+	
+	@Autowired
+	private IGenericDAO<Category> categoryDao;
 
 	@Override
 	public Criteria getListCriteria(Session session) {
@@ -37,21 +43,25 @@ public class ProductDAO extends AbstractDAO<Product> {
 	}
 
 	@Override
-	public Product create(Product product) {
+	public Product create(Product product) throws Exception {
 		
 		Date now = Calendar.getInstance().getTime();
 		product.setCreateDate(now);
 		product.setUpdateDate(now);
+		//change the category object with a transient one
+		product.setCategory(categoryDao.read(product.getCategory()));
 		
 		return super.create(product);
 	}
 	
 	@Override
-	public Product update(Product product) {
+	public Product update(Product product) throws Exception {
 		
 		Date now = Calendar.getInstance().getTime();
 		product.setUpdateDate(now);
-		
+		//change the category object with a transient one
+		product.setCategory(categoryDao.read(product.getCategory()));
+				
 		return super.create(product);
 	}
 	

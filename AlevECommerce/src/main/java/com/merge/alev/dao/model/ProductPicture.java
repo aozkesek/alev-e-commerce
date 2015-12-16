@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +42,7 @@ public class ProductPicture extends AbstractModel implements Serializable {
 	@Column(name="PATH")
 	private String path;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
 	@JsonIgnore
 	protected Product product;
@@ -96,6 +97,13 @@ public class ProductPicture extends AbstractModel implements Serializable {
 	public String toString() {
 		return String.format("{id=%d, productId=%s, name=%s, path=%s}"
 				, id, product.getId(), name, path);
+	}
+	
+	@Override
+	public boolean isValid() {
+		return id != null 
+				&& product != null && product.getId() != null
+				&& name != null && !name.isEmpty();
 	}
 	
 }

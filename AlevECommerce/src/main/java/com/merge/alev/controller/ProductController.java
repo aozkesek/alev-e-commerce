@@ -1,5 +1,6 @@
 package com.merge.alev.controller;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,8 +24,18 @@ public class ProductController extends GenericCRUDController<Product> {
 	@Override
 	@RequestMapping("/product/read")
 	@ResponseBody
+	@Transactional
 	public GenericResponse<Product> read(@RequestBody GenericRequest<Product> request) {
-		return super.read(request);
+		GenericResponse<Product> response = super.read(request);
+		
+		if (response.getResponseCode().equals(0)) {
+			for (Product p : response.getModel()) {
+				p.getCategory().getId();
+				p.getPictures().size();
+			}
+		}
+		
+		return response;
 	}
 
 	@Override

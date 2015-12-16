@@ -30,7 +30,7 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 
 	@SuppressWarnings("unchecked")
 	@Transactional
-	protected T operate(CrudEnumeration operation, T model) {
+	protected T operate(CrudEnumeration operation, T model) throws Exception {
 		Session session = null;
 		Transaction transaction = null;
 		
@@ -43,13 +43,19 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			switch(operation) {
 			case C:
 				session.save(model);
+				if (!model.isValid())
+					throw new Exception(AbstractModel.INVALID);
 				break;
 				
 			case R:
 				model = (T) session.load(model.getClass(), model.getId());
+				if (!model.isValid())
+					throw new Exception(AbstractModel.INVALID);
 				break;
 				
 			case U:
+				if (!model.isValid())
+					throw new Exception(AbstractModel.INVALID);
 				session.update(model);
 				break;
 				
@@ -129,22 +135,22 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	}
 	
 	@Override
-	public T create(T model) {
+	public T create(T model) throws Exception {
 		return operate(CrudEnumeration.C, model);
 	}
 
 	@Override
-	public T read(T model) {
+	public T read(T model) throws Exception {
 		return operate(CrudEnumeration.R, model);
 	}
 	
 	@Override
-	public T update(T model) {
+	public T update(T model) throws Exception {
 		return operate(CrudEnumeration.U, model);
 	}
 
 	@Override
-	public T delete(T model) {
+	public T delete(T model) throws Exception {
 		return operate(CrudEnumeration.D, model);
 	}
 	

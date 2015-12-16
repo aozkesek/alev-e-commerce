@@ -130,4 +130,10 @@ public class OrderDetail extends AbstractModel {
 				, getId(), getOrderId(), getProductId(), getSize(), getColor(), getQuantity(), getTotalPrice(), getActualPrice());
 	}
 	
+	@Override
+	public boolean isValid() {
+		return id != null 
+				&& orderId != null 
+				&& productId != null;
+	}
 }

@@ -64,4 +64,9 @@ public class Category extends AbstractModel {
 		return String.format("{id=%d, categoryName=%s}", getId(), getCategoryName());
 	}
 
+	@Override
+	public boolean isValid() {
+		return id != null && categoryName != null && !categoryName.isEmpty();
+	}
+
 }

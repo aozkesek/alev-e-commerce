@@ -6,10 +6,10 @@ import com.merge.base.dao.model.AbstractModel;
 
 public interface IGenericDAO<T extends AbstractModel> {
 	
-	T create(T model);
-	T read(T model);
-	T update(T model);
-	T delete(T model);
+	T create(T model) throws Exception;
+	T read(T model) throws Exception;
+	T update(T model) throws Exception;
+	T delete(T model) throws Exception;
 	
 	void setTransactionDiscrete(boolean isTransactionDiscrete);
 	

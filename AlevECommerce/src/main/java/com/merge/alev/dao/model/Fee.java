@@ -75,5 +75,9 @@ public class Fee extends AbstractModel {
 				, getId(), getName(), getAmount());
 	}
 	
+	@Override
+	public boolean isValid() {
+		return id != null && name != null && !name.isEmpty();
+	}
 
 }
