@@ -13,13 +13,17 @@ apply plugin: 'eclipse'
 group 'com.merge'
 version '1.0.0'
 
+
+ext {
+	userhome = System.getenv("HOME")
+}
+
 repositories {
     jcenter()
-
     
 	flatDir {
 		name 'mergeRepo'	
-		dirs '/home/ahmeto/github/mergerepo'
+		dirs userhome + '/mergerepo'
     }
         
 }
