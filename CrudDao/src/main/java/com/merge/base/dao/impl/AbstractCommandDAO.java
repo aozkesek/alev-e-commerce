@@ -30,9 +30,16 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	public abstract T deleteCommand(T model);
 	
 	protected T operate(CrudEnumeration operation, T model) throws Exception {
+		boolean transactionBegun = false;
+		Session session = sessionFactory.getCurrentSession();
 		
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			
+			//somebody forgot to begin transaction, take care 
+			if (session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE) {
+				session.getTransaction().begin();
+				transactionBegun = true;
+			}
 			
 			switch(operation) {
 			case C:
@@ -63,10 +70,15 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 				break;
 			}
 			
+			if (transactionBegun)
+				session.getTransaction().commit();
+			
 			return model;
 		}
 		catch (Exception ex) {
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			if (transactionBegun)
+				session.getTransaction().rollback();
 			throw ex;
 		}
 		
@@ -75,9 +87,16 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
+		boolean transactionBegun = false;
+		Session session = sessionFactory.getCurrentSession();
 		
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			
+			//somebody forgot to begin transaction, take care 
+			if (session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE) {
+				session.getTransaction().begin();
+				transactionBegun = true;
+			}
 			
 			Criteria criteria = 
 					model == null ? 
@@ -89,10 +108,15 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 					.setMaxResults(maxResult)
 					.list();
 			
+			if (transactionBegun)
+				session.getTransaction().commit();
+			
 			return result;
 		}
 		catch (Exception ex) {
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			if (transactionBegun)
+				session.getTransaction().rollback();
 			throw ex;
 		}
 		
@@ -100,9 +124,16 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	
 	protected Integer operateMaxResult(T model) {
 		Long result;
+		boolean transactionBegun = false;
+		Session session = sessionFactory.getCurrentSession();
 		
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			
+			//somebody forgot to begin transaction, take care 
+			if (session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE) {
+				session.getTransaction().begin();
+				transactionBegun = true;
+			}
 			
 			Criteria criteria = 
 					model == null ? 
@@ -113,10 +144,15 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 					.setProjection(Projections.rowCount())
 					.uniqueResult();
 			
+			if (transactionBegun)
+				session.getTransaction().commit();
+			
 			return result.intValue();
 		}
 		catch (Exception ex) {
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
+			if (transactionBegun)
+				session.getTransaction().rollback();
 			throw ex;
 		}
 
@@ -147,21 +183,25 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Integer getListMaxResult() {
 		return operateMaxResult(null);
 	}
 	
 	@Override
+	@Transactional(readOnly=true)
 	public Integer getListMaxResultBy(T model) {
 		return operateMaxResult(model);
 	}
 	
 	@Override
+	@Transactional(readOnly=true)
 	public List<T> list(Integer firstResult, Integer maxResult) {
 		return operateList(null, firstResult, maxResult);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<T> listBy(T model, Integer firstResult, Integer maxResult) {
 		return operateList(model, firstResult, maxResult);
 	}
