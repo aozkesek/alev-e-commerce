@@ -1,5 +1,7 @@
 package com.merge.alev.controller;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +23,7 @@ public class CategoryController extends GenericCRUDController<Category> {
 	}
 
 	@Override
+	@Transactional(readOnly=true, propagation=Propagation.REQUIRES_NEW)
 	@RequestMapping("/category/read")
 	@ResponseBody
 	public GenericResponse<Category> read(@RequestBody GenericRequest<Category> request) {

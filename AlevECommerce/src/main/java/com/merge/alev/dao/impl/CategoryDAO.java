@@ -22,6 +22,5 @@ public class CategoryDAO extends AbstractDAO<Category> {
 				.createCriteria(Category.class)
 				.add(Restrictions.like("categoryName", model.getCategoryName().concat("%")));
 	}
-
 	
 }
