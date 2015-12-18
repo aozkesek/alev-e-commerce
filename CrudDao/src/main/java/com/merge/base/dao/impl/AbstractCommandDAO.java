@@ -19,14 +19,8 @@ import com.merge.base.dao.model.CrudEnumeration;
 
 public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGenericDAO<T> {
 
-	private boolean isTransactionDiscrete;
-	
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	public void setTransactionDiscrete(boolean isTransactionDiscrete) {
-		this.isTransactionDiscrete = isTransactionDiscrete;
-	}
 
 	public abstract Criteria getListCriteria(Session session);
 	public abstract Criteria getListCriteriaBy(Session session, T model);
@@ -36,14 +30,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	public abstract T deleteCommand(T model);
 	
 	protected T operate(CrudEnumeration operation, T model) throws Exception {
-		Session session = null;
-		Transaction transaction = null;
 		
 		try {
-			session = sessionFactory.getCurrentSession();
-			
-			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
-				transaction = session.beginTransaction();
+			Session session = sessionFactory.getCurrentSession();
 			
 			switch(operation) {
 			case C:
@@ -74,14 +63,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 				break;
 			}
 			
-			if (transaction != null)
-				transaction.commit();
-			
 			return model;
 		}
 		catch (Exception ex) {
-			if (transaction != null)
-				transaction.rollback();
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
@@ -91,10 +75,9 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-		Session session = null;
 		
 		try {
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.getCurrentSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -112,19 +95,14 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
-		finally {
-			if (session != null && session.isOpen())
-				session.close();
-		}
 		
 	}
 	
 	protected Integer operateMaxResult(T model) {
 		Long result;
-		Session session = null;
 		
 		try {
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.getCurrentSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -141,10 +119,6 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
-		finally {
-			if (session != null && session.isOpen())
-				session.close();
-		}
 
 	}
 	
@@ -155,7 +129,7 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public T read(T model) throws Exception {
 		return operate(CrudEnumeration.R, model);
 	}

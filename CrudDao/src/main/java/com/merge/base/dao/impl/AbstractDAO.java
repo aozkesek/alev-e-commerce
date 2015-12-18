@@ -6,9 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,28 +17,17 @@ import com.merge.base.dao.model.CrudEnumeration;
 
 public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDAO<T> {
 
-	private boolean isTransactionDiscrete;
-	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	public void setTransactionDiscrete(boolean isTransactionDiscrete) {
-		this.isTransactionDiscrete = isTransactionDiscrete;
-	}
-
 	public abstract Criteria getListCriteria(Session session);
 	public abstract Criteria getListCriteriaBy(Session session, T model);
 	
 	@SuppressWarnings("unchecked")
 	protected T operate(CrudEnumeration operation, T model) throws Exception {
 
-		Transaction transaction = null;
-		
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			
-			if (isTransactionDiscrete || session.getTransaction().getStatus() == TransactionStatus.NOT_ACTIVE)
-				transaction = session.beginTransaction();
 			
 			switch(operation) {
 			case C:
@@ -78,15 +65,10 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 				
 			}
 			
-			if (transaction != null)
-				transaction.commit();
-			
 			return model;
 		}
 		catch (Exception ex) {
-			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
-			if (transaction != null)
-				transaction.rollback();
+			LoggerFactory.getLogger(getClass()).error("Could not succeeded \n{}\n", ex);
 			throw ex;
 		}
 		
@@ -95,11 +77,10 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	@SuppressWarnings("unchecked")
 	protected List<T> operateList(T model, Integer firstResult, Integer maxResult) {
 		List<T> result = new ArrayList<T>();
-		Session session = null;
 		
 		try {
 			
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.getCurrentSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -117,20 +98,15 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
 		}
-		finally {
-			if (session != null && session.isOpen())
-				session.close();
-		}
-
+		
 	}
 
 	protected Integer operateMaxResult(T model) {
 		Long result;
-		Session session = null;
 		
 		try {
 			
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.getCurrentSession();
 			
 			Criteria criteria = 
 					model == null ? 
@@ -146,10 +122,6 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		catch (Exception ex) {
 			LoggerFactory.getLogger(getClass()).error("Could not succeeded", ex);
 			throw ex;
-		}
-		finally {
-			if (session != null && session.isOpen())
-				session.close();
 		}
 		
 	}
