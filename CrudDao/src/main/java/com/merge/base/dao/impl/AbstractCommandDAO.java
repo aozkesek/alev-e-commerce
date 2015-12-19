@@ -22,6 +22,14 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
 	public abstract Criteria getListCriteria(Session session);
 	public abstract Criteria getListCriteriaBy(Session session, T model);
 	public abstract T createCommand(T model);

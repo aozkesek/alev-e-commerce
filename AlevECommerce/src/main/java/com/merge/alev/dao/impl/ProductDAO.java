@@ -20,6 +20,14 @@ public class ProductDAO extends AbstractDAO<Product> {
 	@Autowired
 	private IGenericDAO<Category> categoryDao;
 
+	public IGenericDAO<Category> getCategoryDao() {
+		return categoryDao;
+	}
+
+	public void setCategoryDao(IGenericDAO<Category> categoryDao) {
+		this.categoryDao = categoryDao;
+	}
+
 	@Override
 	public Criteria getListCriteria(Session session) {
 		return session.createCriteria(Product.class);

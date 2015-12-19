@@ -1,5 +1,6 @@
 package com.merge.alev.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,12 +9,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.merge.alev.dao.model.Category;
-import com.merge.base.controller.GenericCRUDController;
+import com.merge.base.controller.AbstractCRUDController;
 import com.merge.base.controller.GenericRequest;
 import com.merge.base.controller.GenericResponse;
+import com.merge.base.dao.intf.IGenericDAO;
 
 @RestController
-public class CategoryController extends GenericCRUDController<Category> {
+public class CategoryController extends AbstractCRUDController<Category> {
+	
+	@Autowired
+	private IGenericDAO<Category> categoryDao;
+	
+	public IGenericDAO<Category> getDao() {
+		return categoryDao;
+	}
 	
 	@Override
 	@RequestMapping("/category/create")

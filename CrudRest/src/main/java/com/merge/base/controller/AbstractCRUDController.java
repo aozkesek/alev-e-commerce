@@ -2,24 +2,13 @@ package com.merge.base.controller;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.merge.base.dao.intf.IGenericDAO;
 import com.merge.base.dao.model.AbstractModel;
 import com.merge.base.dao.model.CrudEnumeration;
 
-public class GenericCRUDController<T extends AbstractModel> {
+public abstract class AbstractCRUDController<T extends AbstractModel> {
 
-	@Autowired
-	private IGenericDAO<T> dao;
-	
-	public IGenericDAO<T> getDao() {
-		return dao;
-	}
-	
-	public void setDao(IGenericDAO<T> dao) {
-		this.dao = dao;
-	}
+	abstract public IGenericDAO<T> getDao();
 
 	private GenericResponse<T> operate(CrudEnumeration operator, GenericRequest<T> request) {
 		
@@ -41,8 +30,8 @@ public class GenericCRUDController<T extends AbstractModel> {
 			res.setFirstRecordNumber(request.getFirstRecordNumber());
 			
 			if (isModelNullOrEmpty) {
-				res.setTotalRecordNumber(dao.getListMaxResult());
-				res.setModel(dao.list(request.getFirstRecordNumber(), request.getMaxRecordNumber()));
+				res.setTotalRecordNumber(getDao().getListMaxResult());
+				res.setModel(getDao().list(request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 			}
 			else {
 				boolean oneSucceded = false;
@@ -52,24 +41,24 @@ public class GenericCRUDController<T extends AbstractModel> {
 	
 						switch (operator) {
 						case C:
-							res.getModel().add(dao.create(m));
+							res.getModel().add(getDao().create(m));
 							break;
 						
 						case R:
-							res.getModel().add(dao.read(m));
+							res.getModel().add(getDao().read(m));
 							break;
 							
 						case U:
-							res.getModel().add(dao.update(m));
+							res.getModel().add(getDao().update(m));
 							break;
 						
 						case D:
-							res.getModel().add(dao.delete(m));
+							res.getModel().add(getDao().delete(m));
 							break;
 						
 						case Q:
-							res.setTotalRecordNumber(dao.getListMaxResultBy(m));
-							res.setModel(dao.listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
+							res.setTotalRecordNumber(getDao().getListMaxResultBy(m));
+							res.setModel(getDao().listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 							break;
 							
 						}

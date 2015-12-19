@@ -1,17 +1,26 @@
 package com.merge.alev.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.merge.alev.dao.model.Product;
-import com.merge.base.controller.GenericCRUDController;
+import com.merge.base.controller.AbstractCRUDController;
 import com.merge.base.controller.GenericRequest;
 import com.merge.base.controller.GenericResponse;
+import com.merge.base.dao.intf.IGenericDAO;
 
 @RestController
-public class ProductController extends GenericCRUDController<Product> {
+public class ProductController extends AbstractCRUDController<Product> {
+	
+	@Autowired
+	private IGenericDAO<Product> productDao;
+	
+	public IGenericDAO<Product> getDao() {
+		return productDao;
+	}
 
 	@Override
 	@RequestMapping("/product/create")

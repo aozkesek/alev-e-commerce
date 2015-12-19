@@ -21,6 +21,12 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 	public abstract Criteria getListCriteria(Session session);
 	public abstract Criteria getListCriteriaBy(Session session, T model);
 	
