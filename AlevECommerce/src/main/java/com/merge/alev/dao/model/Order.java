@@ -1,14 +1,20 @@
 package com.merge.alev.dao.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -20,6 +26,7 @@ import com.merge.base.dao.model.AbstractModel;
 @Proxy(lazy=false)
 @Table(name="ORDERS", schema="ALEVECOM")
 public class Order extends AbstractModel {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
@@ -64,11 +71,11 @@ public class Order extends AbstractModel {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="ORDERSTATUS")
-	private STATUS orderStatus;
+	private OrderStatus orderStatus;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="PAYMENTSTATUS")
-	private STATUS paymentStatus;
+	private PaymentStatus paymentStatus;
 	
 	@Column(name="TRACKNUMBER")
 	private String trackNumber;
@@ -76,10 +83,12 @@ public class Order extends AbstractModel {
 	@Column(name="ORDERDATE")
 	private Date createDate;
 	
-	public enum STATUS { WAITFORPAYMENT, WAITFORDELIVER, READYFORDELIVER, DELIVERED, PARTIALYDELIVERED, WAITFORCHARGEBACK, CHARGEBACKED, PAYMENTACCEPTED, CANCELLED }
+	@OneToMany(targetEntity=OrderDetail.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinColumn(name="ORDER_ID", referencedColumnName="ID")
+	protected List<OrderDetail> details;
 	
 	public Order() {
-		
+		details = new ArrayList<OrderDetail>();
 	}
 	
 	public Integer getId() {
@@ -187,20 +196,28 @@ public class Order extends AbstractModel {
 		this.totalFees = totalFees;
 	}
 
-	public STATUS getOrderStatus() {
+	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
 
-	public void setOrderStatus(STATUS orderStatus) {
+	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 
-	public STATUS getPaymentStatus() {
+	public PaymentStatus getPaymentStatus() {
 		return paymentStatus;
 	}
 
-	public void setPaymentStatus(STATUS paymentStatus) {
+	public void setPaymentStatus(PaymentStatus paymentStatus) {
 		this.paymentStatus = paymentStatus;
+	}
+
+	public List<OrderDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<OrderDetail> details) {
+		this.details = details;
 	}
 
 	public String getTrackNumber() {

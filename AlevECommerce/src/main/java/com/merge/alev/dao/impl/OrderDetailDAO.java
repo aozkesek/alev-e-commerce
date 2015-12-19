@@ -2,13 +2,19 @@ package com.merge.alev.dao.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.merge.alev.dao.model.OrderDetail;
+import com.merge.alev.dao.model.Product;
 import com.merge.base.dao.impl.AbstractDAO;
+import com.merge.base.dao.intf.IGenericDAO;
 
 @Component(value="orderDetailDao")
 public class OrderDetailDAO extends AbstractDAO<OrderDetail> {
+	
+	@Autowired
+	private IGenericDAO<Product> productDao;
 
 	@Override
 	public Criteria getListCriteria(Session session) {
@@ -20,12 +26,19 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> {
 		Criteria criteria = session
 				.createCriteria(OrderDetail.class);
 //				.add(Restrictions.like("name", model.getName().concat("%")));
-//	
-//		if (model.getPostCode() != null && !model.getPostCode().isEmpty())
-//			criteria.add(Restrictions.like("postCode", model.getPostCode().concat("%")));
 //			
 		return criteria;
 	}
 
+	@Override
+	public OrderDetail beforeCreate(OrderDetail orderDetail) throws Exception {
+		orderDetail.setProduct(productDao.read(orderDetail.getProduct()));
+		return orderDetail;
+	}
 	
+	@Override
+	public OrderDetail beforeUpdate(OrderDetail orderDetail) throws Exception {
+		orderDetail.setProduct(productDao.read(orderDetail.getProduct()));
+		return orderDetail;
+	}
 }
