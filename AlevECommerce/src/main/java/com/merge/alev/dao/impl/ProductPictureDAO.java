@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.merge.alev.dao.model.ProductPicture;
 import com.merge.base.dao.impl.AbstractDAO;
 
-@Component
+@Component(value="productPictureDao")
 public class ProductPictureDAO extends AbstractDAO<ProductPicture> {
 
 	@Override

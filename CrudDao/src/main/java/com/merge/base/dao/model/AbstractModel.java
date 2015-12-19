@@ -2,8 +2,11 @@ package com.merge.base.dao.model;
 
 public abstract class AbstractModel {
 	
+	public static String INVALID = "InvalidModelException";
+	
 	public abstract Integer getId();
 	public abstract Integer getVersion();
+	public abstract boolean isValid();
 	
 	@Override
 	public int hashCode() {

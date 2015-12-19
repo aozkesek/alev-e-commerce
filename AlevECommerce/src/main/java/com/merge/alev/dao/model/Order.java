@@ -225,5 +225,10 @@ public class Order extends AbstractModel {
 				, getId(), getOrderNo(), getCustomerName(), getCustomerMiddle(), getCustomerLastname(), getCustomerTelNo(), getCustomerEmail(), getDeliverTo(), getDeliveryAddress(), getPostCode(), getTotalAmount(), getTotalFees(), getOrderStatus(), getPaymentStatus(), getTrackNumber(), getCreateDate());
 	}
 
+	@Override
+	public boolean isValid() {
+		return id != null 
+				&& orderNo != null && !orderNo.isEmpty();
+	}
 
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,11 +63,11 @@ public class Product extends AbstractModel implements Serializable {
 	@Column(name="UPDATEDATE")
 	protected Date updateDate;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="CATEGORY_ID", referencedColumnName="ID")
 	protected Category category;
 	
-	@OneToMany(targetEntity=ProductPicture.class, cascade=CascadeType.ALL)
+	@OneToMany(targetEntity=ProductPicture.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
 	protected List<ProductPicture> pictures;
 	
@@ -184,6 +185,14 @@ public class Product extends AbstractModel implements Serializable {
 	public String toString() {
 		return String.format("{id=%d, categoryId=%s, name=%s, title=%s, description=%s, colors=%s, sizes=%s, price=%f, actualPrice=%f, createDate=%c, updateDate=%c}"
 				, id, category.getId(), name, title, description, colors, sizes, price, actualPrice, createDate, updateDate);
+	}
+
+	@Override
+	public boolean isValid() {
+		return id != null 
+				&& category != null && category.getId() != null
+				&& name != null && !name.isEmpty()
+				&& title != null && !title.isEmpty();
 	}
 	
 }

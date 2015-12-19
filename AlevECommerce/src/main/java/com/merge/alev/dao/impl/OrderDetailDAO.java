@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.merge.alev.dao.model.OrderDetail;
 import com.merge.base.dao.impl.AbstractDAO;
 
-@Component
+@Component(value="orderDetailDao")
 public class OrderDetailDAO extends AbstractDAO<OrderDetail> {
 
 	@Override
