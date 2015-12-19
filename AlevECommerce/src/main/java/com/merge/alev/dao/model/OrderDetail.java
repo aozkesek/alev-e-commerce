@@ -1,5 +1,6 @@
 package com.merge.alev.dao.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,9 +55,8 @@ public class OrderDetail extends AbstractModel {
 	@JsonIgnore
 	protected Order order;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
-	@JsonIgnore
 	protected Product product;
 	
 	public OrderDetail() {

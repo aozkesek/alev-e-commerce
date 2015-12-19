@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Proxy;
 
 import com.merge.base.dao.model.AbstractModel;
@@ -67,8 +69,9 @@ public class Product extends AbstractModel implements Serializable {
 	@JoinColumn(name="CATEGORY_ID", referencedColumnName="ID")
 	protected Category category;
 	
-	@OneToMany(targetEntity=ProductPicture.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=ProductPicture.class, cascade=CascadeType.ALL)
 	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	protected List<ProductPicture> pictures;
 	
 	public Product() {
