@@ -2,20 +2,29 @@ package com.merge.alev.dao.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.Proxy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.merge.base.dao.model.AbstractModel;
 
 @Entity
 @Proxy(lazy=false)
 @Table(name="ORDERDETAILS", schema="ALEVECOM")
 public class OrderDetail extends AbstractModel {
+	
+	@Transient
+	public static int MAX_DETAIL = 8;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
@@ -24,12 +33,6 @@ public class OrderDetail extends AbstractModel {
 	@Version
 	@Column(name="VERSION")
 	private Integer version;
-	
-	@Column(name="ORDER_ID")
-	private Integer orderId;
-	
-	@Column(name="PRODUCT_ID")
-	private Integer productId;
 	
 	@Column(name="SIZE")
 	private String size;
@@ -45,6 +48,16 @@ public class OrderDetail extends AbstractModel {
 	
 	@Column(name="ACTUALPRICE")
 	private Double actualPrice;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ORDER_ID", referencedColumnName="ID")
+	@JsonIgnore
+	protected Order order;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="PRODUCT_ID", referencedColumnName="ID")
+	@JsonIgnore
+	protected Product product;
 	
 	public OrderDetail() {
 		
@@ -68,22 +81,22 @@ public class OrderDetail extends AbstractModel {
 		this.version = version;
 	}
 
-	public Integer getOrderId() {
-		return orderId;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
-	public Integer getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
-
+	
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -127,13 +140,13 @@ public class OrderDetail extends AbstractModel {
 	@Override
 	public String toString() {
 		return String.format("{id=%d, orderId=%d, productId=%d, size=%s, color=%s, quantity=%d, totalPrice=%f, actualPrice=%f}"
-				, getId(), getOrderId(), getProductId(), getSize(), getColor(), getQuantity(), getTotalPrice(), getActualPrice());
+				, id, order.getId(), product.getId(), size, color, quantity, totalPrice, actualPrice);
 	}
 	
 	@Override
 	public boolean isValid() {
 		return id != null 
-				&& orderId != null 
-				&& productId != null;
+				&& order != null && order.getId() != null 
+				&& product != null && product.getId() != null;
 	}
 }

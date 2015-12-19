@@ -24,16 +24,7 @@ public class ProductController extends GenericCRUDController<Product> {
 	@RequestMapping("/product/read")
 	@ResponseBody
 	public GenericResponse<Product> read(@RequestBody GenericRequest<Product> request) {
-		GenericResponse<Product> response = super.read(request);
-		
-		if (response.getResponseCode().equals(0)) {
-			for (Product p : response.getModel()) {
-				p.getCategory().getId();
-				p.getPictures().size();
-			}
-		}
-		
-		return response;
+		return super.read(request);
 	}
 
 	@Override
