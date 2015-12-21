@@ -2,6 +2,8 @@ package com.merge.base.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.merge.base.dao.intf.IGenericDAO;
 import com.merge.base.dao.model.AbstractModel;
 import com.merge.base.dao.model.CrudEnumeration;
@@ -88,22 +90,27 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 		
 	}
 
+	@RequestMapping("/create")
 	public GenericResponse<T> create(GenericRequest<T> request) {
 		return operate(CrudEnumeration.C, request);
 	}
 
+	@RequestMapping("/read")
 	public GenericResponse<T> read(GenericRequest<T> request) {
 		return operate(CrudEnumeration.R, request);
 	}
 
+	@RequestMapping("/update")
 	public GenericResponse<T> update(GenericRequest<T> request) {
 		return operate(CrudEnumeration.U, request);
 	}
 
+	@RequestMapping("/delete")
 	public GenericResponse<T> delete(GenericRequest<T> request) {
 		return operate(CrudEnumeration.D, request);
 	}
 
+	@RequestMapping("/list")
 	public GenericResponse<T> list(GenericRequest<T> request) {
 		return operate(CrudEnumeration.Q, request);
 	}
