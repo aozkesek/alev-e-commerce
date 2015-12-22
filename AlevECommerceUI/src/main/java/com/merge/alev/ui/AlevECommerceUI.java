@@ -10,8 +10,6 @@ public class AlevECommerceUI {
 		
 		SpringApplication.run(AlevECommerceUI.class, args);
 		
-		
-		
 	}
 
 }
