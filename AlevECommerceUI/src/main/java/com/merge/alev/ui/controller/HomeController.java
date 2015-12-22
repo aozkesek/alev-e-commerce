@@ -1,0 +1,18 @@
+package com.merge.alev.ui.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/")
+public class HomeController {
+
+	@RequestMapping
+	public String index(Model model) {
+		model.addAttribute("userName", "AhmetOzkesek");
+		model.addAttribute("userEmail", "AhmetOzkesek@mail.com");
+		
+		return "index";
+	}
+}

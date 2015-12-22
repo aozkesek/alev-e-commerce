@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Alev E-Commerce</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	</head>
+	
+	<body>
+	
+		<div th:include="header :: header"></div>
+	
+		<p align="center" th:text="${userName}"></p>
+		
+		<p align="center" th:text="${userEmail}"></p>
+		
+		<div th:include="footer :: footer"></div>
+	
+	</body>
+</html>
