@@ -37,8 +37,13 @@ public class ProductDAO extends AbstractDAO<Product> {
 	public Criteria getListCriteriaBy(Session session, Product model) {
 		Criteria criteria = session.createCriteria(Product.class);
 		
-		if (model.getCategory().getId() != null)
-			criteria.add(Restrictions.eq("categoryId", model.getCategory().getId()));
+		if (model.getCategory().getId() != null) {
+			Category category = null;
+			
+			try { category = categoryDao.read(model.getCategory()); } catch(Exception ex) {}
+			
+			criteria.add(Restrictions.eq("category", category));
+		}
 	
 		if (model.getName() != null && !model.getName().isEmpty())
 			criteria.add(Restrictions.like("name", model.getName().concat("%")));

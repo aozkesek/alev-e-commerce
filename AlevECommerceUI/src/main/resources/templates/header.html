@@ -1,24 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
+
       
 	<body>
 		
 		<div th:fragment="header">
-		
-			<p align="center">
-<!-- 				<img th:attr="src=@{/images/spring-framework-logo.png}" />	 -->
-			</p>
 			
-			<p align="center">
-<!-- 				<img th:attr="src=@{/images/thymeleaflogonameverysmall.png}" />	 -->
-			</p>
-			
-			<p align="center">
-				<a th:href="@{/person/register}">Register</a>
-				<a th:href="@{/person/search}">Search</a>
-				<a th:href="@{/person/report}">Report</a>
-			</p>
-		
+			<ul id="mainMenuBar">
+				<li><a th:href="@{/home}">Home</a></li>
+				<li><a th:href="@{/trackorder}">Track Your Order</a></li>
+				<li><a th:href="@{/about}">About Us</a></li>
+
+			</ul>
+
 		</div>
-	
+
 	</body>            
 </html>     

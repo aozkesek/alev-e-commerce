@@ -2,7 +2,9 @@ package com.merge.base.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.merge.base.dao.intf.IGenericDAO;
 import com.merge.base.dao.model.AbstractModel;
@@ -91,27 +93,32 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 	}
 
 	@RequestMapping("/create")
-	public GenericResponse<T> create(GenericRequest<T> request) {
+	@ResponseBody
+	public GenericResponse<T> create(@RequestBody GenericRequest<T> request) {
 		return operate(CrudEnumeration.C, request);
 	}
 
 	@RequestMapping("/read")
-	public GenericResponse<T> read(GenericRequest<T> request) {
+	@ResponseBody
+	public GenericResponse<T> read(@RequestBody GenericRequest<T> request) {
 		return operate(CrudEnumeration.R, request);
 	}
 
 	@RequestMapping("/update")
-	public GenericResponse<T> update(GenericRequest<T> request) {
+	@ResponseBody
+	public GenericResponse<T> update(@RequestBody GenericRequest<T> request) {
 		return operate(CrudEnumeration.U, request);
 	}
 
 	@RequestMapping("/delete")
-	public GenericResponse<T> delete(GenericRequest<T> request) {
+	@ResponseBody
+	public GenericResponse<T> delete(@RequestBody GenericRequest<T> request) {
 		return operate(CrudEnumeration.D, request);
 	}
 
 	@RequestMapping("/list")
-	public GenericResponse<T> list(GenericRequest<T> request) {
+	@ResponseBody
+	public GenericResponse<T> list(@RequestBody GenericRequest<T> request) {
 		return operate(CrudEnumeration.Q, request);
 	}
 	
