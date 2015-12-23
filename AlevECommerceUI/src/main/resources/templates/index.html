@@ -1,0 +1,28 @@
+<!DOCTYPE html >
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>Alev E-Commerce</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--    <link rel="stylesheet" type="text/css" media="all" 
+          href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+-->
+
+  </head>
+
+  <body>
+  
+    <p th:text="#{index.welcome}">Welcome to Alev E-Commerce</p>
+    
+    <form >
+    	<input type="text" name="name" value="Ahmet" th:value="${name}"/>
+    	<input type="submit" value="About"/>
+    </form>
+    
+    <p><a href="/about?name=Ahmet" >About</a></p>
+  
+  </body>
+
+</html>
