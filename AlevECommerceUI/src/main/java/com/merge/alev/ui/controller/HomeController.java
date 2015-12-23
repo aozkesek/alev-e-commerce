@@ -1,61 +1,39 @@
 package com.merge.alev.ui.controller;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.TemplateProcessingParameters;
-import org.thymeleaf.templateresolver.ITemplateResolver;
-import org.thymeleaf.templateresolver.TemplateResolution;
+
+import com.merge.alev.ui.model.Category;
+import com.merge.alev.ui.service.ProductService;
 
 @Controller
-public class HomeController implements ITemplateResolver {
+public class HomeController {
 
-	public final static String NAME="index";
+	@Autowired
+	private ProductService productService; 
 	
-	@RequestMapping({"/", "/index", "/home"})
-	public String home() {
-		return NAME;
-	}
-	
-	@Override
-	public String getName() {	
-		return NAME;
-	}
-
-	@Override
-	public Integer getOrder() {
-		return null;
-	}
-
-	@Override
-	public TemplateResolution resolveTemplate(TemplateProcessingParameters templateProcessingParameters) {
-		return null;
-	}
-
-	@Override
-	public void initialize() {
+	@RequestMapping({"/", "/home"})
+	public String index(Model model) {
 		
-	}
-
-	public void process(
-	        HttpServletRequest request
-	        , HttpServletResponse response
-	        , ServletContext servletContext
-	        , TemplateEngine templateEngine) {
+		Category category = new Category();
+		category.setId(0);
+		
+		productService.getProductsByCategory(category, 0, 10);
 		
 		
-		String s = "";
-		
-		s = NAME;
+		return "index";
+	}
+
+	@RequestMapping("/trackorder")
+	public String order(Model model) {
+		return "order";
 	}
 	
-
+	@RequestMapping("/about")
+	public String about(Model model) {
+		return "about";
+	}
+	
 }
