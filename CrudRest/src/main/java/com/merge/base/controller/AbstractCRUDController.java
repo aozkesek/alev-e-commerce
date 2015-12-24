@@ -66,13 +66,21 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 							//still need to develop ...  I'll continue to fix later.
 							int maxResult = getDao().getListMaxResultBy(m);
 							response.setTotalRecordNumber(response.getTotalRecordNumber() + maxResult);
+							
 							if (request.getFirstRecordNumber() > response.getTotalRecordNumber())
 								break;
 							
+							int firstRecord = request.getFirstRecordNumber() + request.getMaxRecordNumber() - response.getTotalRecordNumber();
+							int maxRecord = request.getMaxRecordNumber();
 							
+							if (request.getFirstRecordNumber() + request.getMaxRecordNumber() > response.getTotalRecordNumber()) {
+								response.getModel()
+									.addAll(getDao().listBy(m, firstRecord, request.getMaxRecordNumber()));
+								break;
+							}
 								
 							response.getModel()
-								.addAll(getDao().listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
+								.addAll(getDao().listBy(m, firstRecord, request.getMaxRecordNumber()));
 							
 							break;
 							
