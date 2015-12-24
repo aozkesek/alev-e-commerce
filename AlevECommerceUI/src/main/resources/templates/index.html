@@ -16,7 +16,64 @@
 	
 		<div th:include="header :: header"></div>
 
-
+		<div id="categoryTab" >
+			<ul>
+				<li th:each="category : ${categories}">
+					<a 
+						th:href="'#categoryTab_' + ${category.id}" 
+						th:text="${category.categoryName}"
+					></a>
+				</li>
+			</ul>	
+			
+			<div>				
+				<div 
+					th:each="category : ${categories}"
+					th:attr="id='categoryTab_' + ${category.id}"	
+				>
+				
+				<div 
+					th:attr="id='categoryProducts_' + ${category.id}"
+				>
+					<script th:inline="javascript">
+					/*<![CDATA[*/
+						var serviceBaseUrl = [[${serviceBaseUrl}]];
+					
+						$("#categoryProducts_[[${category.id}]]").puidatagrid({
+							lazy: true
+							, paginator: { rows: [[${maxRowsPerPage}]], totalRecords: 100}
+					   	, datasource: function(callback, d){
+					   		$.ajax({
+					   			type: "POST"
+					   			, url: serviceBaseUrl + "/product/list"
+					   			, data: {
+					   				versionNumber: "1.0.0"
+					   				, firstRecordNumber: 0
+					   				, maxRecordNumber: 10
+					   			}
+					   			, dataType: "json"
+					   			, context: this
+					   			, success: function(response) {
+					   				callback.call(this, response);
+					   			}
+					   		});
+					   	}
+					   	, content: function(product) {
+					   		return $('<div>'
+					   			+ '<p>' + product.name + '</p>'
+					   			+ '</div>'
+					   			).puipanel();
+					   	}
+						});
+		            
+					
+					/*]]>*/	
+					</script>
+				</div>
+					
+				</div>
+			</div>
+		</div>
 		
 		<div th:include="footer :: footer"></div>
 	
@@ -24,7 +81,9 @@
 	
 
 <script type="text/javascript">
-$('#mainMenuBar').puimenubar();
+	$('#mainMenuBar').puimenubar();
+	$('#categoryTab').puitabview();
+
 </script>	
 			
 	

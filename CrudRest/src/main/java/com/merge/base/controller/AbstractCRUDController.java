@@ -16,26 +16,27 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 
 	private GenericResponse<T> operate(CrudEnumeration operator, GenericRequest<T> request) {
 		
-		GenericResponse<T> res = new GenericResponse<T>();
-		res.setResponseCode(ResponseCode.OK);
-		res.setResponseMesage(new ArrayList<String>());
-		res.setModel(new ArrayList<T>());
+		GenericResponse<T> response = new GenericResponse<T>();
+		response.setResponseCode(ResponseCode.OK);
+		response.setResponseMesage(new ArrayList<String>());
+		response.setTotalRecordNumber(0);
+		response.setModel(new ArrayList<T>());
 		
 		try {
 			
 			boolean isModelNullOrEmpty = request == null || request.getModel() == null || request.getModel().isEmpty();
 			
 			if (operator != CrudEnumeration.Q && isModelNullOrEmpty) {
-				res.setResponseCode(ResponseCode.ERROR);
-				res.getResponseMesage().add("ArgumentNull");
-				return res;
+				response.setResponseCode(ResponseCode.ERROR);
+				response.getResponseMesage().add("ArgumentNull");
+				return response;
 			}
 			
-			res.setFirstRecordNumber(request.getFirstRecordNumber());
+			response.setFirstRecordNumber(request.getFirstRecordNumber());
 			
 			if (isModelNullOrEmpty) {
-				res.setTotalRecordNumber(getDao().getListMaxResult());
-				res.setModel(getDao().list(request.getFirstRecordNumber(), request.getMaxRecordNumber()));
+				response.setTotalRecordNumber(getDao().getListMaxResult());
+				response.setModel(getDao().list(request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 			}
 			else {
 				boolean oneSucceded = false;
@@ -45,24 +46,34 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 	
 						switch (operator) {
 						case C:
-							res.getModel().add(getDao().create(m));
+							response.getModel().add(getDao().create(m));
 							break;
 						
 						case R:
-							res.getModel().add(getDao().read(m));
+							response.getModel().add(getDao().read(m));
 							break;
 							
 						case U:
-							res.getModel().add(getDao().update(m));
+							response.getModel().add(getDao().update(m));
 							break;
 						
 						case D:
-							res.getModel().add(getDao().delete(m));
+							response.getModel().add(getDao().delete(m));
 							break;
 						
 						case Q:
-							res.setTotalRecordNumber(getDao().getListMaxResultBy(m));
-							res.setModel(getDao().listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
+							//we may be reconsider to take only one item at calling list, 
+							//still need to develop ...  I'll continue to fix later.
+							int maxResult = getDao().getListMaxResultBy(m);
+							response.setTotalRecordNumber(response.getTotalRecordNumber() + maxResult);
+							if (request.getFirstRecordNumber() > response.getTotalRecordNumber())
+								break;
+							
+							
+								
+							response.getModel()
+								.addAll(getDao().listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
+							
 							break;
 							
 						}
@@ -70,24 +81,24 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 						oneSucceded = true;
 					}
 					catch(Exception ex) {
-						res.setResponseCode(ResponseCode.ERROR);
+						response.setResponseCode(ResponseCode.ERROR);
 						if (ex.getCause() != null)
-							res.getResponseMesage().add(ex.getCause().getMessage().concat("\n").concat(m.toString()));
+							response.getResponseMesage().add(ex.getCause().getMessage().concat("\n").concat(m.toString()));
 						else	
-							res.getResponseMesage().add(ex.getMessage().concat("\n").concat(m.toString()));
+							response.getResponseMesage().add(ex.getMessage().concat("\n").concat(m.toString()));
 					}
 					
-					if (oneSucceded && res.getResponseCode() == ResponseCode.ERROR)
-						res.setResponseCode(ResponseCode.WARNING);
+					if (oneSucceded && response.getResponseCode() == ResponseCode.ERROR)
+						response.setResponseCode(ResponseCode.WARNING);
 				}
 			}
 			
-			return res;
+			return response;
 		}
 		catch(Exception ex) {
-			res.setResponseCode(ResponseCode.ERROR);
-			res.getResponseMesage().add(ex.getMessage());
-			return res;
+			response.setResponseCode(ResponseCode.ERROR);
+			response.getResponseMesage().add(ex.getMessage());
+			return response;
 		}
 		
 	}
@@ -122,4 +133,18 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 		return operate(CrudEnumeration.Q, request);
 	}
 	
+	@RequestMapping("/list/totalRecord")
+	@ResponseBody
+	public Integer listTotalRecord(@RequestBody GenericRequest<T> request) {
+		boolean isModelNullOrEmpty = request == null || request.getModel() == null || request.getModel().isEmpty();
+		
+		if (isModelNullOrEmpty)
+			return getDao().getListMaxResult();
+		
+		int totalRecord = 0;
+		for (T m : request.getModel()) 
+			totalRecord += getDao().getListMaxResultBy(m);
+		
+		return totalRecord;
+	}
 }
