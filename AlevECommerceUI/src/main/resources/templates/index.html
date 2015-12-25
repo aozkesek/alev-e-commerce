@@ -11,6 +11,43 @@
    	<script type="text/javascript" th:attr="src=@{/js/primeui-2.2.js}"></script>
 		
 	</head>
+
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	
+		function getProductsByCategory(categoryId, o) {
+			
+			o.puidatagrid({
+				lazy: true
+				, paginator: { rows: [[${maxRowsPerPage}]], totalRecords: 100}
+		   	, datasource: function(callback, d){
+		   		$.ajax({
+		   			type: "POST"
+		   			, url: [[${serviceBaseUrl}]] + "/product/list"
+		   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":10,"model":[{"category":{"id":' + categoryId + '}}]}'
+		   			, dataType: "json"
+		   			, contentType: "application/json"
+		   			, context: this
+		   			, success: function(response) {
+		   				if (response.responseCode > -1)
+		   					if (response.model != null && response.model.length > 0)
+		   						callback.call(this, response.model);
+		   			}
+		   		});
+		   	}
+		   	, content: function(product) {
+		   		return $('<div>'
+		   			+ '<p>' + product.name + '</p>'
+		   			+ '</div>'
+		   			).puipanel();
+		   	}
+			});
+			
+		}
+		
+	/*]]>*/	
+	</script>	
 	
 	<body>
 	
@@ -37,36 +74,7 @@
 				>
 					<script th:inline="javascript">
 					/*<![CDATA[*/
-						var serviceBaseUrl = [[${serviceBaseUrl}]];
-					
-						$("#categoryProducts_[[${category.id}]]").puidatagrid({
-							lazy: true
-							, paginator: { rows: [[${maxRowsPerPage}]], totalRecords: 100}
-					   	, datasource: function(callback, d){
-					   		$.ajax({
-					   			type: "POST"
-					   			, url: serviceBaseUrl + "/product/list"
-					   			, data: {
-					   				versionNumber: "1.0.0"
-					   				, firstRecordNumber: 0
-					   				, maxRecordNumber: 10
-					   			}
-					   			, dataType: "json"
-					   			, context: this
-					   			, success: function(response) {
-					   				callback.call(this, response);
-					   			}
-					   		});
-					   	}
-					   	, content: function(product) {
-					   		return $('<div>'
-					   			+ '<p>' + product.name + '</p>'
-					   			+ '</div>'
-					   			).puipanel();
-					   	}
-						});
-		            
-					
+					getProductsByCategory([[${category.id}]], $("#categoryProducts_[[${category.id}]]"));	
 					/*]]>*/	
 					</script>
 				</div>
@@ -83,7 +91,6 @@
 <script type="text/javascript">
 	$('#mainMenuBar').puimenubar();
 	$('#categoryTab').puitabview();
-
 </script>	
 			
 	

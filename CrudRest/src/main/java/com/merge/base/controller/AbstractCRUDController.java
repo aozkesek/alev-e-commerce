@@ -63,24 +63,24 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 						
 						case Q:
 							//we may be reconsider to take only one item at calling list, 
-							//still need to develop ...  I'll continue to fix later.
+							//have not been tested in every case yet.  still might need to develop
 							int maxResult = getDao().getListMaxResultBy(m);
 							response.setTotalRecordNumber(response.getTotalRecordNumber() + maxResult);
 							
 							if (request.getFirstRecordNumber() > response.getTotalRecordNumber())
 								break;
 							
-							int firstRecord = request.getFirstRecordNumber() + request.getMaxRecordNumber() - response.getTotalRecordNumber();
-							int maxRecord = request.getMaxRecordNumber();
-							
-							if (request.getFirstRecordNumber() + request.getMaxRecordNumber() > response.getTotalRecordNumber()) {
+							if (request.getFirstRecordNumber() + request.getMaxRecordNumber() <= response.getTotalRecordNumber()) {
 								response.getModel()
-									.addAll(getDao().listBy(m, firstRecord, request.getMaxRecordNumber()));
+									.addAll(getDao().listBy(m, request.getFirstRecordNumber(), request.getMaxRecordNumber()));
 								break;
 							}
-								
+							
 							response.getModel()
-								.addAll(getDao().listBy(m, firstRecord, request.getMaxRecordNumber()));
+								.addAll(getDao().listBy(
+										m
+										, response.getModel().size() > 0 ? 0 : request.getFirstRecordNumber()
+										, request.getMaxRecordNumber()));
 							
 							break;
 							

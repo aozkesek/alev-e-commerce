@@ -38,7 +38,7 @@ public class HomeController {
 			model.addAttribute(maxRowsPerPage, 10);
 			
 		if (!model.containsAttribute(serviceBaseUrl))
-			model.addAttribute(serviceBaseUrl, "http://localhost:8080");
+			model.addAttribute(serviceBaseUrl, "http://localhost:8090");
 		
 		if (!model.containsAttribute(categories)) {
 			CategoryResponse catRes = categoryService.getCategories();
@@ -54,10 +54,10 @@ public class HomeController {
 			
 		Category category = (Category) modelMap.get("selectedCategory");
 		
-		ProductResponse prodRes = productService.getProductsByCategory(category, 0, 10);
-		if (prodRes.getResponseCode() != null && !prodRes.getResponseCode().equals(-1)) 
-			if (!prodRes.getModel().isEmpty()) 
-				model.addAttribute("productsByCategory", prodRes.getModel());
+//		ProductResponse prodRes = productService.getProductsByCategory(category, 0, 10);
+//		if (prodRes.getResponseCode() != null && !prodRes.getResponseCode().equals(-1)) 
+//			if (!prodRes.getModel().isEmpty()) 
+//				model.addAttribute("productsByCategory", prodRes.getModel());
 			
 		return "index";
 	}
