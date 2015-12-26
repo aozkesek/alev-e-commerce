@@ -21,7 +21,16 @@ public class RestProxy {
 			, @RequestBody ProductRequest request) 
 	{
 		RestTemplate restTemp = new RestTemplate();
-		ProductResponse response = restTemp.postForObject(Endpoint + "/product/" + operation, request, ProductResponse.class);
+		ProductResponse response = null;
+		if (operation.equals("listTotalRecord")) {
+			response = new ProductResponse();
+			response.setTotalRecordNumber(restTemp.postForObject(Endpoint + "/product/" + operation, request, Integer.class));
+			response.setResponseCode(0);
+		}
+		else
+			response = restTemp.postForObject(Endpoint + "/product/" + operation, request, ProductResponse.class);
 		return response;
 	}
+	
+	
 }

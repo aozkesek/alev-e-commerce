@@ -11,43 +11,6 @@
    	<script type="text/javascript" th:attr="src=@{/js/primeui-2.2.js}"></script>
 		
 	</head>
-
-
-	<script th:inline="javascript">
-	/*<![CDATA[*/
-	
-		function getProductsByCategory(categoryId, o) {
-			
-			o.puidatagrid({
-				lazy: true
-				, paginator: { rows: [[${maxRowsPerPage}]], totalRecords: 100}
-		   	, datasource: function(callback, d){
-		   		$.ajax({
-		   			type: "POST"
-		   			, url: [[${serviceBaseUrl}]] + "/product/list"
-		   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":10,"model":[{"category":{"id":' + categoryId + '}}]}'
-		   			, dataType: "json"
-		   			, contentType: "application/json"
-		   			, context: this
-		   			, success: function(response) {
-		   				if (response.responseCode > -1)
-		   					if (response.model != null && response.model.length > 0)
-		   						callback.call(this, response.model);
-		   			}
-		   		});
-		   	}
-		   	, content: function(product) {
-		   		return $('<div>'
-		   			+ '<p>' + product.name + '</p>'
-		   			+ '</div>'
-		   			).puipanel();
-		   	}
-			});
-			
-		}
-		
-	/*]]>*/	
-	</script>	
 	
 	<body>
 	
@@ -63,21 +26,11 @@
 				</li>
 			</ul>	
 			
-			<div>				
+			<div id="categoryTabsParent">				
 				<div 
 					th:each="category : ${categories}"
 					th:attr="id='categoryTab_' + ${category.id}"	
 				>
-				
-				<div 
-					th:attr="id='categoryProducts_' + ${category.id}"
-				>
-					<script th:inline="javascript">
-					/*<![CDATA[*/
-					getProductsByCategory([[${category.id}]], $("#categoryProducts_[[${category.id}]]"));	
-					/*]]>*/	
-					</script>
-				</div>
 					
 				</div>
 			</div>
@@ -88,10 +41,64 @@
 	</body>
 	
 
-<script type="text/javascript">
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+
 	$('#mainMenuBar').puimenubar();
-	$('#categoryTab').puitabview();
-</script>	
+	
+	$('#categoryTab').puitabview({
+		change: function(event, ui) {
+			var target = $("#categoryTabsParent").children()[ui.index];
+			var targetId = $(target).attr("id");
+			var categoryId = targetId.replace("categoryTab_", "");
+			var totalRecords = 0;
+			
+			$.ajax({
+	   			type: "POST"
+	   			, url: "/product/listTotalRecord"
+	   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":10,"model":[{"category":{"id":' + categoryId + '}}]}'
+	   			, dataType: "json"
+	   			, contentType: "application/json"
+	   			, success: function(response) {
+	   				if (response.responseCode == 0) {
+	   					totalRecords = response.totalRecordNumber;
+
+	   					$(target).puidatagrid({
+	   						lazy: true
+	   						, paginator: { rows: 2, totalRecords: totalRecords }
+	   				   	, datasource: function(callback, ui){
+	   				   		$.ajax({
+	   				   			type: "POST"
+	   				   			, url: "/product/list"
+	   				   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + ui.first + ',"maxRecordNumber":2,"model":[{"category":{"id":' + categoryId + '}}]}'
+	   				   			, dataType: "json"
+	   				   			, contentType: "application/json"
+	   				   			, context: this
+	   				   			, success: function(response) {
+	   				   				if (response.responseCode > -1)
+	   				   					if (response.model != null && response.model.length > 0) {
+	   				   						callback.call(this, response.model);
+	   				   					}
+	   				   			}
+	   				   		});
+	   				   	}
+	   				   	, content: function(product) {
+	   				   		return $('<div>'
+	   				   			+ '<p>' + product.name + '</p>'
+	   				   			+ '</div>'
+	   				   			).puipanel();
+	   				   	}
+	   					});
+	   					
+	   				}
+	   			}
+	   		});
+			
+		}
+	});
+	
+	/*]]>*/	
+	</script>	
 			
 	
 </html>

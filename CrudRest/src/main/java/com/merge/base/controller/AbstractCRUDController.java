@@ -141,7 +141,7 @@ public abstract class AbstractCRUDController<T extends AbstractModel> {
 		return operate(CrudEnumeration.Q, request);
 	}
 	
-	@RequestMapping("/list/totalRecord")
+	@RequestMapping("/listTotalRecord")
 	@ResponseBody
 	public Integer listTotalRecord(@RequestBody GenericRequest<T> request) {
 		boolean isModelNullOrEmpty = request == null || request.getModel() == null || request.getModel().isEmpty();
