@@ -15,11 +15,12 @@ public class AlevECommerceUIConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
         .authorizeRequests()
+        	.antMatchers("/administration", "/administration/**").fullyAuthenticated()
         	.antMatchers("/**").permitAll()
-            .antMatchers("/administration/**").fullyAuthenticated()
             .and()
         .formLogin()
             .loginPage("/adminlogin")
+            .defaultSuccessUrl("/administration")
             .permitAll()
             .and()
         .logout()
@@ -28,7 +29,9 @@ public class AlevECommerceUIConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		
+		auth
+			.inMemoryAuthentication()
+				.withUser("admin").password("adminPwd").roles("ADMIN");
 		
 	}
 	

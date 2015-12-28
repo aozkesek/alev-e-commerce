@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-		xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 	
 	<head>
@@ -17,16 +16,35 @@
 	</head>
 	
     <body>
-        <div th:if="${param.error}">
+        <div id="invalidlogin" th:if="${param.error}">
             Invalid username and password.
         </div>
-        <div th:if="${param.logout}">
+        <div id="loggedout" th:if="${param.logout}">
             You have been logged out.
         </div>
-        <form th:action="@{/login}" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Sign In"/></div>
+        <form th:action="@{/adminlogin}" method="post">
+            <fieldset id="loginFieldset">
+            	<legend>Login:</legend>
+            	
+            	<div><h4> User Name :</h4> <input type="text" id="username" name="username"/> </div>
+            	<div><h4> Password: </h4><input type="password" id="password" name="password"/> </div>
+            	<div><h4></h4><input type="submit" value="Sign In"/></div>
+            	
+            </fieldset>
+            
         </form>
     </body>
+    
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+
+	$('#loginFieldset').puifieldset();
+	$('#username').puiinputtext();
+	$('#password').puiinputtext();
+	
+	[[${param.error}]]
+	
+	/*]]>*/	
+	</script>	
+	
 </html>

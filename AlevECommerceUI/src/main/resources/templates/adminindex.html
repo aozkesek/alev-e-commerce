@@ -1,0 +1,131 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Alev E-Commerce - Administrations</title>
+		
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+   	
+   	<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+   	<link rel="stylesheet" th:href="@{/css/jquery-ui.structure.css}" />
+   	<link rel="stylesheet" th:href="@{/css/jquery-ui.theme.css}" />
+   	<link rel="stylesheet" th:href="@{/css/primeui-2.2.css}" />
+   	
+   	<script type="text/javascript" th:attr="src=@{/js/jquery-2.1.4.js}"></script>
+   	<script type="text/javascript" th:attr="src=@{/js/jquery-ui.js}"></script>
+   	<script type="text/javascript" th:attr="src=@{/js/primeui-2.2.js}"></script>
+
+	</head>
+	
+	<body>
+	
+		<div th:include="header :: header"></div>
+
+		<div id="adminTaskTab" >
+			<ul>
+				
+				<li><a href="#adminTask_category">Categories</a></li>
+				<li><a href="#adminTask_fee">Fees</a></li>
+				<li><a href="#adminTask_product">Products</a></li>
+				<li><a href="#adminTask_order">ORders</a></li>
+				
+			</ul>	
+			
+			<div id="adminTaskTabsParent">				
+				
+				<div id="adminTask_categories" >
+				
+				</div>
+				
+				<div id="adminTask_fees" >
+				
+				</div>
+				
+				<div id="adminTask_products" >
+				
+				</div>
+				
+				<div id="adminTask_orders" >
+				
+				</div>
+				
+			</div>
+		</div>
+		
+		<div th:include="footer :: footer"></div>
+	
+	</body>
+	
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	$(document).ajaxSend(function(e, xhr, options) {
+   	xhr.setRequestHeader(header, token);
+   });
+	
+	var mainMenuBar = $('#mainMenuBar').puimenubar();
+	
+	var categoryTab = $('#categoryTab').puitabview({
+		change: function(event, ui) {
+			var target = $("#categoryTabsParent").children()[ui.index];
+			var targetId = $(target).attr("id");
+			var categoryId = targetId.replace("categoryTab_", "");
+			var totalRecords = 0;
+			
+			if (categoryId == "highlights")
+				return;
+			
+			$.ajax({
+	   			type: "POST"
+	   			, url: "/product/listTotalRecord"
+	   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":10,"model":[{"category":{"id":' + categoryId + '}}]}'
+	   			, dataType: "json"
+	   			, contentType: "application/json"
+	   			, success: function(response) {
+	   				if (response.responseCode == 0) {
+	   					totalRecords = response.totalRecordNumber;
+
+	   					$(target).puidatagrid({
+	   						lazy: true
+	   						, paginator: { rows: 2, totalRecords: totalRecords }
+	   				   	, datasource: function(callback, ui){
+	   				   		$.ajax({
+	   				   			type: "POST"
+	   				   			, url: "/product/list"
+	   				   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + ui.first + ',"maxRecordNumber":2,"model":[{"category":{"id":' + categoryId + '}}]}'
+	   				   			, dataType: "json"
+	   				   			, contentType: "application/json"
+	   				   			, context: this
+	   				   			, success: function(response) {
+	   				   				if (response.responseCode > -1)
+	   				   					if (response.model != null && response.model.length > 0) {
+	   				   						callback.call(this, response.model);
+	   				   					}
+	   				   			}
+	   				   		});
+	   				   	}
+	   				   	, content: function(product) {
+	   				   		return $('<div>'
+	   				   			+ '<p>' + product.name + '</p>'
+	   				   			+ '</div>'
+	   				   			).puipanel();
+	   				   	}
+	   					});
+	   					
+	   				}
+	   			}
+	   		});
+			
+		}
+	});
+	
+	
+	/*]]>*/	
+	</script>	
+			
+	
+</html>

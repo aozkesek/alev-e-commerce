@@ -16,7 +16,7 @@ import com.merge.alev.ui.service.CategoryService;
 import com.merge.alev.ui.service.ProductService;
 
 @Controller
-public class HomeController {
+public class PageController {
 
 	final String productsByCategory = "productsByCategory";
 	final String categories = "categories";
@@ -71,5 +71,16 @@ public class HomeController {
 	public String about(Model model) {
 		return "about";
 	}
+	
+	@RequestMapping("/administration")
+	public String administration(Model model) {
+		return "adminindex";
+	}
+	
+	@RequestMapping("/adminlogin")
+	public String adminlogin(Model model) {
+		return "adminlogin";
+	}
+	
 	
 }
