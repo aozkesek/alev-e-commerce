@@ -11,28 +11,36 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class AlevECommerceUIConfig extends WebSecurityConfigurerAdapter {
 
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
         .authorizeRequests()
-        	.anyRequest().permitAll()
-        	.antMatchers("/administration").fullyAuthenticated()
-        	.and()
+        	.antMatchers("/administration", "/administration/**").fullyAuthenticated()
+        	.antMatchers("/**").permitAll()
+            .and()
         .formLogin()
             .loginPage("/adminlogin")
+            .defaultSuccessUrl("/administration")
             .permitAll()
             .and()
         .logout()
-        	.logoutSuccessUrl("/")
-        	.deleteCookies("JSESSIONID")
+        	.clearAuthentication(true)
+        	.invalidateHttpSession(true)
+        	.logoutUrl("/adminlogout")
             .permitAll();
 	}
 
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("admin").password("adminPwd").roles("ADMIN");
+
+		auth
+			.inMemoryAuthentication()
+				.withUser("admin").password("adminPwd").roles("ADMIN");
+		
 		
 	}
 	
+	
+
 }

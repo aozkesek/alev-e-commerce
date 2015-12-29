@@ -3,7 +3,11 @@ package com.merge.alev.ui.controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +20,7 @@ import com.merge.alev.ui.service.CategoryService;
 import com.merge.alev.ui.service.ProductService;
 
 @Controller
-public class HomeController {
+public class PageController {
 
 	final String productsByCategory = "productsByCategory";
 	final String categories = "categories";
@@ -72,9 +76,20 @@ public class HomeController {
 		return "about";
 	}
 	
+	@RequestMapping("/administration")
+	public String administration(Model model) {
+		return "adminindex";
+	}
+	
 	@RequestMapping("/adminlogin")
-	public String login(Model model) {
-		return "login";
+	public String adminlogin(Model model) {
+		return "adminlogin";
+	}
+	
+	@RequestMapping("/adminlogout")
+	public String adminlogout(HttpServletRequest request, Model model) throws ServletException {
+		request.logout();
+		return "index";
 	}
 	
 }
