@@ -72,4 +72,9 @@ public class HomeController {
 		return "about";
 	}
 	
+	@RequestMapping("/adminlogin")
+	public String login(Model model) {
+		return "login";
+	}
+	
 }
