@@ -16,12 +16,10 @@
 	</head>
 	
     <body>
-        <div id="invalidlogin" th:if="${param.error}">
-            Invalid username and password.
+        
+        <div id="loginmessages">
         </div>
-        <div id="loggedout" th:if="${param.logout}">
-            You have been logged out.
-        </div>
+        
         <form th:action="@{/adminlogin}" method="post">
             <fieldset id="loginFieldset">
             	<legend>Login:</legend>
@@ -42,7 +40,13 @@
 	$('#username').puiinputtext();
 	$('#password').puiinputtext();
 	
-
+	$("#loginmessages").puigrowl();
+	
+	if("[[${param.error}]]" != "null") 
+		$("#loginmessages").puigrowl("show", [{ severity: "error", summary: "Login Error", detail: "Invalid username and password."}]);
+	
+	if([[${loggedout}]]) 
+		$("#loginmessages").puigrowl("show", [{ severity: "info", summary: "Logged out", detail: "You have been logged out."}]);
 	
 	/*]]>*/	
 	</script>	
