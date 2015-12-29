@@ -89,7 +89,7 @@ public class PageController {
 	@RequestMapping("/adminlogout")
 	public String adminlogout(HttpServletRequest request, Model model) throws ServletException {
 		request.logout();
-		return "index";
+		return "adminlogin";
 	}
 	
 }

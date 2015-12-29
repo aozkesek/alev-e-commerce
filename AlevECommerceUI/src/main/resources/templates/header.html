@@ -11,7 +11,7 @@
 				<li><a th:href="@{/trackorder}">Track Your Order</a></li>
 				<li><a th:href="@{/about}">About Us</a></li>
 				
-				<li><div th:text="${#authentication.name}"> aaa <a th:href="@{/adminlogout}" >Logout</a></div> </li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/adminlogout}" >Logout</a> </li>
 
 			</ul>
 
