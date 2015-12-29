@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class AlevECommerceUIConfig extends WebSecurityConfigurerAdapter {
 
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -24,15 +25,22 @@ public class AlevECommerceUIConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .and()
         .logout()
+        	.clearAuthentication(true)
+        	.invalidateHttpSession(true)
+        	.logoutUrl("/adminlogout")
             .permitAll();
 	}
 
 	@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
 		auth
 			.inMemoryAuthentication()
 				.withUser("admin").password("adminPwd").roles("ADMIN");
 		
+		
 	}
 	
+	
+
 }

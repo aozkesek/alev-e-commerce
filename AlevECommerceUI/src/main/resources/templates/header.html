@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
       
 	<body>
@@ -9,6 +10,8 @@
 				<li><a th:href="@{/home}">Home</a></li>
 				<li><a th:href="@{/trackorder}">Track Your Order</a></li>
 				<li><a th:href="@{/about}">About Us</a></li>
+				
+				<li><div th:text="${#authentication.name}"> aaa <a th:href="@{/adminlogout}" >Logout</a></div> </li>
 
 			</ul>
 
