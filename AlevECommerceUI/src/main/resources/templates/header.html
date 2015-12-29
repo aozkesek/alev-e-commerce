@@ -8,9 +8,13 @@
 			
 			<ul id="mainMenuBar">
 				<li><a th:href="@{/home}">Home</a></li>
+				<li>|</li>
 				<li><a th:href="@{/trackorder}">Track Your Order</a></li>
+				<li>|</li>
 				<li><a th:href="@{/about}">About Us</a></li>
-				
+				<li sec:authorize="hasRole('ROLE_ADMIN')">|</li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/administration}" >Administration</a> </li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')">|</li>
 				<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/adminlogout}" >Logout</a> </li>
 
 			</ul>

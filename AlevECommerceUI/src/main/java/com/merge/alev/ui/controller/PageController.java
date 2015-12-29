@@ -93,4 +93,9 @@ public class PageController {
 		return "adminlogin";
 	}
 	
+
+	@RequestMapping("/sessionexpired")
+	public String sessionexpired(Model model) throws ServletException {
+		return "sessionexpired";
+	}
 }

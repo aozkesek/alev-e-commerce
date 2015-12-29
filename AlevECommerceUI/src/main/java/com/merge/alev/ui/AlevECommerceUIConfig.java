@@ -26,9 +26,12 @@ public class AlevECommerceUIConfig extends WebSecurityConfigurerAdapter {
             .and()
         .logout()
         	.clearAuthentication(true)
-        	.invalidateHttpSession(true)
+        	.deleteCookies("JSESSIONID")
         	.logoutUrl("/adminlogout")
-            .permitAll();
+            .permitAll()
+            .and()
+        .sessionManagement()
+        	.invalidSessionUrl("/sessionexpired");
 	}
 
 	@Autowired
