@@ -1,88 +1,45 @@
 package com.merge.alev.ui.controller;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.merge.alev.ui.model.Category;
-import com.merge.alev.ui.model.Product;
-import com.merge.alev.ui.model.reponse.CategoryResponse;
-import com.merge.alev.ui.model.reponse.ProductResponse;
-import com.merge.alev.ui.service.CategoryService;
-import com.merge.alev.ui.service.ProductService;
+import com.merge.alev.ui.service.IPageService;
 
 @Controller
 public class PageController {
 
-	final String productsByCategory = "productsByCategory";
-	final String categories = "categories";
-	final String selectedCategory = "selectedCategory";
-	final String serviceBaseUrl = "serviceBaseUrl";
-	final String maxRowsPerPage = "maxRowsPerPage";
-
 	@Autowired
-	private ProductService productService; 
+	private IPageService homePageService;
 	@Autowired
-	private CategoryService categoryService;
-	
+	private IPageService categoryPageService;
 	
 	@RequestMapping({"/", "/home"})
 	public String index(Model model) {
-		Map<String, Object> modelMap = model.asMap();
-
-		if (!model.containsAttribute(serviceBaseUrl))
-			model.addAttribute(maxRowsPerPage, 10);
-			
-		if (!model.containsAttribute(serviceBaseUrl))
-			model.addAttribute(serviceBaseUrl, "http://localhost:8090");
-		
-		if (!model.containsAttribute(categories)) {
-			CategoryResponse catRes = categoryService.getCategories();
-			if (catRes.getResponseCode() != null && !catRes.getResponseCode().equals(-1)) {		
-				model.addAttribute(categories, catRes.getModel());
-				if (!catRes.getModel().isEmpty())
-					model.addAttribute(selectedCategory, catRes.getModel().get(0));
-			}
-		}
-			
-		if (model.containsAttribute(productsByCategory))
-			model.addAttribute(productsByCategory, new ArrayList<Product>());
-			
-		Category category = (Category) modelMap.get("selectedCategory");
-		
-//		ProductResponse prodRes = productService.getProductsByCategory(category, 0, 10);
-//		if (prodRes.getResponseCode() != null && !prodRes.getResponseCode().equals(-1)) 
-//			if (!prodRes.getModel().isEmpty()) 
-//				model.addAttribute("productsByCategory", prodRes.getModel());
-			
-		return "index";
+		return homePageService.process(null, model);
 	}
 
 	@RequestMapping("/trackorder")
-	public String order(Model model) {
+	public String order() {
 		return "order";
 	}
 	
 	@RequestMapping("/about")
-	public String about(Model model) {
+	public String about() {
 		return "about";
 	}
 	
 	@RequestMapping("/administration")
-	public String administration(Model model) {
+	public String administration() {
 		return "adminindex";
 	}
 	
 	@RequestMapping("/adminlogin")
-	public String adminlogin(Model model) {
+	public String adminlogin() {
 		return "adminlogin";
 	}
 	
@@ -93,9 +50,10 @@ public class PageController {
 		return "adminlogin";
 	}
 	
-
 	@RequestMapping("/sessionexpired")
-	public String sessionexpired(Model model) throws ServletException {
+	public String sessionexpired() throws ServletException {
 		return "sessionexpired";
 	}
+	
+	
 }

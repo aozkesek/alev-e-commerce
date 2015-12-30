@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Alev E-Commerce</title>
+
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+			
+	</head>
+	
+	<body>
+	
+		<div id="products" >
+		
+			<div id="categoryList">
+			
+			</div>
+			
+			<script th:inline="javascript">
+			/*<![CDATA[*/
+		
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			$(document).ajaxSend(function(e, xhr, options) {
+		   	xhr.setRequestHeader(header, token);
+		   });
+			
+			$.ajax({
+				type: "GET"
+				, url: "/category/list"
+				, contentType: "application/json"
+				, success: function(response) {
+					var categories = [];
+					if (response.responseCode == 0) 
+						if (response.model != null) {
+							response.model.forEach(function(item, index) {
+								categories.unshift({label: item.categoryName, value: item.id});
+							});
+							$("#categoryList").puidropdown({
+								data: categories
+								, filter: true
+							});
+						}
+							
+				}	
+			});
+			
+			
+			
+			/*]]>*/	
+			</script>
+			
+		</div>
+	
+	</body>
+		
+</html>
