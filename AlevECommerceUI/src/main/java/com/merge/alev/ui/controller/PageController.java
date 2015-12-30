@@ -15,8 +15,6 @@ public class PageController {
 
 	@Autowired
 	private IPageService homePageService;
-	@Autowired
-	private IPageService categoryPageService;
 	
 	@RequestMapping({"/", "/home"})
 	public String index(Model model) {
