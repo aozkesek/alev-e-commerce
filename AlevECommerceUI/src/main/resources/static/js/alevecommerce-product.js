@@ -2,6 +2,7 @@
  * 
  */
 var productDialog = $("#productDialog");
+var productList = $("#productList");
 
 function productDialog_Save() {
 	productDialog.puidialog("hide");
@@ -13,70 +14,37 @@ function productDialog_Delete() {
 	
 }
 
-function productListInit() {
-	$.ajax({
-		type: "POST"
-		, url: "/product/listTotalRecord"
-		, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":0}'
-		, dataType: "json"
-		, contentType: "application/json"
-		, success: function(response) {
-			if (response.responseCode == 0 && response.totalRecordNumber > 0)
-				productList(response.totalRecordNumber);
-		}	
-	});
-}
+productListInit(function(m){
 
-function productList(listTotalRecord) {
-
-	$("#productList").puidatatable({
+	productList.puidatatable({
 		lazy: true
 		, caption: "Product List"
 		, selectionMode: "single"
-		, paginator: { rows: 5, totalRecords: listTotalRecord }
+		, paginator: { rows: 5, totalRecords: m }
 		, rowSelect: function(event, data) {
 			
-			$("#name").attr("value", data.name);
-			$("#title").attr("value", data.title);
-			$("#description").attr("value", data.description);
-			$("#price").attr("value", data.price);
-			$("#actualPrice").attr("value", data.actualPrice);
+			$("#name").val(data.name);
+			$("#title").val(data.title);
+			$("#description").val(data.description);
+			$("#price").val(data.price);
+			$("#actualPrice").val(data.actualPrice);
 			
 			$("#productDialog").puidialog("show");
 		}
-		, columns: [ 
-		   {
-			   field: "categoryName"
-			   , headerText: "Category"
-			   , content: function(model) {
-					return model.category.categoryName;
-				}
-		   }
-			,{field: "name", headerText: "Name" }
-			,{field: "title", headerText: "Title" }
-			
+		, columns: [
+		   {field: "categoryName", headerText: "Category", content: function(p) { return p.category.categoryName; }}
+		   ,{field: "name", headerText: "Name" }
+		   ,{field: "title", headerText: "Title" }
+		   ,{field: "rowupdate", headerText: "Update", content: function(p) { return '<a href="#'+p.id+'">'+p.name+'</a>'; } }
+		   ,{field: "rowdelete", headerText: "Delete", content: function(p) { return '<a href="#'+p.id+'">'+p.name+'</a>'; } }
 		]
 		, datasource: function(callback, ui) {
-			
-			$.ajax({
-				type: "POST"
-				, url: "/product/list"
-				, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + ui.first + ',"maxRecordNumber":15}'
-				, dataType: "json"
-				, contentType: "application/json"
-				, context: this
-				, success: function(response) {
-					if (response.responseCode > -1)
-						if (response.model != null && response.model.length > 0) {
-							callback.call(this, response.model);
-						}
-				}
-			});
-			
+			productListPage(this, ui.first, 5, callback);
 		}
 	});
 	
-}
+});
+
 
 $("#name, #title, #price, #actualPrice").puiinputtext();
 $("#sizes, #colors").puilistbox({scrollHeight: 100});
@@ -93,7 +61,6 @@ $("#productDialog").puidialog({
 	  ]
 });
 
-productListInit();
 
 
 
