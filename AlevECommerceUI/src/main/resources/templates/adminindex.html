@@ -58,37 +58,16 @@
 			</div>
 		</div>
 		
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			$("#adminTaskTab").puitabview();
+		
+		/*]]>*/	
+		</script>
+	
 		<div th:include="footer :: footer"></div>
 	
 	</body>
-	
-
-	<script th:inline="javascript">
-	/*<![CDATA[*/
-
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	
-	$(document).ajaxSend(function(e, xhr, options) {
-   	xhr.setRequestHeader(header, token);
-   });
-	
-	var mainMenuBar = $('#mainMenuBar').puimenubar();
-	
-	var adminTaskTab = $('#adminTaskTab').puitabview({
-		change: function(event, ui) {
-			var target = $("#adminTaskTabsParent").children()[ui.index];
-			var targetId = $(target).attr("id");
-			var categoryId = targetId.replace("adminTask_", "");
-			var totalRecords = 0;
-		}
-	});
-			
-			
-	
-	
-	/*]]>*/	
-	</script>	
 			
 	
 </html>

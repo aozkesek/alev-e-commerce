@@ -24,10 +24,6 @@
 						<td><input id="title" type="text"/></td>
 					</tr>
 					<tr>
-						<td>Description</td>
-						<td colspan="3"><textarea id="description" ></textarea></td>
-					</tr>
-					<tr>
 						<td>Price</td>
 						<td><input id="price" type="number"/></td>
 						<td>Actual Price</td>
@@ -36,19 +32,19 @@
 					<tr>
 						<td>Sizes</td>
 						<td>
-							<select id="sizes" >
-								<option value="XS">XS - X-Small</option>
-								<option value="S">S - Small</option>
-								<option value="M">M - Medium</option>
-								<option value="L">L - Large</option>
-								<option value="XL">XL - X-Large</option>
-								<option value="XXL">XXL - XX-Large</option>
+							<select id="sizes" multiple="multiple">
+								<option value="XS">XS</option>
+								<option value="S">S</option>
+								<option value="M">M</option>
+								<option value="L">L</option>
+								<option value="XL">XL</option>
+								<option value="XXL">XXL</option>
 								
 							</select>
 						</td>
 						<td>Colors</td>
 						<td>
-							<select id="colors" >
+							<select id="colors" multiple="multiple">
 								<option value="Red">Red</option>
 								<option value="Green">Green</option>
 								<option value="Yellow">Yellow</option>
@@ -58,117 +54,22 @@
 								<option value="Orange">Orange</option>
 								<option value="Purple">Purple</option>
 								<option value="Brown">Brown</option>
+								<option value="Pink">Pink</option>
+								<option value="Grey">Grey</option>
 								
 							</select>
 						</td>
 					</tr>
-					
+					<tr>
+						<td>Description</td>
+						<td colspan="3"><textarea id="description" ></textarea></td>
+					</tr>
 				</table>
 				
 				
 			</div>
 			
-			<script th:inline="javascript">
-			/*<![CDATA[*/
-			function productDialog_Save() {
-				$("#productDialog").puidialog("hide");
-				
-			}
-			
-			function productDialog_Delete() {
-				$("#productDialog").puidialog("hide");
-				
-			}
-			
-			$("#name").puiinputtext();
-			$("#title").puiinputtext();
-			$("#sizes").puidropdown();
-			$("#colors").puidropdown();
-			$("#description").puiinputtextarea();
-			
-			
-			$("#productDialog").puidialog({
-				modal: true
-				, responsive: true
-				, width: 600
-				, buttons: [
-				  { text: "Save", click: function() { productDialog_Save(); }}
-				  , { text: "Delete", click: function() { productDialog_Delete(); }}
-				  , { text: "Cancel", click: function() { $("#productDialog").puidialog("hide"); }}
-				  ]
-			});
-			
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-			
-			$(document).ajaxSend(function(e, xhr, options) {
-		   	xhr.setRequestHeader(header, token);
-		   });
-			
-			$.ajax({
-				type: "POST"
-				, url: "/product/listTotalRecord"
-				, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":0}'
-				, dataType: "json"
-				, contentType: "application/json"
-				, success: function(response) {
-					if (response.responseCode == 0) {
-						
-						$("#productList").puidatatable({
-							lazy: true
-							, caption: "Product List"
-							, selectionMode: "single"
-							, paginator: { rows: 5, totalRecords: response.totalRecordNumber }
-							, rowSelect: function(event, data) {
-								
-								$("#name").attr("value", data.name);
-								$("#title").attr("value", data.title);
-								$("#description").attr("value", data.description);
-								
-								
-								$("#productDialog").puidialog("show");
-							}
-							, columns: [ 
-							   {
-								   field: "categoryName"
-								   , headerText: "Category"
-								   , content: function(model) {
-										return model.category.categoryName;
-									}
-							   }
-								,{field: "name", headerText: "Name" }
-								,{field: "title", headerText: "Title" }
-								
-							]
-							, datasource: function(callback, ui) {
-								
-								$.ajax({
-									type: "POST"
-   				   			, url: "/product/list"
-   				   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + ui.first + ',"maxRecordNumber":15}'
-   				   			, dataType: "json"
-   				   			, contentType: "application/json"
-   				   			, context: this
-   				   			, success: function(response) {
-   				   				if (response.responseCode > -1)
-   				   					if (response.model != null && response.model.length > 0) {
-   				   						callback.call(this, response.model);
-   				   					}
-   				   			}
-   				   		});
-								
-							}
-						});
-					
-					}
-							
-				}	
-			});
-			
-			
-			
-			/*]]>*/	
-			</script>
+			<script type="text/javascript" th:attr="src=@{/js/alevecommerce-product.js}"></script>
 			
 		</div>
 	
