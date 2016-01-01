@@ -1,4 +1,6 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 	<head>
 		<title>Alev E-Commerce</title>
 		
@@ -21,8 +23,15 @@
 	
 	<body>
 	
-		<div th:include="header :: header"></div>
-
+		<header>
+			<div th:include="header :: header"></div>
+		</header>
+		
+		<section layout:fragment="content">
+		
+		</section>
+		
+		
 		<div id="categoryTab" >
 			<ul>
 				
