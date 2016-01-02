@@ -16,6 +16,11 @@ public class PageController {
 	@Autowired
 	private IPageService homePageService;
 	
+	@RequestMapping({"/layout", "/layout.html"})
+	public String layout() {
+		return "layout";
+	}
+	
 	@RequestMapping({"/", "/home"})
 	public String index(Model model) {
 		return homePageService.process(null, model);

@@ -9,8 +9,6 @@
 		xhr.setRequestHeader(header, token);
 	});
 	
-	var mainMenuBar = $('#mainMenuBar').puimenubar();
-	
 	function categoryListInit(f) {
 		$.ajax({
 			type: "GET"

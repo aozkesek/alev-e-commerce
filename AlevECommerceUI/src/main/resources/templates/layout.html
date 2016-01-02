@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	<head>
@@ -18,6 +19,8 @@
    	<script type="text/javascript" th:attr="src=@{/js/jquery-ui.js}"></script>
    	<script type="text/javascript" th:attr="src=@{/js/primeui-2.2.js}"></script>
 
+		<script type="text/javascript" th:attr="src=@{/js/alevecommerce-common.js}"></script>
+
 			
 	</head>
 	
@@ -31,110 +34,10 @@
 		
 		</section>
 		
+		<footer>
+			<div th:include="footer :: footer"></div>
+		</footer>
 		
-		<div id="categoryTab" >
-			<ul>
-				
-				<li><a href="#categoryTab_highlights">Highlights</a></li>
-				
-				<li th:each="category : ${categories}">
-					<a 
-						th:href="'#categoryTab_' + ${category.id}" 
-						th:text="${category.categoryName}"
-					></a>
-				</li>
-			
-			</ul>	
-			
-			<div id="categoryTabsParent">				
-				
-				<div id="categoryTab_highlights" >
-				
-				</div>
-				
-				<div 
-					th:each="category : ${categories}"
-					th:attr="id='categoryTab_' + ${category.id}"	
-				>
-					
-				</div>
-			</div>
-		</div>
-		
-		<div th:include="footer :: footer"></div>
-	
 	</body>
-	
-
-	<script th:inline="javascript">
-	/*<![CDATA[*/
-
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	
-	$(document).ajaxSend(function(e, xhr, options) {
-   	xhr.setRequestHeader(header, token);
-   });
-	
-	var mainMenuBar = $('#mainMenuBar').puimenubar();
-	
-	var categoryTab = $('#categoryTab').puitabview({
-		change: function(event, ui) {
-			var target = $("#categoryTabsParent").children()[ui.index];
-			var targetId = $(target).attr("id");
-			var categoryId = targetId.replace("categoryTab_", "");
-			var totalRecords = 0;
-			
-			if (categoryId == "highlights")
-				return;
-			
-			$.ajax({
-	   			type: "POST"
-	   			, url: "/product/listTotalRecord"
-	   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":10,"model":[{"category":{"id":' + categoryId + '}}]}'
-	   			, dataType: "json"
-	   			, contentType: "application/json"
-	   			, success: function(response) {
-	   				if (response.responseCode == 0) {
-	   					totalRecords = response.totalRecordNumber;
-
-	   					$(target).puidatagrid({
-	   						lazy: true
-	   						, paginator: { rows: 2, totalRecords: totalRecords }
-	   				   	, datasource: function(callback, ui){
-	   				   		$.ajax({
-	   				   			type: "POST"
-	   				   			, url: "/product/list"
-	   				   			, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + ui.first + ',"maxRecordNumber":2,"model":[{"category":{"id":' + categoryId + '}}]}'
-	   				   			, dataType: "json"
-	   				   			, contentType: "application/json"
-	   				   			, context: this
-	   				   			, success: function(response) {
-	   				   				if (response.responseCode > -1)
-	   				   					if (response.model != null && response.model.length > 0) {
-	   				   						callback.call(this, response.model);
-	   				   					}
-	   				   			}
-	   				   		});
-	   				   	}
-	   				   	, content: function(product) {
-	   				   		return $('<div>'
-	   				   			+ '<p>' + product.name + '</p>'
-	   				   			+ '</div>'
-	   				   			).puipanel();
-	   				   	}
-	   					});
-	   					
-	   				}
-	   			}
-	   		});
-			
-		}
-	});
-	
-	
-	/*]]>*/	
-	</script>	
-			
 	
 </html>
