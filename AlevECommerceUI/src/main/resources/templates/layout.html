@@ -3,7 +3,7 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	<head>
-		<title>Alev E-Commerce</title>
+		<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Alev E-Commerce</title>
 		
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 		<meta name="_csrf" th:content="${_csrf.token}"/>

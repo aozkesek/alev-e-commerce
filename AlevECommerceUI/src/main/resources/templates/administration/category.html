@@ -1,20 +1,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<title>Alev E-Commerce</title>
-
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-
-			
-	</head>
 	
 	<body>
 	
 		<div id="categories" >
-		
-			<select id="categoryList">
+			<fieldset id="categoryFieldset">
 			
-			</select>
+				<select id="categoryList">
+				
+				</select>
+				
+				<button id="categoryUpdate">Update</button>
+				<button id="categoryAdd">Add</button>
 			
+			</fieldset>
+				
 			<script type="text/javascript" th:attr="src=@{/js/alevecommerce-category.js}"></script>
 			
 		</div>
