@@ -23,4 +23,10 @@ public class CategoryDAO extends AbstractDAO<Category> {
 				.add(Restrictions.like("categoryName", model.getCategoryName().concat("%")));
 	}
 	
+	@Override
+	public Category beforeUpdate(Category model) throws Exception {
+		Category oldModel = read(model);
+		oldModel.setCategoryName(model.getCategoryName());
+		return oldModel;
+	}
 }

@@ -45,17 +45,17 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			
 			switch(operation) {
 			case C:
-				beforeCreate(model);
+				model = beforeCreate(model);
 				session.save(model);
-				afterCreate(model);
+				model = afterCreate(model);
 				if (!model.isValid())
 					throw new Exception(AbstractModel.INVALID);
 				break;
 				
 			case R:
-				beforeRead(model);
+				model = beforeRead(model);
 				model = (T) session.load(model.getClass(), model.getId());
-				afterRead(model);
+				model = afterRead(model);
 				if (!model.isValid())
 					throw new Exception(AbstractModel.INVALID);
 				break;
@@ -63,15 +63,15 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 			case U:
 				if (!model.isValid())
 					throw new Exception(AbstractModel.INVALID);
-				beforeUpdate(model);
+				model = beforeUpdate(model);
 				session.update(model);
-				afterUpdate(model);
+				model = afterUpdate(model);
 				break;
 				
 			case D:
-				beforeDelete(model);
+				model = beforeDelete(model);
 				session.delete(model);
-				afterDelete(model);
+				model = afterDelete(model);
 				break;
 			
 			case Q:
