@@ -1,7 +1,9 @@
 package com.merge.alev.ui.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -44,6 +46,15 @@ public class RestProxy {
 		request.setFirstRecordNumber(0);
 		request.setMaxRecordNumber(100);
 		response = restTemp.postForObject(Endpoint + "/category/list", request, CategoryResponse.class);
+		return response;
+	}
+	
+	@RequestMapping("/administration/category/{addUpdate}")
+	@ResponseBody
+	public CategoryResponse proxiedCategoryAddUpdate(@PathVariable String addUpdate, @RequestBody CategoryRequest request) {
+		RestTemplate restTemp = new RestTemplate();
+		CategoryResponse response = null;
+		response = restTemp.postForObject(Endpoint + "/category/" + addUpdate, request, CategoryResponse.class);
 		return response;
 	}
 	

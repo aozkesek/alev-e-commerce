@@ -3,16 +3,23 @@
 	<body>
 	
 		<div id="categories" >
-			<fieldset id="categoryFieldset">
-			
-				<select id="categoryList">
+			<div class="pui-grid pui-grid-responsive">
+				<div class="pui-grid-row">
+					<div class="pui-grid-col-2">
+						<select id="categoryList"></select>
+					</div>
+					<div class="pui-grid-col-1">
+					</div>
+					<div class="pui-grid-col-1">
+						<button id="categoryUpdate">Update</button>
+					</div>
+					<div class="pui-grid-col-1">
+						<button id="categoryAdd">Add</button>
+					</div>
+					
+				</div>
 				
-				</select>
-				
-				<button id="categoryUpdate">Update</button>
-				<button id="categoryAdd">Add</button>
-			
-			</fieldset>
+			</div>
 				
 			<script type="text/javascript" th:attr="src=@{/js/alevecommerce-category.js}"></script>
 			
