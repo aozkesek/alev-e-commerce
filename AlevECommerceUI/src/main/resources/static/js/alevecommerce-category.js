@@ -9,11 +9,14 @@ function categoryContent(category) {
 	categoryList.puidropdown("addOption", {value: ""+category.id, label: category.categoryName}); 
 }
 
-function categoryAddUpdate(isUpdate, id, name) {
+function categoryCrud(oper, id, name) {
+	var isUpdate = oper === "Upd";
+	var isDelete = oper === "Del";
+	
 	$.ajax({
 		type: "POST"
-		, url: "/administration/category/" + (isUpdate ? "update" : "create")
-		, data: '{"versionNumber": "1.0.0", "model": [{"categoryName": "' + name + (isUpdate ? ('", "id": ' + id) : '"') + '}]}'
+		, url: "/administration/category/" + (isUpdate ? "update" : isDelete ? "delete" : "create")
+		, data: '{"versionNumber": "1.0.0", "model": [{"categoryName": "' + name + (isUpdate || isDelete ? ('", "id": ' + id) : '"') + '}]}'
 		, dataType: "json"
 		, contentType: "application/json"
 		, success: function(response) {
@@ -26,21 +29,24 @@ function categoryAddUpdate(isUpdate, id, name) {
 	});
 } 
 
-$("#categoryUpdate, #categoryAdd").puibutton({
+$("#categoryUpdate, #categoryAdd, #categoryDelete").puibutton({
 	click: function(event) {
 		console.log(categoryList);
 		var newLabel = $(categoryList[0].parentElement.parentElement).children("input").val();
 		var selLabel = $(categoryList).puidropdown("getSelectedLabel");
+		var buttonId = event.target.id;
 		
-		if (newLabel === selLabel)
+		if ((buttonId != "categoryDelete") && (newLabel === selLabel))
 			return;
 			
 		var selValue = $(categoryList).puidropdown("getSelectedValue");
 		
-		if (event.target.id == "categoryAdd") {
-			categoryAddUpdate(false, null, newLabel);
-		} else {
-			categoryAddUpdate(true, selValue, newLabel);
+		if (buttonId == "categoryAdd") {
+			categoryCrud('Add', null, newLabel);
+		} else if (buttonId == "categoryUpdate") {
+			categoryCrud('Upd', selValue, newLabel);
+		} else if (buttonId == "categoryDelete") {
+			categoryCrud('Del', selValue, null);
 		}
 		
 	}

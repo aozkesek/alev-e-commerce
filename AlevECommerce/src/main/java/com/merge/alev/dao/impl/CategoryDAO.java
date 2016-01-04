@@ -29,4 +29,9 @@ public class CategoryDAO extends AbstractDAO<Category> {
 		oldModel.setCategoryName(model.getCategoryName());
 		return oldModel;
 	}
+	
+	@Override
+	public Category beforeDelete(Category model) throws Exception {
+		return read(model);
+	}
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.LoggerFactory;
@@ -51,27 +50,27 @@ public abstract class AbstractCommandDAO<T extends AbstractModel> implements IGe
 			
 			switch(operation) {
 			case C:
-				beforeCreate(model);
-				createCommand(model);
-				afterCreate(model);
+				model = beforeCreate(model);
+				model = createCommand(model);
+				model = afterCreate(model);
 				break;
 				
 			case R:
-				beforeRead(model);
-				readCommand(model);
-				afterRead(model);
+				model = beforeRead(model);
+				model = readCommand(model);
+				model = afterRead(model);
 				break;
 				
 			case U:
-				beforeUpdate(model);
-				updateCommand(model);
-				afterUpdate(model);
+				model = beforeUpdate(model);
+				model = updateCommand(model);
+				model = afterUpdate(model);
 				break;
 				
 			case D:
-				beforeDelete(model);
-				deleteCommand(model);
-				afterDelete(model);
+				model = beforeDelete(model);
+				model = deleteCommand(model);
+				model = afterDelete(model);
 				break;
 				
 			case Q:

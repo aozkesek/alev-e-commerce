@@ -215,6 +215,8 @@ public abstract class AbstractDAO<T extends AbstractModel> implements IGenericDA
 		return operateList(model, firstResult, maxResult);
 	}
 	
+	
+	//these are the default behavior, you must override these on your DAO implementation  
 	public T beforeCreate(T model) throws Exception {
 		return model;
 	};
