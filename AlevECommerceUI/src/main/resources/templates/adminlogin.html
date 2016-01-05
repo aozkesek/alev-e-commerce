@@ -11,10 +11,10 @@
     <body>
     
     <section layout:fragment="content">
-        
-		<div id="loginmessages">
-		</div>
-        
+      
+      <div id="growlmessages"></div>
+		<script th:inline="javascript">/*<![CDATA[*/$("#growlmessages").puigrowl();/*]]>*/</script>
+		  
 		<form th:action="@{/adminlogin}" method="post">
 		<fieldset id="loginFieldset">
 			
@@ -32,13 +32,11 @@
 		$('#loginFieldset').puifieldset();
 		$('#username, #password').puiinputtext();
 		
-		$("#loginmessages").puigrowl();
-		
 		if("[[${param.error}]]" != "null") 
-			$("#loginmessages").puigrowl("show", [{ severity: "error", summary: "Login Error", detail: "Invalid username and password."}]);
+			$("#growlmessages").puigrowl("show", [{ severity: "error", summary: "Login Error", detail: "Invalid username and password."}]);
 		
 		if([[${loggedout}]]) 
-			$("#loginmessages").puigrowl("show", [{ severity: "info", summary: "Logged out", detail: "You have been logged out."}]);
+			$("#growlmessages").puigrowl("show", [{ severity: "info", summary: "Logged out", detail: "You have been logged out."}]);
 	
 		/*]]>*/	
 		</script>	

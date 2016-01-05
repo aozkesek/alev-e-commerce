@@ -10,6 +10,9 @@
 	
 	<section layout:fragment="content">
 	
+		<div id="growlmessages"></div>
+		<script th:inline="javascript">/*<![CDATA[*/$("#growlmessages").puigrowl();/*]]>*/</script>
+		
 		<div id="adminTaskTab" sec:authorize="hasRole('ROLE_ADMIN')">
 			<ul>
 				
