@@ -4246,6 +4246,10 @@ PUI.resolveUserAgent();/**
             return null;
         },
 
+        getEditableValue: function() {
+            return this.label.val();
+        },
+
         getSelectedValue: function() {
             return this.element.val();
         },
@@ -4261,8 +4265,8 @@ PUI.resolveUserAgent();/**
         },
 
         addOption: function(option) {
-            var value = option.value ? option.value : option,
-            label = option.label ? option.label : option,
+            var value = option.value != undefined && option.value != null ? option.value : option,
+            label = option.label != undefined && option.label != null ? option.label : option,
             content = this.options.content ? this.options.content.call(this, option) : label,
             item = $('<li data-label="' + label + '" class="pui-dropdown-item pui-dropdown-list-item ui-corner-all">' + content + '</li>'),
             optionElement = $('<option value="' + value + '">' + label + '</option>');
