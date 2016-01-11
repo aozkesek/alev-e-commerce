@@ -11,55 +11,96 @@
 			<div id="productDialog" title="Product">
 				<table>
 					<tr>
-						<td>Name</td>
-						<td><input id="name" type="text"/></td>
-						<td>Title</td>
-						<td><input id="title" type="text"/></td>
+						<td>
+							<label for="name">Name</label>
+						</td>
+						<td>
+							<input id="name" type="text"/>
+						</td>
+						<td>
+							<label>Title</label>
+						</td>
+						<td>
+							<input id="title" type="text"/>
+						</td>
 					</tr>
+
 					<tr>
-						<td>Price</td>
-						<td><input id="price" type="number"/></td>
-						<td>Actual Price</td>
-						<td><input id="actualPrice" type="number"/></td>
+						<td>
+							<label>Price</label>
+						</td>
+						<td>
+							<input id="price" type="number"/>
+						</td>
+						<td>
+							<label>Actual Price</label>
+						</td>
+						<td>
+							<input id="actualPrice" type="number"/>
+						</td>
 					</tr>
+
+
 					<tr>
-						<td>Sizes</td>
+						<td>
+							<label for="sizes">Sizes</label>
+						</td>
 						<td>
 							<select id="sizes" multiple="multiple">
-							<!-- right way to fill this listbox is items should come from an backend service -->
-								<option value="XS">XS</option>
-								<option value="S">S</option>
-								<option value="M">M</option>
-								<option value="L">L</option>
-								<option value="XL">XL</option>
-								<option value="XXL">XXL</option>
-								
-							</select>
+						<!-- right way to fill this listbox is items should come from an backend service -->
+							<option value="XS">XS</option>
+							<option value="S">S</option>
+							<option value="M">M</option>
+							<option value="L">L</option>
+							<option value="XL">XL</option>
+							<option value="XXL">XXL</option>
+
+						</select>
+
 						</td>
-						<td>Colors</td>
+						<td>
+							<label for="colors">Colors</label>
+						</td>
 						<td>
 							<select id="colors" multiple="multiple">
-								<option value="Red">Red</option>
-								<option value="Green">Green</option>
-								<option value="Yellow">Yellow</option>
-								<option value="Black">Black</option>
-								<option value="White">White</option>
-								<option value="Blue">Blue</option>
-								<option value="Orange">Orange</option>
-								<option value="Purple">Purple</option>
-								<option value="Brown">Brown</option>
-								<option value="Pink">Pink</option>
-								<option value="Grey">Grey</option>
-								
-							</select>
+							<option value="Red">Red</option>
+							<option value="Green">Green</option>
+							<option value="Yellow">Yellow</option>
+							<option value="Black">Black</option>
+							<option value="White">White</option>
+							<option value="Blue">Blue</option>
+							<option value="Orange">Orange</option>
+							<option value="Purple">Purple</option>
+							<option value="Brown">Brown</option>
+							<option value="Pink">Pink</option>
+							<option value="Grey">Grey</option>
+
+						</select>
 						</td>
 					</tr>
+
 					<tr>
-						<td>Description</td>
-						<td colspan="3"><textarea id="description" ></textarea></td>
+						<td>
+							<legend>Description</legend>
+						</td>
+						<td>
+							<textarea id="description" ></textarea>
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<label>Pictures</label>
+						</td>
+						<td>
+							<input id="" type="file" />
+						</td>
+						<td colspan="2">
+
+						</td>
+
 					</tr>
 				</table>
-				
 				
 			</div>
 			

@@ -63,7 +63,6 @@ confirmDialogHandle.puidialog({
 
 $("#categoryUpdate, #categoryAdd, #categoryDelete").puibutton({
 	click: function(event) {
-		console.log(categoryList);
 		var newLabel = $(categoryList[0].parentElement.parentElement).children("input").val();
 		var selLabel = $(categoryList).puidropdown("getSelectedLabel");
 		var buttonId = event.target.id;
@@ -98,7 +97,7 @@ categoryList.puidropdown({
 	, filter: true
 	, editable: true
 	, change: function(event) {
-		
+		console.log($this.items);
 	}
 });
 
