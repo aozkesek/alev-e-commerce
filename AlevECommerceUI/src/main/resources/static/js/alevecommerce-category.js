@@ -97,7 +97,6 @@ categoryList.puidropdown({
 	, filter: true
 	, editable: true
 	, change: function(event) {
-		console.log($this.items);
 	}
 });
 
