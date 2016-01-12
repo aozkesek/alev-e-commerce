@@ -7,26 +7,18 @@
 		
 		<div th:fragment="header">
 			
-			<ul id="mainMenuBar">
-				<li><a th:href="@{/home}">Home</a></li>
-				<li>|</li>
-				<li><a th:href="@{/trackorder}">Track Your Order</a></li>
-				<li>|</li>
-				<li><a th:href="@{/about}">About Us</a></li>
-				<li sec:authorize="hasRole('ROLE_ADMIN')">|</li>
-				<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/administration}" >Administration</a> </li>
-				<li sec:authorize="hasRole('ROLE_ADMIN')">|</li>
-				<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/adminlogout}" >Logout</a> </li>
+			<p-menubar id="mainMenuBar">
+				<p-menuitem value="Home" icon="fa-home" href="/home"></p-menuitem>
+				<p-menuitem value="|"></p-menuitem>
+				<p-menuitem value="Track Yout Order" href="/trackorder"></p-menuitem>
+				<p-menuitem value="|"></p-menuitem>
+				<p-menuitem value="About Us" href="/about"></p-menuitem>
+				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="|"></p-menuitem>
+				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="Administration" href="/administration"></p-menuitem>
+				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="|"></p-menuitem>
+				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="Logout" href="/adminlogout"></p-menuitem>
+			</p-menubar>
 
-			</ul>
-
-		<script th:inline="javascript"> 
-		/*<![CDATA[*/
-		
-			var mainMenuBar = $('#mainMenuBar').puimenubar();
-		
-		/*]]>*/	
-		</script>	
 		</div>
 	
 	</body>            

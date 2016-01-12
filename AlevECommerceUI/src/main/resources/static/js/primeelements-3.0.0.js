@@ -1270,14 +1270,20 @@ if(!xtag.tags['p-datagrid']) {
         else if(childTagname === 'p-menuitem') {
             var menuitemDom = $('<a></a>'),
             icon = childTag.attr('icon'),
-            value = childTag.attr('value');
+            value = childTag.attr('value'),
+            //fix: 
+            href = childTag.attr('href');
 
             if(icon) 
                 menuitemDom.data('icon', icon);
 
             if(value) 
                 menuitemDom.text(value);
-
+            
+            //fix:
+            if(href) 
+                menuitemDom.attr("href", href);
+            
             element.append($('<li></li').append(menuitemDom));
         }
     }

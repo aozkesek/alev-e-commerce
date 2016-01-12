@@ -4566,8 +4566,9 @@ PUI.resolveUserAgent();/**
         },
 
         addOption: function(option) {
-            var value = (option.value !== undefined || option.value !== null) ? option.value : option,
-            label = (option.label !== undefined || option.label !== null) ? option.label : option,
+            var isOptionObject = typeof option == "object",
+            value = isOptionObject ? ((option.value !== undefined || option.value !== null) ? option.value : option) : arguments[1],
+            label = isOptionObject ? ((option.label !== undefined || option.label !== null) ? option.label : option) : option,
             content = this.options.content ? this.options.content.call(this, option) : label,
             item = $('<li data-label="' + label + '" class="pui-dropdown-item pui-dropdown-list-item ui-corner-all">' + content + '</li>'),
             optionElement = $('<option value="' + value + '">' + label + '</option>');
