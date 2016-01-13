@@ -70,7 +70,8 @@ if(!xtag.tags['p-accordion']) {
 
     });
     
-}if(!xtag.tags['p-autocomplete']) {
+}
+if(!xtag.tags['p-autocomplete']) {
 
     xtag.register('p-autocomplete', {
 
@@ -149,7 +150,8 @@ if(!xtag.tags['p-accordion']) {
         
     });
     
-}if(!xtag.tags['p-button']) {
+}
+if(!xtag.tags['p-button']) {
 
     xtag.register('p-button', {
 
@@ -184,7 +186,8 @@ if(!xtag.tags['p-accordion']) {
 
     });
 
-}if(!xtag.tags['p-carousel']) {
+}
+if(!xtag.tags['p-carousel']) {
 
     xtag.register('p-carousel', {
 
@@ -268,7 +271,8 @@ if(!xtag.tags['p-accordion']) {
         }
     });
     
-}if(!xtag.tags['p-checkbox']) {
+}
+if(!xtag.tags['p-checkbox']) {
  
     xtag.register('p-checkbox', {
     
@@ -282,7 +286,8 @@ if(!xtag.tags['p-accordion']) {
         
     });
     
-}if(!xtag.tags['p-column']) {
+}
+if(!xtag.tags['p-column']) {
 
     xtag.register('p-column', {
 
@@ -344,7 +349,8 @@ if(!xtag.tags['p-accordion']) {
         
     });
 
-}if(!xtag.tags['p-datatable']) {
+}
+if(!xtag.tags['p-datatable']) {
 
     xtag.register('p-datatable', {
 
@@ -600,7 +606,8 @@ if(!xtag.tags['p-datagrid']) {
         }
     });
     
-}if(!xtag.tags['p-datascroller']) {
+}
+if(!xtag.tags['p-datascroller']) {
 
     xtag.register('p-datascroller', {
 
@@ -652,7 +659,8 @@ if(!xtag.tags['p-datagrid']) {
         }
     });
     
-}if(!xtag.tags['p-dialog']) {
+}
+if(!xtag.tags['p-dialog']) {
  
     xtag.register('p-dialog', {
 
@@ -804,7 +812,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
     
-}if(!xtag.tags['p-dropdown']) {
+}
+if(!xtag.tags['p-dropdown']) {
 
     xtag.register('p-dropdown', {
 
@@ -882,7 +891,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
     
-}if(!xtag.tags['p-fieldset']) {
+}
+if(!xtag.tags['p-fieldset']) {
 
     xtag.register('p-fieldset', {
 
@@ -933,7 +943,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
     
-}if(!xtag.tags['p-galleria']) {
+}
+if(!xtag.tags['p-galleria']) {
 
     xtag.register('p-galleria', {
 
@@ -1003,7 +1014,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
 
-}if(!xtag.tags['p-growl']) {
+}
+if(!xtag.tags['p-growl']) {
  
     xtag.register('p-growl', {
     
@@ -1039,7 +1051,8 @@ if(!xtag.tags['p-datagrid']) {
         }    
     });
     
-}if(!xtag.tags['p-inputtext']) {
+}
+if(!xtag.tags['p-inputtext']) {
  
     xtag.register('p-inputtext', {
     
@@ -1065,7 +1078,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
     
-}if(!xtag.tags['p-textarea']) {
+}
+if(!xtag.tags['p-textarea']) {
 
     xtag.register('p-textarea', {
 
@@ -1131,7 +1145,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
 
-}if(!xtag.tags['p-lightbox']) {
+}
+if(!xtag.tags['p-lightbox']) {
  
     xtag.register('p-lightbox', {
     
@@ -1190,7 +1205,8 @@ if(!xtag.tags['p-datagrid']) {
         
     });
     
-}if(!xtag.tags['p-listbox']) {
+}
+if(!xtag.tags['p-listbox']) {
  
     xtag.register('p-listbox', {
     
@@ -1252,7 +1268,9 @@ if(!xtag.tags['p-datagrid']) {
         
     });
     
-}PUI.createNestedMenuDom = function(tag, element) {
+}
+
+PUI.createNestedMenuDom = function(tag, element) {
     var children = tag.children();
 
     for(var i = 0; i < children.length; i++) {
@@ -1313,7 +1331,6 @@ if(!xtag.tags['p-submenu']) {
     });
     
 }
-
 if(!xtag.tags['p-menuitem']) {
  
     xtag.register('p-menuitem', {
@@ -1339,7 +1356,6 @@ if(!xtag.tags['p-menuitem']) {
     });
     
 }
-
 if(!xtag.tags['p-menu']) {
  
     xtag.register('p-menu', {
@@ -1418,7 +1434,6 @@ if(!xtag.tags['p-menu']) {
     });
     
 }
-
 if(!xtag.tags['p-breadcrumb']) {
  
     xtag.register('p-breadcrumb', {
@@ -1460,7 +1475,6 @@ if(!xtag.tags['p-breadcrumb']) {
     });
     
 }
-
 if(!xtag.tags['p-menubar']) {
  
     xtag.register('p-menubar', {
@@ -1488,7 +1502,6 @@ if(!xtag.tags['p-menubar']) {
     });
     
 }
-
 if(!xtag.tags['p-tieredmenu']) {
  
     xtag.register('p-tieredmenu', {
@@ -1538,7 +1551,6 @@ if(!xtag.tags['p-tieredmenu']) {
     });
     
 }
-
 if(!xtag.tags['p-slidemenu']) {
  
     xtag.register('p-slidemenu', {
@@ -1584,7 +1596,6 @@ if(!xtag.tags['p-slidemenu']) {
     });
     
 }
-
 if(!xtag.tags['p-contextmenu']) {
  
     xtag.register('p-contextmenu', {
@@ -1620,7 +1631,6 @@ if(!xtag.tags['p-contextmenu']) {
     });
     
 }
-
 if(!xtag.tags['p-messages']) {
  
     xtag.register('p-messages', {
@@ -1652,7 +1662,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-multiselectlistbox']) {
+}
+if(!xtag.tags['p-multiselectlistbox']) {
  
     xtag.register('p-multiselectlistbox', {
 
@@ -1733,7 +1744,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-notify']) {
+}
+if(!xtag.tags['p-notify']) {
  
     xtag.register('p-notify', {
     
@@ -1802,7 +1814,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-orderlist']) {
+}
+if(!xtag.tags['p-orderlist']) {
  
     xtag.register('p-orderlist', {
     
@@ -1858,7 +1871,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-paginator']) {
+}
+if(!xtag.tags['p-paginator']) {
  
     xtag.register('p-paginator', {
     
@@ -1907,7 +1921,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-panel']) {
+}
+if(!xtag.tags['p-panel']) {
 
     xtag.register('p-panel', {
 
@@ -1993,7 +2008,8 @@ if(!xtag.tags['p-messages']) {
 
     });
 
-}if(!xtag.tags['p-password']) {
+}
+if(!xtag.tags['p-password']) {
  
     xtag.register('p-password', {
 
@@ -2051,7 +2067,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-picklist']) {
+}
+if(!xtag.tags['p-picklist']) {
  
     xtag.register('p-picklist', {
 
@@ -2134,7 +2151,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-progressbar']) {
+}
+if(!xtag.tags['p-progressbar']) {
  
     xtag.register('p-progressbar', {
 
@@ -2187,7 +2205,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-radiobutton']) {
+}
+if(!xtag.tags['p-radiobutton']) {
  
     xtag.register('p-radiobutton', {
     
@@ -2201,7 +2220,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-rating']) {
+}
+if(!xtag.tags['p-rating']) {
 
     xtag.register('p-rating', {
 
@@ -2275,7 +2295,8 @@ if(!xtag.tags['p-messages']) {
         
     });
 
-}if(!xtag.tags['p-selectbutton']) {
+}
+if(!xtag.tags['p-selectbutton']) {
  
     xtag.register('p-selectbutton', {
     
@@ -2335,7 +2356,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-spinner']) {
+}
+if(!xtag.tags['p-spinner']) {
  
     xtag.register('p-spinner', {
 
@@ -2382,7 +2404,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-splitbutton']) {
+}
+if(!xtag.tags['p-splitbutton']) {
  
     xtag.register('p-splitbutton', {
     
@@ -2461,7 +2484,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-sticky']) {
+}
+if(!xtag.tags['p-sticky']) {
 
     xtag.register('p-sticky', {
 
@@ -2496,7 +2520,8 @@ if(!xtag.tags['p-messages']) {
         
     });
 
-}if(!xtag.tags['p-switch']) {
+}
+if(!xtag.tags['p-switch']) {
  
     xtag.register('p-switch', {
     
@@ -2568,7 +2593,25 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-tabview']) {
+}
+if(!xtag.tags['p-tab']) {
+ 
+    xtag.register('p-tab', {
+    
+        accessors: {
+            
+        },
+
+        lifecycle: {
+            created: function() {
+                
+            }
+        }
+        
+    });
+    
+}
+if(!xtag.tags['p-tabview']) {
 
     xtag.register('p-tabview', {
 
@@ -2640,7 +2683,8 @@ if(!xtag.tags['p-messages']) {
 
     });
 
-}if(!xtag.tags['p-terminal']) {
+}
+if(!xtag.tags['p-terminal']) {
  
     xtag.register('p-terminal', {
     
@@ -2679,7 +2723,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-togglebutton']) {
+}
+if(!xtag.tags['p-togglebutton']) {
  
     xtag.register('p-togglebutton', {
     
@@ -2757,7 +2802,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-tooltip']) {
+}
+if(!xtag.tags['p-tooltip']) {
  
     xtag.register('p-tooltip', {
     
@@ -2821,7 +2867,8 @@ if(!xtag.tags['p-messages']) {
         
     });
     
-}if(!xtag.tags['p-treeicon']) {
+}
+if(!xtag.tags['p-treeicon']) {
  
     xtag.register('p-treeicon', {
     
@@ -2849,7 +2896,6 @@ if(!xtag.tags['p-messages']) {
     });
     
 }
-
 if(!xtag.tags['p-tree']) {
  
     xtag.register('p-tree', {
@@ -2955,7 +3001,8 @@ if(!xtag.tags['p-tree']) {
         
     });
     
-}if(!xtag.tags['p-treetable']) {
+}
+if(!xtag.tags['p-treetable']) {
  
     xtag.register('p-treetable', {
     
