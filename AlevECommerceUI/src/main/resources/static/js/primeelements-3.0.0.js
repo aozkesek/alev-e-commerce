@@ -818,7 +818,7 @@ if(!xtag.tags['p-dropdown']) {
     xtag.register('p-dropdown', {
 
         accessors: {
-            name: {
+        	name: {
                 attribute: {}
             },
             effect: {
@@ -869,8 +869,9 @@ if(!xtag.tags['p-dropdown']) {
                 
                 if(this.name) {
                     this.xtag.select.attr('name', this.name);
+                    
                 }
-                
+
                 this.xtag.select.puidropdown({
                     effect: this.effect,
                     effectSpeed: this.effectspeed,

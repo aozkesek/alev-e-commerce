@@ -4556,7 +4556,7 @@ PUI.resolveUserAgent();/**
         },
 
         getSelectedLabel: function() {
-            return this.choices.filter(':selected').text();
+            return this.items.filter('.ui-state-highlight').text();
         },
         
         selectValue : function(value) {
