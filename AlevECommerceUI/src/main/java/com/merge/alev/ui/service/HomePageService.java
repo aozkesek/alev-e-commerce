@@ -51,6 +51,8 @@ public class HomePageService implements IPageService {
 			
 		Category category = (Category) modelMap.get("selectedCategory");
 		
+		//collect hot deals here,
+		
 //		ProductResponse prodRes = productService.getProductsByCategory(category, 0, 10);
 //		if (prodRes.getResponseCode() != null && !prodRes.getResponseCode().equals(-1)) 
 //			if (!prodRes.getModel().isEmpty()) 
