@@ -7,18 +7,20 @@
 		
 		<div th:fragment="header">
 			
-			<p-menubar id="mainMenuBar">
-				<p-menuitem value="Home" icon="fa-home" href="/home"></p-menuitem>
-				<p-menuitem value="|"></p-menuitem>
-				<p-menuitem value="Track Yout Order" href="/trackorder"></p-menuitem>
-				<p-menuitem value="|"></p-menuitem>
-				<p-menuitem value="About Us" href="/about"></p-menuitem>
-				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="|"></p-menuitem>
-				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="Administration" href="/administration"></p-menuitem>
-				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="|"></p-menuitem>
-				<p-menuitem sec:authorize="hasRole('ROLE_ADMIN')" value="Logout" href="/adminlogout"></p-menuitem>
-			</p-menubar>
+			<div id="mainToolBar" style="padding: 4px; display: block;" class="ui-widget-header ui-corner-all">
+				<a href="/home">Home</a>
+				<a href="/trackorder">Track Your Order</a>
+				<a href="/about">About Us</a>
+				<a sec:authorize="hasRole('ROLE_ADMIN')" href="/administration">Administration</a>
+				<a sec:authorize="hasRole('ROLE_ADMIN')" href="/adminlogout">Logout</a>
+			</div>
 
+			<script type="text/javascript">
+			/*<![CDATA[*/
+			$("#mainToolBar > a").button();
+			/*]]>*/
+			</script>
+			
 		</div>
 	
 	</body>            
