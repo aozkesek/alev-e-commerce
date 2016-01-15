@@ -6,19 +6,21 @@
 			<div class="pui-grid pui-grid-responsive">
 				<div class="pui-grid-row">
 					<div class="pui-grid-col-2">
-						<p-dropdown id="categoryList">
+						<p-dropdown id="catList">
 						</p-dropdown>
 					</div>
 					<div class="pui-grid-col-1">
+						<select id="categoryList">
+						</select>
 					</div>
 					<div class="pui-grid-col-1">
-						<button is="p-button" id="categoryUpdate">Update</button>
+						<button is="p-button" id="categoryUpdate" onclick="categoryCrudConfirm(this)">Update</button>
 					</div>
 					<div class="pui-grid-col-1">
-						<button is="p-button" id="categoryDelete">Delete</button>
+						<button is="p-button" id="categoryDelete" onclick="categoryCrudConfirm(this)">Delete</button>
 					</div>
 					<div class="pui-grid-col-1">
-						<button is="p-button" id="categoryAdd">Add</button>
+						<button is="p-button" id="categoryAdd" onclick="categoryCrudConfirm(this)">Add</button>
 					</div>
 					
 				</div>
