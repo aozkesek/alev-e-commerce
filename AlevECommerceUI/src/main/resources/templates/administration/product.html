@@ -1,7 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
-	
-	<body>
-	
+
 		<div id="products" >
 		
 			<div id="productList">
@@ -107,7 +104,11 @@
 			<script type="text/javascript" th:attr="src=@{/js/alevecommerce-product.js}"></script>
 			
 		</div>
-	
-	</body>
-		
-</html>
+
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+		   $("#productDialog").dialog({
+			   
+		   });
+		/*]]>*/	
+		</script>		

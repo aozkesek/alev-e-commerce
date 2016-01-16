@@ -18,6 +18,9 @@ public class PageController {
 	private IPageService homePageService;
 	@Autowired
 	private IPageService categoryProductsService;
+	@Autowired
+	private IPageService categoryPageService;
+	
 	
 	@RequestMapping({"/layout", "/layout.html"})
 	public String layout() {
@@ -53,6 +56,21 @@ public class PageController {
 	@RequestMapping("/adminlogin")
 	public String adminlogin() {
 		return "administration/login";
+	}
+	
+	@RequestMapping("/admincategory")
+	public String admincategory(Model model) {
+		return categoryPageService.process(null, model);
+	}
+	
+	@RequestMapping("/adminfee")
+	public String adminfee() {
+		return "administration/fee";
+	}
+	
+	@RequestMapping("/adminproduct")
+	public String adminproduct() {
+		return "administration/product";
 	}
 	
 	@RequestMapping("/adminlogout")

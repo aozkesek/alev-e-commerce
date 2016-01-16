@@ -17,7 +17,7 @@ function categoryDialog(message, confirmCallback) {
 }
 
 function categoryContent(category) {
-	categoryList.puidropdown("addOption", {value: ""+category.id, label: category.categoryName}); 
+	$("#categoryList").puidropdown("addOption", {value: category.id, label: category.categoryName}); 
 }
 
 function categoryCrud(oper, id, name) {
@@ -38,70 +38,4 @@ function categoryCrud(oper, id, name) {
 	});
 	
 } 
-
-
-confirmDialogHandle.puidialog({
-	responsive: true
-	, confirmCallback: null
-	, modal: true
-	, buttons: [{
-        text: 'Yes',
-        icon: 'fa-check',
-        click: function() {
-        	try { confirmDialogHandle.puidialog("option", "confirmCallback")(); } catch(e) { console.log(e); }
-            confirmDialogHandle.puidialog('hide');
-        }
-    },
-    {
-        text: 'No',
-        icon: 'fa-close',
-        click: function() {
-        	confirmDialogHandle.puidialog('hide');
-        }
-    }
-]
-});
-
-function categoryCrudConfirm(target) {
-	var newLabel = $(categoryList).puidropdown("getEditableText");
-	var selLabel = $(categoryList).puidropdown("getSelectedLabel");
-	var buttonId = target.id;
-	var isDelete = buttonId === "categoryDelete";
-	var isUpdate = buttonId === "categoryUpdate"
-	
-	if (!isDelete && newLabel === selLabel) {
-		growlMessages.puigrowl("show", [{severity: "error", summary: "Invalid operation", detail: "Nothing changed!"}]);
-		return;
-	}
-	if (isDelete && newLabel != selLabel) {
-		growlMessages.puigrowl("show", [{severity: "error", summary: "Invalid operation", detail: "Category changed!"}]);
-		return;
-	}
-		
-	var selValue = $(categoryList).puidropdown("getSelectedValue");
-
-	var message = isDelete ? selLabel + " will deleted,"
-			: isUpdate ? selLabel + " will updated with " + newLabel + ", "
-					: newLabel + " will added,";
-	
-	categoryDialog(message
-			, isUpdate ? function() { categoryCrud("update", selValue, newLabel); }
-					: isDelete ? function() { categoryCrud("delete", selValue, newLabel); } 
-							: function() { categoryCrud("create", null, newLabel); });
-		
-}
-
-
-categoryList.puidropdown({
-	data: null
-	, filter: true
-	, editable: true
-	, change: function(event) {
-		
-	}
-});
-
-categoryListInit(categoryContent);
-
-
 
