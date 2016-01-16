@@ -28,6 +28,12 @@
 			
 		</div>
 		
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+		$("#categoryTab").tabs();
+		/*]]>*/	
+		</script>	
+
 		<script id="productTemplate" type="x-tmpl-mustache">
 <div class="ui-widget ui-widget-content ui-corner-all">
 	<div class="ui-widget-header ui-helper-clearfix ui-corner-all">
@@ -42,13 +48,7 @@
 	</div>
 </div>
 		</script>
-		
-		<script th:inline="javascript">
-		/*<![CDATA[*/
-		$("#categoryTab").tabs();
-		/*]]>*/	
-		</script>	
-		
+				
 		</section>	
 		
 	</body>

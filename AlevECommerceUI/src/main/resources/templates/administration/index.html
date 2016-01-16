@@ -11,47 +11,27 @@
 	<section layout:fragment="content">
 	
 		<div id="growlmessages"></div>
-		<script th:inline="javascript">/*<![CDATA[*/$("#growlmessages").puigrowl();/*]]>*/</script>
 		
 		<div id="adminTaskTab" sec:authorize="hasRole('ROLE_ADMIN')">
 			<ul>
 				
-				<li><a href="#adminTask_category">Categories</a></li>
-				<li><a href="#adminTask_fee">Fees</a></li>
-				<li><a href="#adminTask_product">Products</a></li>
 				<li><a href="#adminTask_order">Orders</a></li>
+				<li><a href="/admincategory">Categories</a></li>
+				<li><a href="/adminfee">Fees</a></li>
+				<li><a href="/adminproduct">Products</a></li>
 				
 			</ul>	
 			
-			<div id="adminTaskTabsParent">				
-				
-				<div id="adminTask_categories" >
-				
-					<div th:include="administration/category :: #categories"></div>
-				
-				</div>
-				
-				<div id="adminTask_fees" >
-
-				
-				</div>
-				
-				<div id="adminTask_products" >
-
-					<div th:include="administration/product :: #products"></div>
-				
-				</div>
-				
-				<div id="adminTask_orders" >
-				
-				</div>
-				
+			<div id="adminTask_order" >
+			waiting orders ...
 			</div>
+			
 		</div>
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-			$("#adminTaskTab").puitabview();
+			$("#growlmessages").puigrowl();
+			$("#adminTaskTab").tabs();
 		
 		/*]]>*/	
 		</script>
