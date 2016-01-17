@@ -47,7 +47,7 @@ public class RestProxyController {
 	@ResponseBody
 	public CategoryResponse proxiedCategoryAddUpdate(@PathVariable String addUpdate, @RequestBody CategoryRequest request) {
 		CategoryResponse response = null;
-		response = RestProxy.postForObject(ServiceConstants.CategoryEndpoint + addUpdate, request, CategoryResponse.class);
+		response = RestProxy.postForObject(ServiceConstants.CategoryEndpoint + "/" + addUpdate, request, CategoryResponse.class);
 		return response;
 	}
 	

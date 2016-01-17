@@ -2,26 +2,40 @@
  * 
  */
 
-var categoryList = $("#categoryList");
-var selectedCategory = null;
-var confirmDialogHandle = $("#confirmDialog");
-var growlMessages = $("#growlmessages");
 	
-function categoryDialog(message, confirmCallback) {
+function onCategoryButtonsClick(event) {
+	var categoryList = $("#categoryList");
+	var confirmDialog = $("#confirmDialog");
+	var addupdateDialog = $("#addupdateDialog");
+	var selectedCategory = $("#selectedCategory");
+	var growlMessages = $("#growlmessages");
+	var buttonId = event.currentTarget.id;
+	var categoryId = categoryList.val();
+	var categoryName = categoryList.children().filter("[value="+categoryId+"]").text();
 	
-	$(confirmDialogHandle).children(".pui-dialog-content").children("label").html(message);
-	confirmDialogHandle.puidialog("option", "confirmCallback", confirmCallback);
-	confirmDialogHandle.puidialog("show");
-
+	console.log(buttonId);
 	
-}
-
-function categoryContent(category) {
-	$("#categoryList").puidropdown("addOption", {value: category.id, label: category.categoryName}); 
+	switch(buttonId) {
+	case "categoryUpdate":
+		selectedCategory.val(categoryName);
+		addupdateDialog.dialog("open");
+		
+		break;
+	case "categoryAdd":
+		selectedCategory.val("");
+		addupdateDialog.dialog("open");
+		break;
+		
+	case "categoryDelete":
+		confirmDialog.children("label").text(categoryName + " will be deleted,");
+		confirmDialog.dialog("open");
+		break;
+	}
+	
 }
 
 function categoryCrud(oper, id, name) {
-	
+	console.log(oper+">"+id+">"+name);
 	$.ajax({
 		type: "POST"
 		, url: "/administration/category/" + oper
@@ -30,8 +44,7 @@ function categoryCrud(oper, id, name) {
 		, contentType: "application/json"
 		, success: function(response) {
 			if (response.responseCode == 0) {
-				categoryList.puidropdown("removeAllOptions");
-				categoryListInit(categoryContent);
+
 			}
 				
 		}

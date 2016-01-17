@@ -1,39 +1,57 @@
 		<script type="text/javascript" th:attr="src=@{/js/site/category.js}"></script>
 
 		<div id="categories" >
-
-			<select id="categoryList">
-				<option th:each="category : ${categories}"
-					th:text="${category.categoryName}"
-					th:attr="value=${category.id}" >
-				</option>				
-			</select>
-	
-			<button id="categoryUpdate">Update</button>
-
-			<button id="categoryDelete">Delete</button>
-
-			<button id="categoryAdd">Add</button>
-			
+			<table>
+			<tr>
+				<td>
+					<select id="categoryList">
+						<option th:each="category : ${categories}"
+							th:text="${category.categoryName}"
+							th:attr="value=${category.id}" >
+						</option>				
+					</select>
+				</td>
+				<td><button id="categoryUpdate">Update</button></td>
+				<td><button id="categoryDelete">Delete</button></td>
+				<td><button id="categoryAdd">Add</button></td>
+			</tr>
+			</table>
 		</div>
 	
+		
 		<div id="confirmDialog" title="Category">
 			<label></label>
 			<p>Are you sure?</p>
 		</div>
 	
+		<div id="addupdateDialog" title="Category">
+			<label>Category Name: </label>
+			<input id="selectedCategory" type="text" class="ui-widget ui-corner-all"/>
+		</div>
+	
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-		   $("button").button();        
+		   $("button").button()
+		   	.click(onCategoryButtonsClick);  
 			$("#categoryList").selectmenu({width: 200});
-			var cd = $("#confirmDialog").dialog({
+			$("#confirmDialog").dialog({
 				modal: true,
+				autoOpen: false,
 				buttons: [
 				{ text: "No", click: function() { $(this).dialog("close"); }},
-				{ text: "Yes", click: function() { $(this).dialog("close"); }}
+				{ text: "Yes", click: function() { categoryCrud("delete", categoryId, categoryName); }}
 				
 				]
 			});
-			//cd.dialog("close");			
+			$("#addupdateDialog").dialog({
+				modal: true,
+				autoOpen: false,
+				buttons: [
+				{ text: "Cancel", click: function() { $(this).dialog("close"); }},
+				{ text: "Ok", click: function() { $(this).dialog("close"); }}
+				
+				]
+			});
+						
 		/*]]>*/	
 		</script>	
