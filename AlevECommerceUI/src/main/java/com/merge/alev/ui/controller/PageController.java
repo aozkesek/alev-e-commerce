@@ -77,7 +77,7 @@ public class PageController {
 	public String adminlogout(HttpServletRequest request, Model model) throws ServletException {
 		request.logout();
 		model.addAttribute("loggedout", true);
-		return "admininstration/login";
+		return "administration/login";
 	}
 	
 	@RequestMapping("/sessionexpired")
