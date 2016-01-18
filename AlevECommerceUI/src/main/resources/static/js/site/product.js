@@ -61,22 +61,20 @@ function dialogClose(dialog) {
 	
 }
 
-function getProducts() {
+function getProducts(data, callback, settings) {
 	
-	$("#productTable").DataTable({
-		"processing": true,
-		//"serverSide": true,
-		"ajax": {
-			"type": "POST",
-			"url": "/product/list",
-			"data": '{"versionNumber":"1.0.0","firstRecordNumber":' + 0 + ',"maxRecordNumber":' + 10 + '}',
-			"dataType": "json",
-			"contentType": "application/json",
-			"dataSrc": "model"
+	$.ajax({
+		type: "POST"
+		, url: "/product/list"
+		, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + settings._iDisplayStart + ',"maxRecordNumber":' + settings._iDisplayLength + '}'
+		, dataType: "json"
+		, contentType: "application/json"
+		, success: function(response) {
+			if (response.responseCode > -1)
+				if (response.model != null && response.model.length > 0) 
+					callback({data: response.model});
 		}
-		
 	});
-	
 	
 }
 

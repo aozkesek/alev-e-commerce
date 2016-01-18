@@ -1,6 +1,6 @@
 <script type="text/javascript" th:attr="src=@{/js/site/product.js}"></script>
 
-			<table id="productTable">
+			<table id="productTable" class="display compact">
 				<thead>
 					<tr>
 						<th>Category</th>
@@ -129,7 +129,19 @@
 			]
 	   });
 		
-		getProducts();
+		$("#productTable").DataTable({
+			"processing": true,
+			"jQueryUI": true,
+			"ajax": getProducts,
+			"columns": [
+				{"data": "category.categoryName"},
+				{"data": "name"},
+				{"data": "title"},
+				{"data": "price", "className": "dt-body-right"},
+				{"data": "actualPrice", "className": "dt-body-right"}
+				
+			]
+		});
 		
 		/*]]>*/	
 		</script>		
