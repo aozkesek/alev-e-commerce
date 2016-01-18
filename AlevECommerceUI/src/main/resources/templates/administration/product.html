@@ -1,9 +1,17 @@
+<script type="text/javascript" th:attr="src=@{/js/site/product.js}"></script>
 
-		<div id="products" >
-		
-			<div id="productList">
-			
-			</div>
+			<table id="productTable">
+				<thead>
+					<tr>
+						<th>Category</th>
+						<th>Name</th>
+						<th>Title</th>
+						<th>Price</th>
+						<th>Actual Price</th>
+						
+					</tr>
+				</thead>
+			</table>
 			
 			<div id="productDialog" title="Product">
 				<table>
@@ -81,7 +89,7 @@
 							<legend>Description</legend>
 						</td>
 						<td>
-							<textarea id="description" ></textarea>
+							<textarea id="description"></textarea>
 						</td>
 					</tr>
 
@@ -101,14 +109,27 @@
 				
 			</div>
 			
-			<script type="text/javascript" th:attr="src=@{/js/alevecommerce-product.js}"></script>
-			
-		</div>
 
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-		   $("#productDialog").dialog({
-			   
-		   });
+		           
+	   $("#sizes,#colors")
+	   	.width(200);
+		
+		$("input, select, textarea")
+	   	.addClass("ui-widget ui-corner-all");
+	   
+		$("#productDialog").dialog({
+		   modal: true,
+			width: 800,
+		   autoOpen: false,
+			buttons: [
+				{ text: "Cancel", click: function() { dialogClose(this); } },
+				{ text: "Ok" }
+			]
+	   });
+		
+		getProducts();
+		
 		/*]]>*/	
 		</script>		

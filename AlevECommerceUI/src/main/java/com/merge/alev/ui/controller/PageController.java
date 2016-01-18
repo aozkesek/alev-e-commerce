@@ -70,6 +70,7 @@ public class PageController {
 	
 	@RequestMapping("/adminproduct")
 	public String adminproduct() {
+		
 		return "administration/product";
 	}
 	

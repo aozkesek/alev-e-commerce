@@ -75,7 +75,7 @@ function categoryCrud(oper, id, name, fns, fne) {
 
 function dialogClose(dialog) {
 	$(dialog).dialog("close");
-	//do not call every time to pretend network load, try to sense if there is change
+	//do not call this every time to pretend network load, try to sense if there is change
 	adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
 	
 }
