@@ -23,20 +23,6 @@ function onProductTableRowSelect(event, row) {
 	$("#productDialog").dialog("open");
 }
 
-function productListInit(f) {
-	$.ajax({
-		type: "POST"
-		, url: "/product/listTotalRecord"
-		, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":0}'
-		, dataType: "json"
-		, contentType: "application/json"
-		, success: function(response) {
-			if (response.responseCode == 0 && response.totalRecordNumber > 0)
-				try { f(response.totalRecordNumber); } catch(e) { console.log(e); }
-		}	
-	});
-}
-
 function productListPage(o, i, m, f) {
 	$.ajax({
 		type: "POST"
@@ -61,22 +47,23 @@ function dialogClose(dialog) {
 	
 }
 
-function getProducts() {
+function getProducts(data, callback, settings) {
 	
-	$("#productTable").DataTable({
-		"processing": true,
-		//"serverSide": true,
-		"ajax": {
-			"type": "POST",
-			"url": "/product/list",
-			"data": '{"versionNumber":"1.0.0","firstRecordNumber":' + 0 + ',"maxRecordNumber":' + 10 + '}',
-			"dataType": "json",
-			"contentType": "application/json",
-			"dataSrc": "model"
-		}
-		
+	console.log(data);
+	console.log(settings);
+	console.log(callback);
+	
+	$.ajax({
+		type: "POST"
+		, url: "/product/list"
+		, data: '{"versionNumber":"1.0.0","firstRecordNumber":'+settings._iDisplayStart+',"maxRecordNumber":'+settings._iDisplayLength+'}'
+		, dataType: "json"
+		, contentType: "application/json"
+		, success: function(response) {
+			if (response.responseCode == 0 && response.totalRecordNumber > 0)
+				console.log(response);
+		}	
 	});
-	
 	
 }
 

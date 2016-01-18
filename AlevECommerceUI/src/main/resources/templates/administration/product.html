@@ -129,7 +129,9 @@
 			]
 	   });
 		
-		getProducts();
-		
+		$("#productTable").DataTable({
+			"processing": true,
+			"ajax": getProducts
+		});
 		/*]]>*/	
 		</script>		
