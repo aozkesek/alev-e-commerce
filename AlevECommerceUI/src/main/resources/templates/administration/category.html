@@ -18,7 +18,6 @@
 			</table>
 		</div>
 	
-		
 		<div id="confirmDialog" title="Category">
 			<label></label>
 			<p>Are you sure?</p>
@@ -38,18 +37,16 @@
 				modal: true,
 				autoOpen: false,
 				buttons: [
-				{ text: "No", click: function() { $(this).dialog("close"); }},
-				{ text: "Yes", click: function() { categoryCrud("delete", categoryId, categoryName); }}
-				
+				{ text: "No", click: function() { dialogClose(this); } },
+				{ text: "Yes" }
 				]
 			});
 			$("#addupdateDialog").dialog({
 				modal: true,
 				autoOpen: false,
 				buttons: [
-				{ text: "Cancel", click: function() { $(this).dialog("close"); }},
-				{ text: "Ok", click: function() { $(this).dialog("close"); }}
-				
+				{ text: "Cancel", click: function() { dialogClose(this); } },
+				{ text: "Ok" }
 				]
 			});
 						
