@@ -12,10 +12,7 @@
     
     <section layout:fragment="content">
       
-      <div id="growlmessages"></div>
-		<script th:inline="javascript">/*<![CDATA[*/$("#growlmessages").puigrowl();/*]]>*/</script>
-		  
-		<form th:action="@{/adminlogin}" method="post">
+      <form th:action="@{/adminlogin}" method="post">
 		<fieldset id="loginFieldset">
 			
 			<div><h4>User Name</h4> <input type="text" id="username" name="username"/> </div>

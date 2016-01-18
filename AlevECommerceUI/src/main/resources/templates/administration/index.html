@@ -9,8 +9,6 @@
 	<body>
 	
 	<section layout:fragment="content">
-	
-		<div id="growlmessages"></div>
 		
 		<div id="adminTaskTab" sec:authorize="hasRole('ROLE_ADMIN')">
 			<ul>
@@ -30,9 +28,7 @@
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-			$("#growlmessages").puigrowl();
 			$("#adminTaskTab").tabs();
-		
 		/*]]>*/	
 		</script>
 	

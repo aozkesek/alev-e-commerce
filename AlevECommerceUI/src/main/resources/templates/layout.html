@@ -14,6 +14,8 @@
    	<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
    	<link rel="stylesheet" th:href="@{/css/jquery-ui.structure.css}" />
    	<link rel="stylesheet" th:href="@{/css/theme.css}" />
+   	<link rel="stylesheet" th:href="@{/css/growl.css}" />
+   	
    	<link rel="stylesheet" th:href="@{/css/site/theme.css}" />
    	
    	<script type="text/javascript" th:attr="src=@{/js/jquery-2.1.4.js}"></script>
@@ -30,7 +32,13 @@
 	</head>
 	
 	<body>
-	
+		<div id="growlmessages"></div>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			$("#growlmessages").puigrowl();
+		/*]]>*/	
+		</script>
+				
 		<header>
 			<div th:include="header :: header"></div>
 		</header>
@@ -42,7 +50,7 @@
 		<footer>
 			<div th:include="footer :: footer"></div>
 		</footer>
-		
+
 	</body>
 	
 </html>
