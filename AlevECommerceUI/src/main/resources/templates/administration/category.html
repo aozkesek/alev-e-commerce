@@ -18,12 +18,7 @@
 			</table>
 		</div>
 	
-		<div id="confirmDialog" title="Category">
-			<label></label>
-			<p>Are you sure?</p>
-		</div>
-	
-		<div id="addupdateDialog" title="Category">
+		<div id="categoryDialog" title="Category">
 			<label>Category Name: </label>
 			<input id="selectedCategory" type="text" class="ui-widget ui-corner-all"/>
 		</div>
@@ -32,16 +27,10 @@
 		/*<![CDATA[*/
 		   $("button").button()
 		   	.click(onCategoryButtonsClick);  
+
 			$("#categoryList").selectmenu({width: 200});
-			$("#confirmDialog").dialog({
-				modal: true,
-				autoOpen: false,
-				buttons: [
-				{ text: "No", click: function() { dialogClose(this); } },
-				{ text: "Yes" }
-				]
-			});
-			$("#addupdateDialog").dialog({
+
+			$("#categoryDialog").dialog({
 				modal: true,
 				autoOpen: false,
 				buttons: [

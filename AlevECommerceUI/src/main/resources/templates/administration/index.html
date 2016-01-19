@@ -26,9 +26,24 @@
 			
 		</div>
 		
+		<div id="confirmDialog">
+			<label></label>
+			<p>Are you sure?</p>
+		</div>
+		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 			$("#adminTaskTab").tabs();
+		
+			$("#confirmDialog").dialog({
+				modal: true,
+				autoOpen: false,
+				buttons: [
+				{ text: "No", click: function() { dialogClose(this); } },
+				{ text: "Yes" }
+				]
+			});
+			
 		/*]]>*/	
 		</script>
 	

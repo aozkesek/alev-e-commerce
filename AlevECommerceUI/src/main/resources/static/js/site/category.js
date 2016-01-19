@@ -8,32 +8,33 @@ function onCategoryButtonsClick(event) {
 		id = categoryList.val(),
 		name = categoryList.children().filter("[value="+id+"]").text(),
 		confirmDialog = $("#confirmDialog"),
-		addupdateDialog = $("#addupdateDialog"),
+		categoryDialog = $("#categoryDialog"),
 		selectedCategory = $("#selectedCategory"),
 		buttons;
 	
 	switch(event.currentTarget.id) {
 	case "categoryUpdate":
 		selectedCategory.val(name);
-		buttons = addupdateDialog.dialog("option", "buttons");
+		buttons = categoryDialog.dialog("option", "buttons");
 		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {categoryCrud("update",id,selectedCategory.val());};
-		addupdateDialog.dialog("option","buttons",buttons);
-		addupdateDialog.dialog("open");
+		categoryDialog.dialog("option","buttons",buttons);
+		categoryDialog.dialog("open");
 		break;
 		
 	case "categoryAdd":
 		selectedCategory.val("");
-		buttons = addupdateDialog.dialog("option", "buttons");
+		buttons = categoryDialog.dialog("option", "buttons");
 		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {
 			categoryCrud("create",null,selectedCategory.val(), function(){
 				selectedCategory.val("");
 				});
 			};
-		addupdateDialog.dialog("option","buttons",buttons);
-		addupdateDialog.dialog("open");
+		categoryDialog.dialog("option","buttons",buttons);
+		categoryDialog.dialog("open");
 		break;
 		
 	case "categoryDelete":
+		confirmDialog.dialog("option", "title", "Category - Delete");
 		confirmDialog.children("label").text(name + " will be deleted,");
 		buttons = confirmDialog.dialog("option", "buttons");
 		buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {

@@ -9,19 +9,7 @@
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 		
-		$("#productGrid_[[${categoryId}]]").puidatagrid({
-			//header: "products of ... ",
-			lazy: true,
-			paginator: {
-				rows: 10,
-				totalRecords: [[${totalRecordNumber}]]
-			},
-			datasource: function(callback, ui) {
-				var requestData = '{"versionNumber": "1.0.0", "firstRecordNumber": '+ui.first+', "maxRecordNumber": '+ui.rows+', "model": [{"category": {"id": [[${categoryId}]]}}]}';
-				productDataSource(this, callback, requestData);
-			},
-			template: $("#productTemplate")
-		});
+		
 
 			
 		/*]]>*/

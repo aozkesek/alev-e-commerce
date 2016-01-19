@@ -8,7 +8,7 @@
 						<th>Title</th>
 						<th>Price</th>
 						<th>Actual Price</th>
-						<th> - </th>
+						<th> <a class="ui-button ui-icon ui-icon-plus" href="javascript:void(0)" onclick="addProduct();" title="Add new product"></a> </th>
 						
 					</tr>
 				</thead>
@@ -131,10 +131,11 @@
 	   });
 		
 		$("#productTable").DataTable({
-			"processing": true,
-			"jQueryUI": true,
-			"ajax": getProducts,
-			"columns": [
+			processing: true,
+			jQueryUI: true,
+			scrollY: 400, 
+			ajax: getProducts,
+			columns: [
 				{"data": "category.categoryName"},
 				{"data": "name"},
 				{"data": "title"},

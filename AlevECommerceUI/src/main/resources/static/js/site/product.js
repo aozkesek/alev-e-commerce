@@ -3,29 +3,12 @@
  */
 var adminTaskTab = $("#adminTaskTab"),
 	productDialog = $("#productDialog"),
-	productList = $("#productList");
-
-function productDialog_Save() {
-	productDialog.puidialog("hide");
-}
-
-function productDialog_Delete() {
-	productDialog.puidialog("hide");
-}
-
-function onProductTableRowSelect(event, row) {
-	$("#name").val(row.name);
-	$("#title").val(row.title);
-	$("#description").val(row.description);
-	$("#price").val(row.price);
-	$("#actualPrice").val(row.actualPrice);
-	
-	$("#productDialog").dialog("open");
-}
+	productTable = $("#productTable"),
+	confirmDialog = $("#confirmDialog");
 
 function productRowProcess(data, type, full, meta) {
-	console.log(data);
-	return '<a href="#"><img src="/images/pencil.png"></img></a><a href="#"><img src="/images/minus.png"></img></a>';
+	return '<a class="ui-button ui-icon ui-icon-pencil" href="javascript:void(0)" onclick="editProduct('+data.id+');" title="Update this product"></a>' +
+		'<a class="ui-button ui-icon ui-icon-minus" href="javascript:void(0)" onclick="deleteProduct('+data.id+');" title="Delete this product"></a>';
 }
 
 function productListInit(f) {
@@ -57,6 +40,43 @@ function productListPage(o, i, m, f) {
 		}
 	});
 	
+}
+
+function editProduct(id) {
+	var product = productTable.DataTable().data().filter(function(product){return product.id===id;})[0];
+	$("#name").val(product.name);
+	$("#title").val(product.title);
+	$("#price").val(product.price);
+	$("#actualPrice").val(product.actualPrice);
+	$("#description").text(product.description);
+	productDialog.dialog("open");
+	return true;
+}
+
+function deleteProduct(id) {
+	var product = productTable.DataTable().data().filter(function(product){return product.id===id;})[0];
+	confirmDialog.dialog("option", "title", "Product - Delete");
+	confirmDialog.children("label").text("[" + product.name + "] " + product.title + " will be deleted,");
+	buttons = confirmDialog.dialog("option", "buttons");
+	buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {
+		//categoryCrud("delete",id,null, function(){
+			confirmDialog.dialog("close");
+			adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
+			//});
+		};
+	confirmDialog.dialog("option","buttons",buttons);
+	confirmDialog.dialog("open");
+	return true;
+}
+
+function addProduct() {
+	$("#name").val("");
+	$("#title").val("");
+	$("#price").val("");
+	$("#actualPrice").val("");
+	$("#description").text("");
+	productDialog.dialog("open");
+	return true;
 }
 
 function dialogClose(dialog) {
