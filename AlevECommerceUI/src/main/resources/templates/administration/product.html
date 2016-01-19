@@ -8,6 +8,7 @@
 						<th>Title</th>
 						<th>Price</th>
 						<th>Actual Price</th>
+						<th> - </th>
 						
 					</tr>
 				</thead>
@@ -86,7 +87,7 @@
 
 					<tr>
 						<td>
-							<legend>Description</legend>
+							<label>Description</label>
 						</td>
 						<td>
 							<textarea id="description"></textarea>
@@ -137,8 +138,9 @@
 				{"data": "category.categoryName"},
 				{"data": "name"},
 				{"data": "title"},
-				{"data": "price", "className": "dt-body-right"},
-				{"data": "actualPrice", "className": "dt-body-right"}
+				{"data": "price", "className": "dt-body-right", "orderable": false, "searchable": false},
+				{"data": "actualPrice", "className": "dt-body-right", "orderable": false, "searchable": false},
+				{"data": null, "render": productRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}
 				
 			]
 		});

@@ -23,6 +23,11 @@ function onProductTableRowSelect(event, row) {
 	$("#productDialog").dialog("open");
 }
 
+function productRowProcess(data, type, full, meta) {
+	console.log(data);
+	return '<a href="#"><img src="/images/pencil.png"></img></a><a href="#"><img src="/images/minus.png"></img></a>';
+}
+
 function productListInit(f) {
 	$.ajax({
 		type: "POST"
