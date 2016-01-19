@@ -3,6 +3,22 @@
 		<script type="text/javascript" th:attr="src=@{/js/site/productgrid.js}"></script>
 		
 		<div th:attr="id=${'productGrid_'+categoryId}">
+		
+			<div th:each="product : ${products}">
+				
+				<div th:text="${product.name}" class="ui-widget ui-widget-header ui-corner-all"></div>
+				<div class="ui-widget ui-widget-content">
+					<div th:text="${product.title}" class="ui-widget"></div>
+					<div th:text="${product.price}" class="ui-widget"></div>
+					<div th:text="${product.actualPrice}" class="ui-widget"></div>
+					
+					<div class="ui-widget">
+						<img th:each="picture : ${product.pictures}" 
+							th:attr="src=@{/images/products/${picture.path + picture.name}}"></img>
+						 
+					</div>
+				</div>
+			</div>
 
 		</div>
 		

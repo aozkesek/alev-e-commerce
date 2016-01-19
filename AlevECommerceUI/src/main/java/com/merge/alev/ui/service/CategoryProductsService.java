@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 
 import com.merge.alev.ui.model.Category;
 import com.merge.alev.ui.model.Product;
+import com.merge.alev.ui.model.reponse.ProductResponse;
 import com.merge.alev.ui.model.request.ProductRequest;
 
 @Component("categoryProductsService")
@@ -28,8 +29,14 @@ public class CategoryProductsService implements IPageService {
 		prequest.getModel().add(product);
 		
 		Integer totalRecordNumber = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/listTotalRecord", prequest, Integer.class);
-		model.addAttribute("responseCode", 0);
 		model.addAttribute("totalRecordNumber", totalRecordNumber);
+		
+		prequest.setFirstRecordNumber(0);
+		prequest.setMaxRecordNumber(10);
+		
+		ProductResponse presponse = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/list", prequest, ProductResponse.class);
+		if (presponse.getResponseCode() > -1)
+			model.addAttribute("products", presponse.getModel());
 		
 		return "products";
 	}
