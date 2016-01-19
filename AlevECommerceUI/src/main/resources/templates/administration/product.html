@@ -1,6 +1,6 @@
 <script type="text/javascript" th:attr="src=@{/js/site/product.js}"></script>
 
-			<table id="productTable">
+			<table id="productTable" class="display compact">
 				<thead>
 					<tr>
 						<th>Category</th>
@@ -8,6 +8,7 @@
 						<th>Title</th>
 						<th>Price</th>
 						<th>Actual Price</th>
+						<th> - </th>
 						
 					</tr>
 				</thead>
@@ -86,7 +87,7 @@
 
 					<tr>
 						<td>
-							<legend>Description</legend>
+							<label>Description</label>
 						</td>
 						<td>
 							<textarea id="description"></textarea>
@@ -131,7 +132,18 @@
 		
 		$("#productTable").DataTable({
 			"processing": true,
-			"ajax": getProducts
+			"jQueryUI": true,
+			"ajax": getProducts,
+			"columns": [
+				{"data": "category.categoryName"},
+				{"data": "name"},
+				{"data": "title"},
+				{"data": "price", "className": "dt-body-right", "orderable": false, "searchable": false},
+				{"data": "actualPrice", "className": "dt-body-right", "orderable": false, "searchable": false},
+				{"data": null, "render": productRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}
+				
+			]
 		});
+		
 		/*]]>*/	
 		</script>		

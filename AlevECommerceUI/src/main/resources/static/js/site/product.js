@@ -23,6 +23,25 @@ function onProductTableRowSelect(event, row) {
 	$("#productDialog").dialog("open");
 }
 
+function productRowProcess(data, type, full, meta) {
+	console.log(data);
+	return '<a href="#"><img src="/images/pencil.png"></img></a><a href="#"><img src="/images/minus.png"></img></a>';
+}
+
+function productListInit(f) {
+	$.ajax({
+		type: "POST"
+		, url: "/product/listTotalRecord"
+		, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":0}'
+		, dataType: "json"
+		, contentType: "application/json"
+		, success: function(response) {
+			if (response.responseCode == 0 && response.totalRecordNumber > 0)
+				try { f(response.totalRecordNumber); } catch(e) { console.log(e); }
+		}	
+	});
+}
+
 function productListPage(o, i, m, f) {
 	$.ajax({
 		type: "POST"
@@ -49,20 +68,17 @@ function dialogClose(dialog) {
 
 function getProducts(data, callback, settings) {
 	
-	console.log(data);
-	console.log(settings);
-	console.log(callback);
-	
 	$.ajax({
 		type: "POST"
 		, url: "/product/list"
-		, data: '{"versionNumber":"1.0.0","firstRecordNumber":'+settings._iDisplayStart+',"maxRecordNumber":'+settings._iDisplayLength+'}'
+		, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + settings._iDisplayStart + ',"maxRecordNumber":' + settings._iDisplayLength + '}'
 		, dataType: "json"
 		, contentType: "application/json"
 		, success: function(response) {
-			if (response.responseCode == 0 && response.totalRecordNumber > 0)
-				console.log(response);
-		}	
+			if (response.responseCode > -1)
+				if (response.model != null && response.model.length > 0) 
+					callback({data: response.model});
+		}
 	});
 	
 }
