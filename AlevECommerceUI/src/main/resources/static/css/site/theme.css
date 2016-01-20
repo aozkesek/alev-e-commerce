@@ -1,0 +1,17 @@
+.ui-site-right {
+	float: right;
+	display: inline;
+	padding: 3px 3px 3px 3px;
+}
+
+.ui-site-left {
+	float: left;
+	display: inline;
+	padding: 3px 3px 3px 3px;
+}
+
+.ui-site-center {
+	float: center;
+	display: inline;
+	padding: 3px 3px 3px 3px;
+}

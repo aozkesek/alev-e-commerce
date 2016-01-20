@@ -11,20 +11,6 @@ function productRowProcess(data, type, full, meta) {
 		'<a class="ui-button ui-icon ui-icon-minus" href="javascript:void(0)" onclick="deleteProduct('+data.id+');" title="Delete this product"></a>';
 }
 
-function productListInit(f) {
-	$.ajax({
-		type: "POST"
-		, url: "/product/listTotalRecord"
-		, data: '{"versionNumber":"1.0.0","firstRecordNumber":0,"maxRecordNumber":0}'
-		, dataType: "json"
-		, contentType: "application/json"
-		, success: function(response) {
-			if (response.responseCode == 0 && response.totalRecordNumber > 0)
-				try { f(response.totalRecordNumber); } catch(e) { console.log(e); }
-		}	
-	});
-}
-
 function productListPage(o, i, m, f) {
 	$.ajax({
 		type: "POST"
