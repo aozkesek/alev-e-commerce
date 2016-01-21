@@ -11,23 +11,6 @@ function productRowProcess(data, type, full, meta) {
 		'<a class="ui-button ui-icon ui-icon-minus" href="javascript:void(0)" onclick="deleteProduct('+data.id+');" title="Delete this product"></a>';
 }
 
-function productListPage(o, i, m, f) {
-	$.ajax({
-		type: "POST"
-		, url: "/product/list"
-		, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + i + ',"maxRecordNumber":' + m + '}'
-		, dataType: "json"
-		, contentType: "application/json"
-		, context: o
-		, success: function(response) {
-			if (response.responseCode > -1)
-				if (response.model != null && response.model.length > 0) 
-					try { f.call(o, response.model); } catch(e) { console.log(e); }
-		}
-	});
-	
-}
-
 function editProduct(id) {
 	var product = productTable.DataTable().data().filter(function(product){return product.id===id;})[0];
 	$("#name").val(product.name);
@@ -35,6 +18,8 @@ function editProduct(id) {
 	$("#price").val(product.price);
 	$("#actualPrice").val(product.actualPrice);
 	$("#description").text(product.description);
+	productDialog.dialog("option", "product", product);
+	console.log(productDialog.dialog("option", "product"));
 	productDialog.dialog("open");
 	return true;
 }
@@ -56,10 +41,7 @@ function deleteProduct(id) {
 }
 
 function addProduct() {
-	$("#name").val("");
-	$("#title").val("");
-	$("#price").val("");
-	$("#actualPrice").val("");
+	$("#name,#title,#price,#actualPrice").val("");
 	$("#description").text("");
 	productDialog.dialog("open");
 	return true;
@@ -73,11 +55,13 @@ function dialogClose(dialog) {
 }
 
 function getProducts(data, callback, settings) {
+	var first = settings._iDisplayStart,
+		max = settings._iDisplayLength;
 	
 	$.ajax({
 		type: "POST"
 		, url: "/product/list"
-		, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + settings._iDisplayStart + ',"maxRecordNumber":' + settings._iDisplayLength + '}'
+		, data: '{"versionNumber":"1.0.0","firstRecordNumber":' + first + ',"maxRecordNumber":' + max + '}'
 		, dataType: "json"
 		, contentType: "application/json"
 		, success: function(response) {

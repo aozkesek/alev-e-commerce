@@ -1,0 +1,124 @@
+	<script type="text/javascript" th:attr="src=@{/js/site/picture.js}"></script>
+
+	<div id="productDialog" title="Product">
+		<table>
+			<tr>
+				<td>
+					<label for="name">Name</label>
+				</td>
+				<td>
+					<input id="name" type="text"/>
+				</td>
+				<td>
+					<label>Title</label>
+				</td>
+				<td>
+					<input id="title" type="text"/>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<label>Price</label>
+				</td>
+				<td>
+					<input id="price" type="number"/>
+				</td>
+				<td>
+					<label>Actual Price</label>
+				</td>
+				<td>
+					<input id="actualPrice" type="number"/>
+				</td>
+			</tr>
+
+
+			<tr>
+				<td>
+					<label for="sizes">Sizes</label>
+				</td>
+				<td>
+					<select id="sizes" multiple="multiple">
+				<!-- right way to fill this listbox is items should come from an backend service -->
+					<option value="XS">XS</option>
+					<option value="S">S</option>
+					<option value="M">M</option>
+					<option value="L">L</option>
+					<option value="XL">XL</option>
+					<option value="XXL">XXL</option>
+
+				</select>
+
+				</td>
+				<td>
+					<label for="colors">Colors</label>
+				</td>
+				<td>
+					<select id="colors" multiple="multiple">
+					<option value="Red">Red</option>
+					<option value="Green">Green</option>
+					<option value="Yellow">Yellow</option>
+					<option value="Black">Black</option>
+					<option value="White">White</option>
+					<option value="Blue">Blue</option>
+					<option value="Orange">Orange</option>
+					<option value="Purple">Purple</option>
+					<option value="Brown">Brown</option>
+					<option value="Pink">Pink</option>
+					<option value="Grey">Grey</option>
+
+				</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<label>Description</label>
+				</td>
+				<td colspan="3">
+					<textarea id="description"></textarea>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="4">
+					<table id="pictureTable">
+						<thead>
+						<tr>
+							<th>Pictures</th>
+							<th> <a class="ui-button ui-icon ui-icon-plus" href="javascript:void(0)" onclick="addPicture();" title="Add new picture"></a> </th>
+						</tr>
+						</thead>
+						
+						<tbody>
+						</tbody>
+					</table>
+				</td>
+				
+			</tr>
+		</table>
+		
+	</div>
+		
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	           
+   $("#sizes,#colors")
+   	.width(200);
+	
+	$("input, select, textarea")
+   	.addClass("ui-widget ui-corner-all");
+   
+	$("#productDialog").dialog({
+	   modal: true,
+		width: 800,
+	   autoOpen: false,
+	   open: getPictures,
+		buttons: [
+			{ text: "Cancel", click: function() { dialogClose(this); } },
+			{ text: "Ok" }
+		]
+   });
+	
+	/*]]>*/	
+	</script>		
