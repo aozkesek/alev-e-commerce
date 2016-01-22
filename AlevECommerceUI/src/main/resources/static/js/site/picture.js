@@ -14,15 +14,20 @@ function addPicture() {
 	return true;
 }
 
+function destroyPictures() {
+	$("#pictureTable").DataTable().destroy();
+}
 
 function getPictures(event, ui) {
 	
-	console.log(ui);
+	var product = productDialog.dialog("option","product");
 	
 	$("#pictureTable").DataTable({
 		jQueryUI: true,
+		data: product.pictures,
 		columns: [
-			{data: null, render: '<input type="file" class="ui-widget ui-button"></input>'},
+			//{data: null, render: function(r){return '<input type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button"">'+r.name+'</input>';} },
+			{data: null, render: function(r){return r.path+r.name;} },
 			{data: null, render: pictureRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}
 		]
 	});

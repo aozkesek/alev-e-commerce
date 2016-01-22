@@ -19,7 +19,6 @@ function editProduct(id) {
 	$("#actualPrice").val(product.actualPrice);
 	$("#description").text(product.description);
 	productDialog.dialog("option", "product", product);
-	console.log(productDialog.dialog("option", "product"));
 	productDialog.dialog("open");
 	return true;
 }
