@@ -49,7 +49,8 @@ function addProduct() {
 function dialogClose(dialog) {
 	$(dialog).dialog("close");
 	//do not call this every time to pretend network load, try to sense if there is change
-	//adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
+	//or move this into the only button event that made change something
+	adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
 	
 }
 
