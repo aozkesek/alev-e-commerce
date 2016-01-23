@@ -1,10 +1,6 @@
 /**
  * 
  */
-var adminTaskTab = $("#adminTaskTab"),
-	productDialog = $("#productDialog"),
-	productTable = $("#productTable"),
-	confirmDialog = $("#confirmDialog");
 
 function productRowProcess(data, type, full, meta) {
 	return '<a class="ui-button ui-icon ui-icon-pencil" href="javascript:void(0)" onclick="editProduct('+data.id+');" title="Update this product"></a>' +
@@ -12,7 +8,7 @@ function productRowProcess(data, type, full, meta) {
 }
 
 function editProduct(id) {
-	var product = productTable.DataTable().data().filter(function(product){return product.id===id;})[0];
+	var product = productTable.data().filter(function(product){return product.id===id;})[0];
 	$("#name").val(product.name);
 	$("#title").val(product.title);
 	$("#price").val(product.price);
@@ -24,7 +20,7 @@ function editProduct(id) {
 }
 
 function deleteProduct(id) {
-	var product = productTable.DataTable().data().filter(function(product){return product.id===id;})[0];
+	var product = product.data().filter(function(product){return product.id===id;})[0];
 	confirmDialog.dialog("option", "title", "Product - Delete");
 	confirmDialog.children("label").text("[" + product.name + "] " + product.title + " will be deleted,");
 	buttons = confirmDialog.dialog("option", "buttons");
@@ -73,7 +69,14 @@ function getProducts(data, callback, settings) {
 	
 }
 
-
+/*
+ * cleanup previous remained div into the body
+ */
+function detachProductDialog() {
+	var ariaProductDialog = $("div[aria-describedby=productDialog]");
+	if (ariaProductDialog.length>0)
+		ariaProductDialog.detach();	
+}
 
 
 		

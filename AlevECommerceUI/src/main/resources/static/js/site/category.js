@@ -1,7 +1,6 @@
 /**
  * 
  */
-var adminTaskTab = $("#adminTaskTab");
 
 function onCategoryButtonsClick(event) {
 	var categoryList = $("#categoryList"),
@@ -79,4 +78,10 @@ function dialogClose(dialog) {
 	//do not call this every time to pretend network load, try to sense if there is change
 	adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
 	
+}
+
+function detachCategoryDialog() {
+	var ariaCategoryDialog = $("div[aria-describedby=categoryDialog]");
+	if (ariaCategoryDialog.length>0)
+		ariaCategoryDialog.detach();		
 }

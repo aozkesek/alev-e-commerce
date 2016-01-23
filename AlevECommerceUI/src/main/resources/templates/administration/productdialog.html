@@ -81,18 +81,7 @@
 			</tr>
 
 			<tr>
-				<td colspan="4">
-					<table id="pictureTable" class="display compact">
-						<thead>
-						<tr>
-							<th>Pictures</th>
-							<th> <a class="ui-button ui-icon ui-icon-plus" href="javascript:void(0)" onclick="addPicture();" title="Add new picture"></a> </th>
-						</tr>
-						</thead>
-						
-						<tbody>
-						</tbody>
-					</table>
+				<td colspan="4" id="pictures">
 				</td>
 				
 			</tr>
@@ -108,8 +97,10 @@
 	
 	$("input, select, textarea")
    	.addClass("ui-widget ui-corner-all");
-   
-	$("#productDialog").dialog({
+	
+	detachProductDialog();
+	
+	var productDialog = $("#productDialog").dialog({
 	   modal: true,
 		width: 800,
 	   autoOpen: false,

@@ -7,7 +7,15 @@ function pictureRowProcess(data, type, full, meta) {
 }
 
 function removePicture(picture) {
-	return true;
+	var pt = $("#pictureTable"),
+		tr = $(picture).parents("tr");
+	
+	console.log(tr);
+	
+	pt.DataTable()
+		.row(tr)
+		.remove()
+		.draw();
 }
 
 function addPicture() {
@@ -25,8 +33,6 @@ function addPicture() {
 	if (ptrows[0].length > 0)
 		return true;
 	
-	console.log(pt.DataTable().rows()[0]);
-	
 	pt.DataTable()
 		.row
 			.add({path: '<input id="pic_'+pt.DataTable().rows()[0].length+'" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button"></input>',
@@ -37,27 +43,45 @@ function addPicture() {
 }
 
 function destroyPictures() {
+	console.log("clearing & destroying...");
 	var pt = $("#pictureTable");
 	pt.DataTable().destroy();
-	pt.children("tbody").html("");
 	productDialog.dialog("option", "product", []);
 }
 
 function getPictures(event, ui) {
+	console.log("building picture table...");
+	var product = productDialog.dialog("option","product"),
+		tdPictures = $("#pictures");
 	
-	var product = productDialog.dialog("option","product");
-
 	if (product === null || product === undefined)
 		product = [];
 	
+	console.log(tdPictures.html());
+	
+	tdPictures.append(
+	'<table id="pictureTable" class="display compact"> \
+		<thead> \
+		<tr> \
+			<th>Pictures</th> \
+			<th> <a class="ui-button ui-icon ui-icon-plus" href="javascript:void(0)" onclick="addPicture();" title="Add new picture"></a> </th> \
+		</tr> \
+		</thead> \
+		<tbody> \
+		</tbody> \
+	</table>');
+	
+	console.log(tdPictures.html());
+	
 	$("#pictureTable").DataTable({
 		jQueryUI: true,
-		data: product.pictures,
+		data: product,
 		columns: [
 			{data: null, render: function(r){return r.path+r.name;} },
 			{data: null, render: pictureRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}
 		]
 	});
+
 	
 }
 

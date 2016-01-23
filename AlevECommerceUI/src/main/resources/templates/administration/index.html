@@ -33,16 +33,16 @@
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-			$("#adminTaskTab").tabs();
-		
-			$("#confirmDialog").dialog({
-				modal: true,
-				autoOpen: false,
-				buttons: [
-				{ text: "No", click: function() { dialogClose(this); } },
-				{ text: "Yes" }
-				]
-			});
+		var adminTaskTabs = $("#adminTaskTab").tabs();
+	
+		var confirmDialog = $("#confirmDialog").dialog({
+			modal: true,
+			autoOpen: false,
+			buttons: [
+			{ text: "No", click: function() { dialogClose(this); } },
+			{ text: "Yes" }
+			]
+		});
 			
 		/*]]>*/	
 		</script>

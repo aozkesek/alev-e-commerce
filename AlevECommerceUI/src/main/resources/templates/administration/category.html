@@ -30,7 +30,9 @@
 
 			$("#categoryList").selectmenu({width: 200});
 
-			$("#categoryDialog").dialog({
+			detachCategoryDialog();
+
+			categoryDialog = $("#categoryDialog").dialog({
 				modal: true,
 				autoOpen: false,
 				buttons: [
