@@ -1,4 +1,5 @@
 	<script type="text/javascript" th:attr="src=@{/js/site/picture.js}"></script>
+	<script type="text/javascript" th:attr="src=@{/js/tinymce/tinymce.min.js}"></script>
 
 	<div id="productDialog" title="Product">
 		<table>
@@ -38,36 +39,14 @@
 					<label for="sizes">Sizes</label>
 				</td>
 				<td>
-					<select id="sizes" multiple="multiple">
-				<!-- right way to fill this listbox is items should come from an backend service -->
-					<option value="XS">XS</option>
-					<option value="S">S</option>
-					<option value="M">M</option>
-					<option value="L">L</option>
-					<option value="XL">XL</option>
-					<option value="XXL">XXL</option>
-
-				</select>
+					<input type="text" id="sizes" />
 
 				</td>
 				<td>
 					<label for="colors">Colors</label>
 				</td>
 				<td>
-					<select id="colors" multiple="multiple">
-					<option value="Red">Red</option>
-					<option value="Green">Green</option>
-					<option value="Yellow">Yellow</option>
-					<option value="Black">Black</option>
-					<option value="White">White</option>
-					<option value="Blue">Blue</option>
-					<option value="Orange">Orange</option>
-					<option value="Purple">Purple</option>
-					<option value="Brown">Brown</option>
-					<option value="Pink">Pink</option>
-					<option value="Grey">Grey</option>
-
-				</select>
+					<input id="colors" type="text"/>
 				</td>
 			</tr>
 
@@ -92,11 +71,15 @@
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 	           
-   $("#sizes,#colors")
-   	.width(200);
+	var pictureTable = null;
 	
-	$("input, select, textarea")
+	$("input")
    	.addClass("ui-widget ui-corner-all");
+	
+	tinymce.init({
+		selector: "textarea",
+		menubar: false	
+	});
 	
 	detachProductDialog();
 	

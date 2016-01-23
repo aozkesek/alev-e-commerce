@@ -7,20 +7,15 @@ function pictureRowProcess(data, type, full, meta) {
 }
 
 function removePicture(picture) {
-	var pt = $("#pictureTable"),
-		tr = $(picture).parents("tr");
-	
-	console.log(tr);
-	
-	pt.DataTable()
+	var tr = $(picture).parents("tr");
+	pictureTable
 		.row(tr)
 		.remove()
 		.draw();
 }
 
 function addPicture() {
-	var pt = $("#pictureTable"),
-		ptrows = pt.DataTable().rows(function(i,d) {
+	var ptrows = pictureTable.rows(function(i,d) {
 			if (!d.path.startsWith("<input "))
 				return false;
 			
@@ -33,9 +28,9 @@ function addPicture() {
 	if (ptrows[0].length > 0)
 		return true;
 	
-	pt.DataTable()
+	pictureTable
 		.row
-			.add({path: '<input id="pic_'+pt.DataTable().rows()[0].length+'" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button"></input>',
+			.add({path: '<input id="pic_'+pictureTable.rows()[0].length+'" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button"></input>',
 			      name: ''
 				})
 			.draw();
@@ -43,21 +38,16 @@ function addPicture() {
 }
 
 function destroyPictures() {
-	console.log("clearing & destroying...");
-	var pt = $("#pictureTable");
-	pt.DataTable().destroy();
+	pictureTable.destroy();
 	productDialog.dialog("option", "product", []);
 }
 
 function getPictures(event, ui) {
-	console.log("building picture table...");
 	var product = productDialog.dialog("option","product"),
 		tdPictures = $("#pictures");
 	
 	if (product === null || product === undefined)
 		product = [];
-	
-	console.log(tdPictures.html());
 	
 	tdPictures.append(
 	'<table id="pictureTable" class="display compact"> \
@@ -71,11 +61,9 @@ function getPictures(event, ui) {
 		</tbody> \
 	</table>');
 	
-	console.log(tdPictures.html());
-	
-	$("#pictureTable").DataTable({
+	pictureTable = $("#pictureTable").DataTable({
 		jQueryUI: true,
-		data: product,
+		data: product.pictures,
 		columns: [
 			{data: null, render: function(r){return r.path+r.name;} },
 			{data: null, render: pictureRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}

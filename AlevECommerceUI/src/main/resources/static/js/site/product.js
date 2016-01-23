@@ -20,14 +20,14 @@ function editProduct(id) {
 }
 
 function deleteProduct(id) {
-	var product = product.data().filter(function(product){return product.id===id;})[0];
+	var product = productTable.data().filter(function(product){return product.id===id;})[0];
 	confirmDialog.dialog("option", "title", "Product - Delete");
 	confirmDialog.children("label").text("[" + product.name + "] " + product.title + " will be deleted,");
 	buttons = confirmDialog.dialog("option", "buttons");
 	buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {
 		//categoryCrud("delete",id,null, function(){
 			confirmDialog.dialog("close");
-			adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
+			adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
 			//});
 		};
 	confirmDialog.dialog("option","buttons",buttons);
@@ -46,7 +46,7 @@ function dialogClose(dialog) {
 	$(dialog).dialog("close");
 	//do not call this every time to pretend network load, try to sense if there is change
 	//or move this into the only button event that made change something
-	adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
+	adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
 	
 }
 

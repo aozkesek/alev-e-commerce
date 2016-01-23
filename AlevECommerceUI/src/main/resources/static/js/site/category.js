@@ -39,7 +39,7 @@ function onCategoryButtonsClick(event) {
 		buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {
 			categoryCrud("delete",id,null, function(){
 				confirmDialog.dialog("close");
-				adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
+				adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
 				});
 			};
 		confirmDialog.dialog("option","buttons",buttons);
@@ -76,7 +76,7 @@ function categoryCrud(oper, id, name, fns, fne) {
 function dialogClose(dialog) {
 	$(dialog).dialog("close");
 	//do not call this every time to pretend network load, try to sense if there is change
-	adminTaskTab.tabs("load", adminTaskTab.tabs("option", "active"));
+	adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
 	
 }
 
