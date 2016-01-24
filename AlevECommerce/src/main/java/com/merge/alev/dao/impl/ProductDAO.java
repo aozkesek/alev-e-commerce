@@ -78,4 +78,9 @@ public class ProductDAO extends AbstractDAO<Product> {
 		return product;
 	}
 	
+	@Override
+	public Product beforeDelete(Product product) throws Exception {
+		return read(product);
+	}
+	
 }

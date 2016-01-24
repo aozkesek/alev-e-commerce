@@ -2,6 +2,8 @@
 	<script type="text/javascript" th:attr="src=@{/js/tinymce/tinymce.min.js}"></script>
 
 	<div id="productDialog" title="Product">
+	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post">
+		<input type="hidden" id="productId" />
 		<table>
 			<tr>
 				<td>
@@ -65,7 +67,7 @@
 				
 			</tr>
 		</table>
-		
+	</form>		
 	</div>
 		
 	<script th:inline="javascript">

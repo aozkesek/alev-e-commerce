@@ -25,10 +25,18 @@ function deleteProduct(id) {
 	confirmDialog.children("label").text("[" + product.name + "] " + product.title + " will be deleted,");
 	buttons = confirmDialog.dialog("option", "buttons");
 	buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {
-		//categoryCrud("delete",id,null, function(){
-			confirmDialog.dialog("close");
-			adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
-			//});
+		adminAjaxCall({
+			type: "POST",
+			url: "/product/delete",
+			dataModel: '[{"id": ' + id + '}]',
+			success: function(){
+				confirmDialog.dialog("close");
+				adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
+				},
+			error: function(){
+				confirmDialog.dialog("close");
+				}
+		});
 		};
 	confirmDialog.dialog("option","buttons",buttons);
 	confirmDialog.dialog("open");

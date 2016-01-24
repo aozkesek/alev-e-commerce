@@ -18,8 +18,7 @@ public class RestProxyController {
 	@RequestMapping("/product/list")
 	@ResponseBody
 	public ProductResponse proxiedProductList(@RequestBody ProductRequest request) {
-		ProductResponse response = null;
-		response = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/list", request, ProductResponse.class);
+		ProductResponse response = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/list", request, ProductResponse.class);
 		return response;
 	}
 	
@@ -35,19 +34,24 @@ public class RestProxyController {
 	@RequestMapping("/category/list")
 	@ResponseBody
 	public CategoryResponse proxiedCategory() {
-		CategoryResponse response = null;
 		CategoryRequest request = new CategoryRequest();
 		request.setFirstRecordNumber(0);
 		request.setMaxRecordNumber(100);
-		response = RestProxy.postForObject(ServiceConstants.CategoryEndpoint + "/list", request, CategoryResponse.class);
+		CategoryResponse response = RestProxy.postForObject(ServiceConstants.CategoryEndpoint + "/list", request, CategoryResponse.class);
 		return response;
 	}
 	
 	@RequestMapping("/administration/category/{addUpdate}")
 	@ResponseBody
 	public CategoryResponse proxiedCategoryAddUpdate(@PathVariable String addUpdate, @RequestBody CategoryRequest request) {
-		CategoryResponse response = null;
-		response = RestProxy.postForObject(ServiceConstants.CategoryEndpoint + "/" + addUpdate, request, CategoryResponse.class);
+		CategoryResponse response = RestProxy.postForObject(ServiceConstants.CategoryEndpoint + "/" + addUpdate, request, CategoryResponse.class);
+		return response;
+	}
+	
+	@RequestMapping("/administration/product/{addUpdate}")
+	@ResponseBody
+	public ProductResponse proxiedProductAddUpdate(@PathVariable String addUpdate, @RequestBody ProductRequest request) {
+		ProductResponse response = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/" + addUpdate, request, ProductResponse.class);
 		return response;
 	}
 	
