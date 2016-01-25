@@ -50,7 +50,8 @@ public class PageController {
 	}
 	
 	@RequestMapping("/administration")
-	public String administration() {
+	public String administration(Model model) {
+		model.addAttribute("activeIndex", 0);
 		return "administration/index";
 	}
 	
