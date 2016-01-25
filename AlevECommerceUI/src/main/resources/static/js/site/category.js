@@ -6,8 +6,6 @@ function onCategoryButtonsClick(event) {
 	var categoryList = $("#categoryList"),
 		id = categoryList.val(),
 		name = categoryList.children().filter("[value="+id+"]").text(),
-		confirmDialog = $("#confirmDialog"),
-		categoryDialog = $("#categoryDialog"),
 		selectedCategory = $("#selectedCategory"),
 		buttons;
 	
@@ -15,7 +13,13 @@ function onCategoryButtonsClick(event) {
 	case "categoryUpdate":
 		selectedCategory.val(name);
 		buttons = categoryDialog.dialog("option", "buttons");
-		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {categoryCrud("update",id,selectedCategory.val());};
+		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {
+			adminAjaxCall({
+				type: "POST",
+				url: "/category/update",
+				dataModel: '[{"categoryName": "'+selectedCategory.val()+'", "id":'+id+'}]'
+			});
+		};
 		categoryDialog.dialog("option","buttons",buttons);
 		categoryDialog.dialog("open");
 		break;
@@ -24,10 +28,15 @@ function onCategoryButtonsClick(event) {
 		selectedCategory.val("");
 		buttons = categoryDialog.dialog("option", "buttons");
 		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {
-			categoryCrud("create",null,selectedCategory.val(), function(){
-				selectedCategory.val("");
-				});
-			};
+			adminAjaxCall({
+				type: "POST",
+				url: "/category/create",
+				dataModel: '[{"categoryName": "'+selectedCategory.val()+'"}]',
+				success: function() {
+					selectedCategory.val("");	
+				}
+			});
+		};
 		categoryDialog.dialog("option","buttons",buttons);
 		categoryDialog.dialog("open");
 		break;
@@ -37,41 +46,22 @@ function onCategoryButtonsClick(event) {
 		confirmDialog.children("label").text(name + " will be deleted,");
 		buttons = confirmDialog.dialog("option", "buttons");
 		buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {
-			categoryCrud("delete",id,null, function(){
-				confirmDialog.dialog("close");
-				adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
-				});
-			};
+			adminAjaxCall({
+				type: "POST",
+				url: "/category/delete",
+				dataModel: '[{"id": '+id+'}]',
+				success: function() {
+					confirmDialog.dialog("close");
+					adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));	
+				}
+			});
+		};
 		confirmDialog.dialog("option","buttons",buttons);
 		confirmDialog.dialog("open");
 		break;
 	}
 	
 }
-
-function categoryCrud(oper, id, name, fns, fne) {
-	var isFns = fns !== undefined && fns !== null,
-		idFne = fne !== undefined && fne !== null,
-		growlMessages = $("#growlmessages");
-	
-	$.ajax({
-		type: "POST"
-		, url: "/administration/category/" + oper
-		, data: '{"versionNumber": "1.0.0", "model": [{"categoryName": "' + name + '", "id": ' + id + '}]}'
-		, dataType: "json"
-		, contentType: "application/json"
-		, success: function(response) {
-			if (response.responseCode == 0) {
-				growlMessages.puigrowl("show", [{severity: "info", summary: oper, detail: "Done."}]);
-				try{isFns ? fns() : null;}catch(e){console.log(e);}
-			} else {
-				growlMessages.puigrowl("show", [{severity: "error", summary: oper, detail: "Failed."}]);
-				try{isFne ? fne() : null;}catch(e){console.log(e);}
-			}	
-		}
-	});
-	
-} 
 
 function dialogClose(dialog) {
 	$(dialog).dialog("close");

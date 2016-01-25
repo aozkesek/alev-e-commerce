@@ -1,10 +1,9 @@
 	<script type="text/javascript" th:attr="src=@{/js/site/picture.js}"></script>
-	<script type="text/javascript" th:attr="src=@{/js/tinymce/tinymce.min.js}"></script>
 
 	<div id="productDialog" title="Product">
 	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post">
 		<input type="hidden" id="productId" />
-		<table>
+		<table class="display compact dataTable">
 			<tr>
 				<td>
 					<label for="name">Name</label>
@@ -78,13 +77,17 @@
 	$("input")
    	.addClass("ui-widget ui-corner-all");
 	
-	tinymce.init({
-		selector: "textarea",
-		menubar: false	
-	});
+	if (tinymce !== undefined && tinymce !== null)
+		if (tinymce.activeEditor !== undefined && tinymce.activeEditor !== null)
+			tinymce.activeEditor.remove();
 	
 	detachProductDialog();
-	
+
+	tinymce.init({
+		selector: "textarea#description",
+		menubar: false	
+	});
+		
 	var productDialog = $("#productDialog").dialog({
 	   modal: true,
 		width: 800,
