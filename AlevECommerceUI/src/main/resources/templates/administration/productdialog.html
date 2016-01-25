@@ -3,20 +3,22 @@
 	<div class="ui-hidden">
 	<div id="productDialog" title="Product">
 	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post">
+		<input type="hidden" name="_csrf" th:attr="value=${_csrf.token}"/>
 		<input type="hidden" id="productId" />
+		
 		<table class="display compact dataTable">
 			<tr>
 				<td>
 					<label for="name">Name</label>
 				</td>
 				<td>
-					<input id="name" type="text"/>
+					<input id="name" name="name" type="text"/>
 				</td>
 				<td>
 					<label>Title</label>
 				</td>
 				<td>
-					<input id="title" type="text"/>
+					<input id="title" name="title" type="text"/>
 				</td>
 			</tr>
 
@@ -25,13 +27,13 @@
 					<label>Price</label>
 				</td>
 				<td>
-					<input id="price" type="number"/>
+					<input id="price" name="price" type="number"/>
 				</td>
 				<td>
 					<label>Actual Price</label>
 				</td>
 				<td>
-					<input id="actualPrice" type="number"/>
+					<input id="actualPrice" name="actualPrice" type="number"/>
 				</td>
 			</tr>
 
@@ -41,14 +43,14 @@
 					<label for="sizes">Sizes</label>
 				</td>
 				<td>
-					<input type="text" id="sizes" />
+					<input type="text" name="sizes" id="sizes" />
 
 				</td>
 				<td>
 					<label for="colors">Colors</label>
 				</td>
 				<td>
-					<input id="colors" type="text"/>
+					<input id="colors" name="colors" type="text"/>
 				</td>
 			</tr>
 
@@ -57,7 +59,7 @@
 					<label>Description</label>
 				</td>
 				<td colspan="3" id="embededhtmleditor">
-					<textarea id="description"></textarea>
+					<textarea id="description" name="description"></textarea>
 				</td>
 			</tr>
 

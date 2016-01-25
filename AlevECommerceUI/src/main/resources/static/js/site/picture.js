@@ -19,7 +19,9 @@ function addPicture() {
 			if (!d.path.startsWith("<input "))
 				return false;
 			
-			if ($("#"+$(d.path).attr("id")).val().length > 0)
+			console.log($(d.path));
+			
+			if ($(d.path).val().length > 0)
 				return false;
 			
 			return true;
@@ -30,7 +32,7 @@ function addPicture() {
 	
 	pictureTable
 		.row
-			.add({path: '<input id="pic_'+pictureTable.rows()[0].length+'" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button"></input>',
+			.add({path: '<input name="rawpictures" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button" />',
 			      name: ''
 				})
 			.draw();
@@ -71,7 +73,7 @@ function getPictures(event, ui) {
 		jQueryUI: true,
 		data: product.pictures,
 		columns: [
-			{data: null, render: function(r){return r.path+r.name;} },
+			{data: null, render: function(r){return r.name !== undefined ? (r.path+r.name+'<input type="hidden" name="pictures" value="'+r.name+'"/>') : '&nbsp;';} },
 			{data: null, render: pictureRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}
 		]
 	});

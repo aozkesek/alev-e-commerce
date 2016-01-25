@@ -20,7 +20,8 @@ public class PageController {
 	private IPageService categoryProductsService;
 	@Autowired
 	private IPageService categoryPageService;
-	
+	@Autowired
+	private IPageService productPageService;	
 	
 	@RequestMapping({"/layout", "/layout.html"})
 	public String layout() {
@@ -70,8 +71,7 @@ public class PageController {
 	
 	@RequestMapping("/adminproduct")
 	public String adminproduct(HttpServletRequest request, Model model) {
-		
-		return "administration/product";
+		return productPageService.process(request, model);
 	}
 	
 	@RequestMapping("/adminlogout")
