@@ -9,6 +9,7 @@ function productRowProcess(data, type, full, meta) {
 
 function editProduct(id) {
 	var product = productTable.data().filter(function(product){return product.id===id;})[0];
+	$("#productId").val(product.id);
 	$("#name").val(product.name);
 	$("#title").val(product.title);
 	$("#price").val(product.price);
@@ -44,7 +45,7 @@ function deleteProduct(id) {
 }
 
 function addProduct() {
-	$("#name,#title,#price,#actualPrice").val("");
+	$("#name,#title,#price,#actualPrice,#productId").val("");
 	$("#description").text("");
 	productDialog.dialog("open");
 	return true;

@@ -39,12 +39,18 @@ function addPicture() {
 
 function destroyPictures() {
 	pictureTable.destroy();
+	tinymce.activeEditor.remove();
 	productDialog.dialog("option", "product", []);
 }
 
 function getPictures(event, ui) {
 	var product = productDialog.dialog("option","product"),
 		tdPictures = $("#pictures");
+	
+	tinymce.init({
+		selector: "textarea#description",
+		menubar: false	
+	});
 	
 	if (product === null || product === undefined)
 		product = [];

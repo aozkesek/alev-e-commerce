@@ -15,3 +15,11 @@
 	display: inline;
 	padding: 3px 3px 3px 3px;
 }
+
+.ui-dialog-noclose .ui-dialog-titlebar-close {
+	display: none;
+}
+
+.ui-hidden {
+	display: none;
+}

@@ -1,5 +1,6 @@
 	<script type="text/javascript" th:attr="src=@{/js/site/picture.js}"></script>
-
+	
+	<div class="ui-hidden">
 	<div id="productDialog" title="Product">
 	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post">
 		<input type="hidden" id="productId" />
@@ -55,7 +56,7 @@
 				<td>
 					<label>Description</label>
 				</td>
-				<td colspan="3">
+				<td colspan="3" id="embededhtmleditor">
 					<textarea id="description"></textarea>
 				</td>
 			</tr>
@@ -68,6 +69,7 @@
 		</table>
 	</form>		
 	</div>
+	</div>
 		
 	<script th:inline="javascript">
 	/*<![CDATA[*/
@@ -77,26 +79,19 @@
 	$("input")
    	.addClass("ui-widget ui-corner-all");
 	
-	if (tinymce !== undefined && tinymce !== null)
-		if (tinymce.activeEditor !== undefined && tinymce.activeEditor !== null)
-			tinymce.activeEditor.remove();
-	
 	detachProductDialog();
-
-	tinymce.init({
-		selector: "textarea#description",
-		menubar: false	
-	});
 		
 	var productDialog = $("#productDialog").dialog({
 	   modal: true,
 		width: 800,
 	   autoOpen: false,
+	   closeOnEscape: false,
+	   dialogClass: "ui-dialog-noclose",
 	   open: getPictures,
 	   close: destroyPictures,
 		buttons: [
 			{ text: "Cancel", click: function() { dialogClose(this); } },
-			{ text: "Ok" }
+			{ text: "Ok", click: function() { $("#productForm").submit(); } }
 		]
    });
 	
