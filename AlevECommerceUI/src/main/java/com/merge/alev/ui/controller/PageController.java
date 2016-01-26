@@ -2,6 +2,7 @@ package com.merge.alev.ui.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class PageController {
 	
 	@RequestMapping({"/", "/home"})
 	public String index(Model model) {
-		return homePageService.process(null, model);
+		return homePageService.process(null, null, model);
 	}
 
 	@RequestMapping("/trackorder")
@@ -45,13 +46,11 @@ public class PageController {
 	
 	@RequestMapping("/category/products/{id}")
 	public String categoryProducts(@PathVariable Integer id, HttpServletRequest request, Model model) {
-		model.addAttribute("categoryId", id);
-		return categoryProductsService.process(request, model);
+		return categoryProductsService.process(request, null, model);
 	}
 	
 	@RequestMapping("/administration")
-	public String administration(Model model) {
-		model.addAttribute("activeIndex", 0);
+	public String administration(HttpServletRequest request, Model model) {
 		return "administration/index";
 	}
 	
@@ -62,17 +61,17 @@ public class PageController {
 	
 	@RequestMapping("/admincategory")
 	public String admincategory(Model model) {
-		return categoryPageService.process(null, model);
+		return categoryPageService.process(null, null, model);
 	}
 	
 	@RequestMapping("/adminfee")
-	public String adminfee() {
+	public String adminfee(Model model) {
 		return "administration/fee";
 	}
 	
 	@RequestMapping("/adminproduct")
-	public String adminproduct(HttpServletRequest request, Model model) {
-		return productPageService.process(request, model);
+	public String adminproduct(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return productPageService.process(request, response, model);
 	}
 	
 	@RequestMapping("/adminlogout")

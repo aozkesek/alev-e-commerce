@@ -1,8 +1,7 @@
 package com.merge.alev.ui.service;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +22,7 @@ public class CategoryPageService implements IPageService {
 	private CategoryService categoryService;
 	
 	@Override
-	public String process(HttpServletRequest request, Model model) {
-		Map<String, Object> modelMap = model.asMap();
+	public String process(HttpServletRequest request, HttpServletResponse response, Model model) {
 			
 		CategoryResponse catRes = categoryService.getCategories();
 		if (catRes.getResponseCode() != null && !catRes.getResponseCode().equals(-1)) {		
@@ -32,7 +30,7 @@ public class CategoryPageService implements IPageService {
 			if (!catRes.getModel().isEmpty())
 				model.addAttribute(selectedCategory, catRes.getModel().get(0));
 		}
-
+		
 		return "administration/category";
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ import com.merge.alev.ui.model.request.ProductRequest;
 public class CategoryProductsService implements IPageService {
 
 	@Override
-	public String process(HttpServletRequest request, Model model) {
+	public String process(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Map<String, Object> modelMap = model.asMap();
 		ProductRequest prequest = new ProductRequest();
 		Product product = new Product();

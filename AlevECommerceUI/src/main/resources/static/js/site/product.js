@@ -78,6 +78,24 @@ function getProducts(data, callback, settings) {
 	
 }
 
+function hasEmptyFileRow() {
+	var emptyrows = $("input[name=rawpictures]").filter(function(i,o){return $(o).val().length === 0;});
+
+	if (emptyrows.length > 0)
+		return true;
+	
+	return false;
+}
+
+function validateProductForm() {
+	if (hasEmptyFileRow()) {
+		growlMessages.puigrowl("show", [{severity: "warn", summary: "Form validation", detail: "You can not submit unselected or empty picture file."}]);
+		return false;
+	}
+		
+	return true;
+}
+
 /*
  * cleanup previous remained div into the body
  */

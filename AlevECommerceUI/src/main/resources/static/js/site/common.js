@@ -2,8 +2,8 @@
  * 
  */
 
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content"),
+		header = $("meta[name='_csrf_header']").attr("content");
 	
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
@@ -28,8 +28,7 @@
 		if ((settings === undefined) || (settings === null) || ((typeof settings) !== "object"))
 			return;
 		
-		var growlMessages = $("#growlmessages"),
-			dataj = '{"versionNumber": "1.0.0", "firstRecordNumber": ' + (settings.firstRecord === undefined ? 0 : settings.firstRecord)
+		var dataj = '{"versionNumber": "1.0.0", "firstRecordNumber": ' + (settings.firstRecord === undefined ? 0 : settings.firstRecord)
 					+ ', "maxRecordNumber": ' + (settings.maxRecord === undefined ? 10 : settings.maxRecord)
 					+ ', "model": ' + settings.dataModel + '}';
 

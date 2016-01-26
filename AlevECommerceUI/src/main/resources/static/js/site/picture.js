@@ -15,19 +15,8 @@ function removePicture(picture) {
 }
 
 function addPicture() {
-	var ptrows = pictureTable.rows(function(i,d) {
-			if (!d.path.startsWith("<input "))
-				return false;
-			
-			console.log($(d.path));
-			
-			if ($(d.path).val().length > 0)
-				return false;
-			
-			return true;
-		});
 	
-	if (ptrows[0].length > 0)
+	if (hasEmptyFileRow())
 		return true;
 	
 	pictureTable
@@ -36,6 +25,7 @@ function addPicture() {
 			      name: ''
 				})
 			.draw();
+	
 	return true;
 }
 

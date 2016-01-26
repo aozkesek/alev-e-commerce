@@ -1,8 +1,10 @@
 package com.merge.alev.ui.service;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -13,7 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 public class ProductPageService implements IPageService {
 
 	@Override
-	public String process(HttpServletRequest request, Model model) {
+	public String process(HttpServletRequest request, HttpServletResponse response, Model model) {
 		String contentType = request.getContentType();
 		if (contentType == null || !contentType.startsWith("multipart/form-data"))
 			return "administration/product";
@@ -28,8 +30,13 @@ public class ProductPageService implements IPageService {
 				
 			}
 		}
+
+		try {
+			response.sendRedirect("/administration?activeIndex=3");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		model.addAttribute("activeIndex", 3);
 		return "administration/index";
 	}
 

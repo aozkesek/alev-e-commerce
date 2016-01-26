@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class HomePageService implements IPageService {
 	private CategoryService categoryService;
 	
 	@Override
-	public String process(HttpServletRequest request, Model model) {
+	public String process(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Map<String, Object> modelMap = model.asMap();
 
 		if (!model.containsAttribute(serviceBaseUrl))

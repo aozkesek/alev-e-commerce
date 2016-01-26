@@ -2,7 +2,7 @@
 	
 	<div class="ui-hidden">
 	<div id="productDialog" title="Product">
-	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post">
+	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post" onsubmit="return validateProductForm();">
 		<input type="hidden" name="_csrf" th:attr="value=${_csrf.token}"/>
 		<input type="hidden" id="productId" />
 		
