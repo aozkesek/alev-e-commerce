@@ -92,7 +92,8 @@ function validateProductForm() {
 		growlMessages.puigrowl("show", [{severity: "warn", summary: "Form validation", detail: "You can not submit unselected or empty picture file."}]);
 		return false;
 	}
-		
+	
+	
 	return true;
 }
 

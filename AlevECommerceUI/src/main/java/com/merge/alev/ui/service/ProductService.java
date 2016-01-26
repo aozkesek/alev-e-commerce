@@ -30,5 +30,17 @@ public class ProductService {
 		return res;
 	}
 
+	public ProductResponse updateProduct(ProductRequest request) {
+		ProductResponse response = new ProductResponse();
+		
+		
+		return response;
+		
+	}
 	
+	public ProductResponse addProduct(ProductRequest request) {
+		ProductResponse response = new ProductResponse();
+		
+		return response;
+	}
 }
