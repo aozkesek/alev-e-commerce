@@ -1,5 +1,6 @@
 package com.merge.alev.ui.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -74,17 +75,28 @@ public class ProductPageService implements IPageService {
 				}, null)
 			);
 			
-			for (String picName : paramMap.get("pictures")) {
+			String pictureNames[] = paramMap.get("pictureNames");
+			String pictureIds[] = paramMap.get("pictureIds");
+					
+			for (int i = 0; i < pictureIds.length; i++) {
 				ProductPicture picture = new ProductPicture();
-				picture.setName(picName);
-				picture.setPath("/pictures/product/".concat(product.getName().concat("/")));
-//				pictureId settings is not clear 
+				picture.setName(pictureNames[i]);
+				picture.setPath("/pictures/product/".concat(product.getName().concat("/"))); 
+				
+				picture.setId(Integer.valueOf(pictureIds[i]));
 				product.getPictures().add(picture);
 			}
+			
+			String picturesPath = request.getServletContext().getRealPath("/pictures");
+			String savePath = picturesPath.concat("/").concat(product.getName());
+			File filePath = new File(savePath);
+			if (!filePath.exists())
+				filePath.mkdirs();
 			
 			for (MultipartFile rawPic : files.values()) {
 				String name = rawPic.getName();
 				
+				rawPic.transferTo(new File(savePath.concat("/").concat(name)));
 				
 				ProductPicture picture = new ProductPicture();
 				picture.setName(name);
@@ -99,10 +111,13 @@ public class ProductPageService implements IPageService {
 			String addUpdate = product.getId() == null ? "/create" : "/update";
 			
 			ProductResponse productRes = RestProxy.postForObject(ServiceConstants.ProductEndpoint + addUpdate, productReq, ProductResponse.class);
-			
+			if (productRes.getResponseCode() < 0) {
+				
+			}
 			response.sendRedirect("/administration?activeIndex=3");
 			
 		} catch(Exception ex) {
+			ex.printStackTrace();
 			
 		}
 		

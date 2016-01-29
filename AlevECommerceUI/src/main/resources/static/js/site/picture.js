@@ -22,7 +22,7 @@ function addPicture() {
 	pictureTable
 		.row
 			.add({path: '<input name="rawpictures" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button" />',
-			      name: ''
+			      name: '', id: ''
 				})
 			.draw();
 	
@@ -63,7 +63,7 @@ function getPictures(event, ui) {
 		jQueryUI: true,
 		data: product.pictures,
 		columns: [
-			{data: null, render: function(r){return r.name !== undefined ? (r.path+r.name+'<input type="hidden" name="pictureIds" value="'+r.id+'"/><input type="hidden" name="pictureNames" value="'+r.name+'"/>') : '&nbsp;';} },
+			{data: null, render: function(r){return (r.path.startsWith('<input')) ? r.path : r.path+r.name+'<input type="hidden" name="pictureIds" value="'+r.id+'"/><input type="hidden" name="pictureNames" value="'+r.name+'"/>';} },
 			{data: null, render: pictureRowProcess, "className": "dt-body-center", "orderable": false, "searchable": false}
 		]
 	});
