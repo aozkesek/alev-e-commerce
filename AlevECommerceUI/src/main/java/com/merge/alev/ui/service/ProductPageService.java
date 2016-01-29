@@ -1,6 +1,9 @@
 package com.merge.alev.ui.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -88,19 +91,22 @@ public class ProductPageService implements IPageService {
 			}
 			
 			String picturesPath = request.getServletContext().getRealPath("/pictures");
-			String savePath = picturesPath.concat("/").concat(product.getName());
+			String savePath = picturesPath.concat("/products/").concat(product.getName());
 			File filePath = new File(savePath);
 			if (!filePath.exists())
 				filePath.mkdirs();
 			
 			for (MultipartFile rawPic : files.values()) {
-				String name = rawPic.getName();
+				String name = rawPic.getOriginalFilename();
 				
-				rawPic.transferTo(new File(savePath.concat("/").concat(name)));
+				File picFile = new File(savePath.concat("/").concat(name));
+				FileOutputStream picStream = new FileOutputStream(picFile);
+				picStream.write(rawPic.getBytes());
+				picStream.close();
 				
 				ProductPicture picture = new ProductPicture();
 				picture.setName(name);
-				picture.setPath("/pictures/product/".concat(product.getName().concat("/")));
+				picture.setPath("/pictures/products/".concat(product.getName().concat("/")));
 				product.getPictures().add(picture);
 			}
 	

@@ -2,6 +2,7 @@ package com.merge.alev.dao.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.merge.alev.dao.model.Category;
 import com.merge.alev.dao.model.Product;
+import com.merge.alev.dao.model.ProductPicture;
 import com.merge.base.dao.impl.AbstractDAO;
 import com.merge.base.dao.intf.IGenericDAO;
 
@@ -69,13 +71,46 @@ public class ProductDAO extends AbstractDAO<Product> {
 	
 	@Override
 	public Product beforeUpdate(Product product) throws Exception {
+	
+		Product current = read(product);
+		List<ProductPicture> currentPictures = current.getPictures();  
 		
-		Date now = Calendar.getInstance().getTime();
-		product.setUpdateDate(now);
-		//change the category object with a transient one
-		product.setCategory(categoryDao.read(product.getCategory()));
-				
-		return product;
+		current.setActualPrice(product.getActualPrice());
+		if (!current.getCategory().getCategoryName().equals(product.getCategory().getCategoryName()))
+			current.setCategory(categoryDao.read(product.getCategory()));
+		current.setColors(product.getColors());
+		current.setDescription(product.getDescription());
+		current.setName(product.getName());
+		current.setPrice(product.getPrice());
+		current.setSizes(product.getSizes());
+		current.setTitle(product.getTitle());
+		current.setUpdateDate(Calendar.getInstance().getTime());
+		
+		for (ProductPicture proPic : product.getPictures()) {
+			if (proPic.getId() == null) 
+				currentPictures.add(proPic);
+			else {
+				for (ProductPicture updPic : currentPictures)
+					if (updPic.getId().equals(proPic.getId())) {
+						updPic.setName(proPic.getName());
+						updPic.setPath(proPic.getPath());
+						break;
+					}
+			}
+		}
+		
+		if (product.getPictures().size() < currentPictures.size())
+			for (ProductPicture proPic : product.getPictures()) {
+				if (proPic.getId() == null)
+					continue;
+				for (ProductPicture curPic : currentPictures) 
+					if (curPic.getId().equals(proPic.getId())) {
+						currentPictures.remove(curPic);
+						break;
+					}
+						
+			}
+		return current;
 	}
 	
 	@Override

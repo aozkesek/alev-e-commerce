@@ -17,15 +17,15 @@ function productRowProcess(data, type, full, meta) {
 			'<div class="ui-widget ui-widget-header">'+data.title+'</div>' +
 			'<div class="ui-widget ui-widget-content">' +
 			'<div class="ui-widget ui-site-left">' +
-				'<div>Name: ' + data.name + '</div>' +
-				'<div>Price : ' + data.price + '</div>' +
-				'<div>Now: ' + data.actualPrice + '</div>' +
+				'<div style="display:inline-block;">Name: ' + data.name + '</div>' +
+				'<div style="display:inline-block;">Price : ' + data.price + '</div>' +
+				'<div style="display:inline-block;">Now: ' + data.actualPrice + '</div>' +
 			'</div>' +
 			'<div class="ui-widget ui-site-center">' +
-				'<div>Description : ' + data.description + '</div>' +
+				'<div style="display:inline-block;">Description : ' + data.description + '</div>' +
 			'</div>' +
 			'<div class="ui-widget ui-site-right">' +
-				'<div>' +
+				'<div style="display:inline-block;">' +
 				getPicturesTemplate(data.pictures) +
 				'</div>' +
 			'</div>' +
