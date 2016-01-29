@@ -42,6 +42,7 @@ public class PageController {
 	
 	@RequestMapping("/category/products/{id}")
 	public String categoryProducts(@PathVariable Integer id, HttpServletRequest request, Model model) {
+		model.addAttribute("categoryId", id);
 		return categoryProductsService.process(request, null, model);
 	}
 	
