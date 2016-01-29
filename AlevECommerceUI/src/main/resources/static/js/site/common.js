@@ -41,16 +41,16 @@
 			success: function(response) {
 				if (response.responseCode == 0) {
 					growlMessages.puigrowl("show", [{severity: "info", summary: settings.title, detail: "Done."}]);
-					try{settings.success();}catch(e){console.log(e);}
+					try{settings.success(response);}catch(e){console.log(e);}
 				} else {
 					growlMessages.puigrowl("show", [{severity: "error", summary: settings.title, detail: "Failed."}]);
-					try{settings.error();}catch(e){console.log(e);}
+					try{settings.error(response);}catch(e){console.log(e);}
 				}
 			},
 			error: function(e) {
 				console.log(e);
 				growlMessages.puigrowl("show", [{severity: "error", summary: settings.title, detail: "Failed."}]);
-				try{settings.error();}catch(e){console.log(e);}
+				try{settings.error(response);}catch(e){console.log(e);}
 			}
 		});
 		

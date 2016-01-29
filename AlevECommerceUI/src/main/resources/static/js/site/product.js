@@ -2,6 +2,45 @@
  * 
  */
 
+var SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"],
+	COLORS = ["White", "Black", "Blue", "Red", "Green", "Yellow"];
+
+function getSizeSource(req, res) {
+	res($.ui.autocomplete.filter(SIZES, req.term.split(/,\s*/).pop()));
+}
+
+function getColorSource(req, res) {
+	res($.ui.autocomplete.filter(COLORS, req.term.split(/,\s*/).pop()));
+}
+
+function onMultipleSelect(event, ui) {
+	var terms = this.value.split(/,\s*/);
+	terms.pop();
+	terms.push(ui.item.value);
+	terms.push("");
+	this.value = terms.join(",");
+	return false;
+}
+
+function onCategorySelect(event, ui) {
+	$("#categoryId").val(ui.item.value);
+	this.value = ui.item.label;
+	return false;
+}
+
+function getCategories(callback) {
+	$.ajax({
+		type: "POST",
+		url: "/category/list",
+		contentType: "application/json",
+		success: function(response) {
+			if (response.responseCode === 0)
+				if (response.model.length > 0)
+					callback(response.model);
+		}
+	});
+}
+
 function productRowProcess(data, type, full, meta) {
 	return '<a class="ui-button ui-icon ui-icon-pencil" href="javascript:void(0)" onclick="editProduct('+data.id+');" title="Update this product"></a>' +
 		'<a class="ui-button ui-icon ui-icon-minus" href="javascript:void(0)" onclick="deleteProduct('+data.id+');" title="Delete this product"></a>';
@@ -9,6 +48,8 @@ function productRowProcess(data, type, full, meta) {
 
 function editProduct(id) {
 	var product = productTable.data().filter(function(product){return product.id===id;})[0];
+	$("#categoryName").val(product.category.categoryName);
+	$("#categoryId").val(product.category.id);
 	$("#productId").val(product.id);
 	$("#name").val(product.name);
 	$("#title").val(product.title);

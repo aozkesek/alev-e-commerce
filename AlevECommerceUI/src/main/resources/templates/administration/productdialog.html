@@ -4,9 +4,20 @@
 	<div id="productDialog" title="Product">
 	<form id="productForm" action="/adminproduct" enctype="multipart/form-data" method="post" onsubmit="return validateProductForm();">
 		<input type="hidden" name="_csrf" th:attr="value=${_csrf.token}"/>
-		<input type="hidden" id="productId" />
+		<input type="hidden" id="productId" name="productId" />
 		
 		<table class="display compact dataTable">
+			<tr>
+				<td>
+					<label for="category">Category</label>
+				</td>
+				<td colspan="3">
+					<input id="categoryName" name="categoryName" type="text"/>
+					<div id="categoryName-div"></div>
+					<input id="categoryId" name="categoryId" type="hidden"/>
+				</td>
+			</tr>
+			
 			<tr>
 				<td>
 					<label for="name">Name</label>
@@ -44,13 +55,14 @@
 				</td>
 				<td>
 					<input type="text" name="sizes" id="sizes" />
-
+					<div id="sizes-div"></div>
 				</td>
 				<td>
 					<label for="colors">Colors</label>
 				</td>
 				<td>
 					<input id="colors" name="colors" type="text"/>
+					<div id="colors-div"></div>
 				</td>
 			</tr>
 
@@ -75,11 +87,27 @@
 		
 	<script th:inline="javascript">
 	/*<![CDATA[*/
-	           
-	var pictureTable = null;
+	var categoryObjects = [];        
 	
 	$("input")
    	.addClass("ui-widget ui-corner-all");
+	
+	$("#sizes").autocomplete({appendTo: "#sizes-div", delay: 500, autoFocus: true, source: getSizeSource, select: onMultipleSelect});
+	$("#colors").autocomplete({appendTo: "#colors-div", delay: 500, autoFocus: true, source: getColorSource, select: onMultipleSelect});
+	
+	getCategories(function(categories) {
+		categories.forEach(function(category) { 
+			categoryObjects.push({label: category.categoryName, value:category.id}); 
+			});
+		
+		$("#categoryName").autocomplete({
+			appendTo: "#categoryName-div", 
+			delay: 500, 
+			autoFocus: true, 
+			source: categoryObjects, 
+			select: onCategorySelect 
+		});
+	});
 	
 	detachProductDialog();
 		
