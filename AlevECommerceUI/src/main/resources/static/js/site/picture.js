@@ -14,6 +14,26 @@ function removePicture(picture) {
 		.draw();
 }
 
+function isExist(o) {
+	var files = $("input[type=file]"),
+		olds = pictureTable.data(),
+		_this = $(o),
+		_isExist = false;
+	
+//	if (files.find(function(f) { return f !== o && $(f).val() === _this.val(); }))
+//		_isExist = true;
+//	else if (olds.find(function(f) { return _this.val().endsWith(f.name); }))
+//		_isExist = true;
+
+	if (_isExist) {
+		growlMessages.puigrowl("show", [{severity: "warn", summary: "Form validation", detail: "You can not select a file already selected."}]);
+		_this.val("");
+		return false;
+	}
+	
+	return true;
+}
+
 function addPicture() {
 	
 	if (hasEmptyFileRow())
@@ -21,7 +41,7 @@ function addPicture() {
 	
 	pictureTable
 		.row
-			.add({path: '<input name="rawpictures" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button" />',
+			.add({path: '<input name="'+Math.random()+'" type="file" accept="image/*" formenctype="multipart/form-data" class="ui-widget ui-button" onchange="return isExist(this);"/>',
 			      name: '', id: ''
 				})
 			.draw();

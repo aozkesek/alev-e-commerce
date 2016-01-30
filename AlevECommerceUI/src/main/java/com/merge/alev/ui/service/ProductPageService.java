@@ -81,7 +81,7 @@ public class ProductPageService implements IPageService {
 			String pictureNames[] = paramMap.get("pictureNames");
 			String pictureIds[] = paramMap.get("pictureIds");
 					
-			for (int i = 0; i < pictureIds.length; i++) {
+			for (int i = 0; pictureIds != null && i < pictureIds.length; i++) {
 				ProductPicture picture = new ProductPicture();
 				picture.setName(pictureNames[i]);
 				picture.setPath("/pictures/product/".concat(product.getName().concat("/"))); 

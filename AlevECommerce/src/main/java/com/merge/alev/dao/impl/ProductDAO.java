@@ -99,17 +99,24 @@ public class ProductDAO extends AbstractDAO<Product> {
 			}
 		}
 		
-		if (product.getPictures().size() < currentPictures.size())
-			for (ProductPicture proPic : product.getPictures()) {
-				if (proPic.getId() == null)
+		boolean isDeleted = false;
+		
+		while (product.getPictures().size() < currentPictures.size())
+			for (ProductPicture curPic : currentPictures) {
+				if (curPic.getId() == null)
 					continue;
-				for (ProductPicture curPic : currentPictures) 
+				isDeleted = true;
+				for (ProductPicture proPic : product.getPictures()) 
 					if (curPic.getId().equals(proPic.getId())) {
-						currentPictures.remove(curPic);
+						isDeleted = false;
 						break;
 					}
-						
+				if (isDeleted) {
+					currentPictures.remove(curPic);
+					break;
+				}
 			}
+		
 		return current;
 	}
 	

@@ -56,6 +56,8 @@ function editProduct(id) {
 	$("#price").val(product.price);
 	$("#actualPrice").val(product.actualPrice);
 	$("#description").text(product.description);
+	$("#sizes").val(product.sizes);
+	$("#colors").val(product.colors);
 	productDialog.dialog("option", "product", product);
 	productDialog.dialog("open");
 	return true;
@@ -120,7 +122,7 @@ function getProducts(data, callback, settings) {
 }
 
 function hasEmptyFileRow() {
-	var emptyrows = $("input[name=rawpictures]").filter(function(i,o){return $(o).val().length === 0;});
+	var emptyrows = $("input[type=file]").filter(function(i,o){return $(o).val().length === 0;});
 
 	if (emptyrows.length > 0)
 		return true;
