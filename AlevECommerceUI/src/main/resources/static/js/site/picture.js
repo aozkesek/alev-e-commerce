@@ -15,24 +15,26 @@ function removePicture(picture) {
 }
 
 function isExist(o) {
-	var files = $("input[type=file]"),
-		olds = pictureTable.data(),
-		_this = $(o),
-		_isExist = false;
+	var _this = $(o),
+		_olds = pictureTable.data().toArray(),
+		_isExist = _olds.find(
+				function(f) { 
+					if (f.path.startsWith("<input "))
+						if (_this.attr("name") === $(f.path).attr("name"))
+							return false;
+						else
+							return _this.val().endsWith($("input[name='"+$(f.path).attr("name")+"']")[0].files[0].name);
+					return _this.val().endsWith(f.name);
+					}
+				);
 	
-//	if (files.find(function(f) { return f !== o && $(f).val() === _this.val(); }))
-//		_isExist = true;
-//	else if (olds.find(function(f) { return _this.val().endsWith(f.name); }))
-//		_isExist = true;
-
 	if (_isExist) {
 		growlMessages.puigrowl("show", [{severity: "warn", summary: "Form validation", detail: "You can not select a file already selected."}]);
 		_this.val("");
-		return false;
 	}
 	
-	return true;
 }
+
 
 function addPicture() {
 	

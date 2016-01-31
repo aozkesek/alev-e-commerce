@@ -84,7 +84,7 @@ public class ProductPageService implements IPageService {
 			for (int i = 0; pictureIds != null && i < pictureIds.length; i++) {
 				ProductPicture picture = new ProductPicture();
 				picture.setName(pictureNames[i]);
-				picture.setPath("/pictures/product/".concat(product.getName().concat("/"))); 
+				picture.setPath("/pictures/products/".concat(product.getName().concat("/"))); 
 				
 				picture.setId(Integer.valueOf(pictureIds[i]));
 				product.getPictures().add(picture);
