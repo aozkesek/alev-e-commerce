@@ -7,7 +7,7 @@ function getPicturesTemplate(pictures) {
 	var picTemplate = '<div>';
 	pictures.forEach(
 			function(current,index,array) {
-				picTemplate += '<img src="' + current.path + current.name + '"></img>';
+				picTemplate += '<img src="' + current.path + current.name + '" width="40px" height="40px"></img>';
 				});
 	return picTemplate;
 }
@@ -17,7 +17,7 @@ function productRowProcess(data, type, full, meta) {
 			'<div class="ui-widget ui-widget-header">'+data.title+'</div>' +
 			'<div class="ui-widget ui-widget-content">' +
 			'<div class="ui-widget ui-site-left">' +
-				'<div style="display:inline-block;">Name: ' + data.name + '</div>' +
+				'<div style="display:inline-block;">' + data.name + '</div>' +
 				'<div style="display:inline-block;">Price : ' + data.price + '</div>' +
 				'<div style="display:inline-block;">Now: ' + data.actualPrice + '</div>' +
 			'</div>' +
