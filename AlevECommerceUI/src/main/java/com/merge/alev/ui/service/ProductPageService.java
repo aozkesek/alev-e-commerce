@@ -84,13 +84,13 @@ public class ProductPageService implements IPageService {
 			for (int i = 0; pictureIds != null && i < pictureIds.length; i++) {
 				ProductPicture picture = new ProductPicture();
 				picture.setName(pictureNames[i]);
-				picture.setPath("/pictures/products/".concat(product.getName().concat("/"))); 
+				picture.setPath("/images/products/".concat(product.getName().concat("/"))); 
 				
 				picture.setId(Integer.valueOf(pictureIds[i]));
 				product.getPictures().add(picture);
 			}
 			
-			String picturesPath = request.getServletContext().getRealPath("/pictures");
+			String picturesPath = request.getServletContext().getRealPath("/images");
 			String savePath = picturesPath.concat("/products/").concat(product.getName());
 			File filePath = new File(savePath);
 			if (!filePath.exists())
@@ -106,7 +106,7 @@ public class ProductPageService implements IPageService {
 				
 				ProductPicture picture = new ProductPicture();
 				picture.setName(name);
-				picture.setPath("/pictures/products/".concat(product.getName().concat("/")));
+				picture.setPath("/images/products/".concat(product.getName().concat("/")));
 				product.getPictures().add(picture);
 			}
 	

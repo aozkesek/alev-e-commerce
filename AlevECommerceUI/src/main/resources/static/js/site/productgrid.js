@@ -7,7 +7,7 @@ function getPicturesTemplate(pictures) {
 	var picTemplate = '<div>';
 	pictures.forEach(
 			function(current,index,array) {
-				picTemplate += '<img src="/images' + current.path + current.name + '"></img>';
+				picTemplate += '<img src="' + current.path + current.name + '"></img>';
 				});
 	return picTemplate;
 }
