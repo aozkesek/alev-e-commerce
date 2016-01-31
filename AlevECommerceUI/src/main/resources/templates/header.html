@@ -7,19 +7,20 @@
 		
 		<div th:fragment="header">
 			
-			<div id="mainToolBar" style="padding: 4px; display: block;" class="ui-widget-header ui-corner-all">
-				<a href="/home">Home</a>
-				<a href="/trackorder">Track Your Order</a>
-				<a href="/about">About Us</a>
-				<a sec:authorize="hasRole('ROLE_ADMIN')" href="/administration">Administration</a>
-				<a sec:authorize="hasRole('ROLE_ADMIN')" href="/adminlogout">Logout</a>
-			</div>
-
-			<script type="text/javascript">
-			/*<![CDATA[*/
-			$("#mainToolBar > a").button();
-			/*]]>*/
-			</script>
+			<nav class="uk-navbar">
+				<ul class="uk-navbar-nav">
+					<li><a href="/home">Home</a></li>	
+					<li><a href="/trackorder">Track Your Order</a></li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/administration">Administration</a></li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/adminlogout">Logout</a></li>
+				</ul>
+				
+				<div class="uk-navbar-flip">
+					<ul class="uk-navbar-nav">
+						<li><a href="/about">About Us</a></li>
+					</ul>
+				</div>
+			</nav>
 			
 		</div>
 	
