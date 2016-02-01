@@ -40,6 +40,9 @@ function getProducts(data, callback, settings) {
 			',"maxRecordNumber":' + settings._iDisplayLength + 
 			',"model":[{"category":{"id":'+categoryId+'}}]}';
 	
+	if (categoryId === "-1")
+		return;
+	
 	$.ajax({
 		type: "POST", 
 		url: "/product/list", 

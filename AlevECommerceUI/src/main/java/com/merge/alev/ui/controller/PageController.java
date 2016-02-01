@@ -40,6 +40,11 @@ public class PageController {
 		return "about";
 	}
 	
+	@RequestMapping("/template/{item}")
+	public String template(@PathVariable String item, Model model) {
+		return "/template/".concat(item);
+	}
+	
 	@RequestMapping("/category/products/{id}")
 	public String categoryProducts(@PathVariable Integer id, HttpServletRequest request, Model model) {
 		model.addAttribute("categoryId", id);

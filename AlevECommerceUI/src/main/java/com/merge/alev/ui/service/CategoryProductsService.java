@@ -22,22 +22,26 @@ public class CategoryProductsService implements IPageService {
 		Map<String, Object> modelMap = model.asMap();
 		ProductRequest prequest = new ProductRequest();
 		Product product = new Product();
+		Integer categoryId = (Integer)modelMap.get("categoryId");
 		
-		product.setCategory(new Category());
-		product.getCategory().setId((Integer)modelMap.get("categoryId"));
-		
-		prequest.setModel(new ArrayList<Product>());
-		prequest.getModel().add(product);
-		
-		Integer totalRecordNumber = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/listTotalRecord", prequest, Integer.class);
-		model.addAttribute("totalRecordNumber", totalRecordNumber);
-		
-		prequest.setFirstRecordNumber(0);
-		prequest.setMaxRecordNumber(10);
-		
-		ProductResponse presponse = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/list", prequest, ProductResponse.class);
-		if (presponse.getResponseCode() > -1)
-			model.addAttribute("products", presponse.getModel());
+		if (categoryId != -1) { //hot deals
+			
+			product.setCategory(new Category());
+			product.getCategory().setId(categoryId);
+			
+			prequest.setModel(new ArrayList<Product>());
+			prequest.getModel().add(product);
+			
+			Integer totalRecordNumber = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/listTotalRecord", prequest, Integer.class);
+			model.addAttribute("totalRecordNumber", totalRecordNumber);
+			
+			prequest.setFirstRecordNumber(0);
+			prequest.setMaxRecordNumber(10);
+			
+			ProductResponse presponse = RestProxy.postForObject(ServiceConstants.ProductEndpoint + "/list", prequest, ProductResponse.class);
+			if (presponse.getResponseCode() > -1)
+				model.addAttribute("products", presponse.getModel());
+		}
 		
 		return "products";
 	}

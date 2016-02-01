@@ -1,27 +1,44 @@
 
-
 		<script type="text/javascript" th:attr="src=@{/js/site/productgrid.js}"></script>
 		
-		<table th:attr="id=${'productTable_'+categoryId}, categoryId=${categoryId}">
-			
-			<thead><tr><th></th></tr></thead>
-			
-		</table>
+		<div class="uk-overflow-container">
+			<table class="uk-table uk-table-striped uk-table-condensed" th:attr="id=${'productTable_'+categoryId}, categoryId=${categoryId}">
+				
+				<caption th:text="${categoryName}">Category - Products</caption>
+				
+				<thead>
+					<tr>
+						<th></th>
+					</tr>
+				</thead>
+				
+				<tfoot>
+					<tr>
+						<td> 
+							<ul th:replace="/template/paginatoritem :: paginator(${null})"></ul>
+						</td>
+					</tr>
+				</tfoot>
+				
+				<tbody>
+				
+					<tr th:each="product : ${products}">
+						<td> 
+							
+							<div th:replace="/template/productitem :: product(${product})"></div>
+						
+						</td>
+						
+					</tr>
+				
+				</tbody>
+				
+			</table>
+		</div>
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 		
-		$("#productTable_[[${categoryId}]]").DataTable({
-			processing: true,
-			jQueryUI: true,
-			scrollY: 400, 
-			ajax: getProducts,
-			columns: [
-				{data: null, render: productRowProcess}
-			]
-			
-		});
-
 			
 		/*]]>*/
 		</script>

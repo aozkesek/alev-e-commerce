@@ -6,24 +6,38 @@
 	<body>
 		
 		<section layout:fragment="content">
-		
-			<ul class="uk-tab" data-uk-tab="">
-				
-				<li class="uk-active"><a href="#hotdeals">Hot Deals</a></li>
-				
-				<li th:each="category : ${categories}">
-					<a th:href="'/category/products/' + ${category.id}" 
-						th:text="${category.categoryName}"
-					></a>
-				</li>
 			
-			</ul>	
-			
-			<div id="hotdeals">				
-				<p>Today's Deals;</p>
-				<p>Week's Deals;</p>
-				<p>Month's Deals;</p>
+			<div id="categoryTab" class="uk-tab-center">
+				<ul class="uk-tab" data-uk-tab="">
+					<li class="uk-active" category="-1"><a href="#">Hot Deals</a></li>
+					<li th:each="category : ${categories}" th:attr="category=${category.id}">
+						<a href="#" th:text="${category.categoryName}"></a>
+					</li>
+				</ul>	
 			</div>
+			
+			<div >
+
+				<div id="categoryProducts" >				
+				</div>
+
+			</div>
+			
+			<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+			$("#categoryTab").on("change.uk.tab", function(evt, actv, prev){
+				var categoryId = actv.context.attributes["category"];
+				if (categoryId !== undefined)
+					$.ajax({
+						url: "/category/products/" + categoryId.nodeValue,
+						success: function(res) { $("#categoryProducts").html(res); },
+						error: function(res) { $("#categoryProducts").html("Uups: I did not expect this either :("); }
+					});
+			});
+			
+			/*]]>*/
+			</script>
 			
 		</section>	
 		
