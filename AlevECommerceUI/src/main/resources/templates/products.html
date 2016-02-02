@@ -1,4 +1,6 @@
-
+		<link rel="stylesheet" th:href="@{/css/components/slidenav.css}" />
+		<link rel="stylesheet" th:href="@{/css/components/slideshow.css}" />
+		<script type="text/javascript" th:attr="src=@{/js/components/slideshow.js}"></script>
 		<script type="text/javascript" th:attr="src=@{/js/site/productgrid.js}"></script>
 		
 		<div class="uk-overflow-container">
@@ -25,7 +27,7 @@
 					<tr th:each="product : ${products}">
 						<td> 
 							
-							<div th:replace="/template/productitem :: product(${product})"></div>
+							<div th:replace="/template/productitemsummary :: product(${product})"></div>
 						
 						</td>
 						

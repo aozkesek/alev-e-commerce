@@ -4,11 +4,11 @@
 		<div class="uk-panel-badge uk-badge">Sale</div>
 		<h3 class="uk-panel-title" th:text="${product.title}"></h3>
 		<div class="uk-grid">
-			<div class="uk-width-2-5">
-			
-				<figure class="uk-overlay">
-					<img class="uk-overlay-panel uk-overlay-image" th:attr="src=@{${product.pictures[0].path+product.pictures[0].name}}" width="200px" height="200px"></img>
-				</figure>
+
+			<div class="uk-width-2-5 uk-slidenav-position">
+			    <img th:attr="src=@{${product.pictures[0].path+product.pictures[0].name}}" alt=""></img>
+			    <a href="" class="uk-slidenav uk-slidenav-previous"></a>
+			    <a href="" class="uk-slidenav uk-slidenav-next"></a>
 			</div>
 			
 			<div class="uk-width-1-5">
@@ -25,6 +25,13 @@
 				</div>	
 			</div>
 			
-			<div class="uk-width-2-5">/*[++]*/ [[${product.description}]]</div>
+			<div class="uk-width-2-5" th:attr="id=${'product_'+product.id}"></div>
+			
+			<script th:inline="javascript">
+			/*<![CDATA[*/
+			$("#product_[[${product.id}]]").html([[${product.description}]]);       
+			/*]]>*/	
+			</script>
 		</div>
 	</div>
+	
