@@ -1,7 +1,7 @@
 
 	<div class="uk-grid" th:fragment="product(product)">
 		
-		<div class="uk-panel uk-width-1-3 uk-slidenav-position" th:with="pictures=${product.pictures}">
+		<div class="uk-panel uk-overflow-container uk-width-1-3" th:with="pictures=${product.pictures}">
 		    <ul class="uk-thumbnav">
 		    	<li th:each="picture : ${pictures}"><a href=""><img th:attr="src=@{${picture.path+picture.name}}" width="48px" height="48px"></img></a></li>
 		    </ul>
@@ -11,16 +11,14 @@
 			<div class="uk-panel-badge uk-badge" th:if="(${product.actualPrice} &gt; 0) and (${product.actualPrice} &lt; ${product.price})">Sale</div>
 			<h3 class="uk-panel-title" th:text="${product.title}"></h3>
 			<div class="uk-panel">
+				
 				<div>
 					<label>Price:</label>
 					<span class="uk-icon-gbp" th:utext="${product.actualPrice} &gt; 0 ? ('&lt;del&gt;'+${product.price}+'&lt;/del&gt;') : ${product.price}"></span>
 					<span class="uk-icon-gbp" th:text="${product.actualPrice}" th:if="${product.actualPrice &gt; 0}"></span>
 				</div>
-				<div>
-					<button class="uk-button uk-icon-cart-plus" >&nbsp;</button>
-					<button class="uk-button uk-icon-money" >&nbsp;Buy now</button>
-					<button class="uk-button uk-icon-eye" >&nbsp;Show Detail</button>
-				</div>
+				
+				<div th:replace="/template/productitembuttongroup(${product})"></div>
 			</div>
 			
 		</div>

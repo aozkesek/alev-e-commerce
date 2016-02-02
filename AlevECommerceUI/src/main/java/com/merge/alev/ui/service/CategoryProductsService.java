@@ -43,7 +43,7 @@ public class CategoryProductsService implements IPageService {
 				model.addAttribute("products", presponse.getModel());
 		}
 		
-		return "products";
+		return "/template/products";
 	}
 
 }

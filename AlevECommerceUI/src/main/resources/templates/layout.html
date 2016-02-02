@@ -14,7 +14,7 @@
    	<link rel="stylesheet" th:href="@{/css/jquery-ui.structure.css}" />
    	<link rel="stylesheet" th:href="@{/css/jquery.dataTables.css}" />
    	<link rel="stylesheet" th:href="@{/css/theme.css}" />
-<!--    	<link rel="stylesheet" th:href="@{/css/growl.css}" /> -->
+   	<link rel="stylesheet" th:href="@{/css/growl.css}" />
    	
    	<link rel="stylesheet" th:href="@{/css/uikit.css}" />
 <!--    	<link rel="stylesheet" th:href="@{/css/site/theme.css}" /> -->
@@ -41,26 +41,34 @@
 		</script>
 				
 		<header>
-			<div th:include="header :: header"></div>
+			<div class="uk-panel uk-panel-box uk-panel-divider" th:include="header :: header"></div>
 		</header>
 		
-		<div class="uk-grid uk-grid-divider">
-			<div class="uk-width-2-10">
-				<section layout:fragment="leftmenu"></section>
-			</div>
-		
-			<div class="uk-width-7-10">
-				<section layout:fragment="content"></section>
-			</div>
+		<div class="uk-panel uk-panel-box uk-panel-divider">
+			<section layout:fragment="topcontent">
 			
-			<div class="uk-width-1-10">
-				<section layout:fragment="relationalcontent"></section>
-			</div>
+			</section>
+		</div>
 		
+		<div class="uk-panel">
+			<div class="uk-grid uk-grid-divider">
+				<div class="uk-width-2-10">
+					<section layout:fragment="leftcontent"></section>
+				</div>
+			
+				<div class="uk-width-7-10">
+					<section layout:fragment="content"></section>
+				</div>
+				
+				<div class="uk-width-1-10">
+					<section layout:fragment="rightcontent"></section>
+				</div>
+			
+			</div>
 		</div>
 		
 		<footer>
-			<div th:include="footer :: footer"></div>
+			<div class="uk-panel uk-panel-box uk-position-bottom" th:include="footer :: footer"></div>
 		</footer>
 
 	</body>

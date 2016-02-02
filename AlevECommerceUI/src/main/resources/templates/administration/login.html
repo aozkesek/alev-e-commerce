@@ -12,12 +12,22 @@
     
     <section layout:fragment="content">
       
-      <form th:action="@{/adminlogin}" method="post">
-		<fieldset id="loginFieldset">
+      <form class="uk-form uk-form-stacked" th:action="@{/adminlogin}" method="post">
+		<fieldset data-uk-margin="">
+			<h4 class="uk-text-danger uk-heading-large">Site administration,</h4>
+			<div class="uk-form-row">
+				<label class="uk-form-label">User Name</label> 
+				<div class="uk-form-controls"><input type="text" id="username" name="username"/></div> 
+			</div>
 			
-			<div><h4>User Name</h4> <input type="text" id="username" name="username"/> </div>
-			<div><h4>Password</h4><input type="password" id="password" name="password"/> </div>
-			<div><h4></h4><input type="submit" value="Sign In"/></div>
+			<div class="uk-form-row">
+				<label class="uk-form-label">Password</label>
+				<div class="uk-form-controls"><input type="password" id="password" name="password"/></div>
+			</div>
+			
+			<div class="uk-form-row">
+				<div class="uk-form-controls"><input class="uk-button" type="submit" value="Sign In"/></div>
+			</div>
 			
 		</fieldset>
 		    
@@ -25,9 +35,6 @@
 
 	   <script th:inline="javascript">
 		/*<![CDATA[*/
-		
-		$("input").addClass("ui-widget ui-corner-all");
-		$("input[type=submit]").button();
 		
 		if("[[${param.error}]]" != "null") 
 			$("#growlmessages").puigrowl("show", [{ severity: "error", summary: "Login Error", detail: "Invalid username and password."}]);

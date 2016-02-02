@@ -1,28 +1,18 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-      
-	<body>
-		
-		<div th:fragment="header">
-			
-			<nav class="uk-navbar">
-				<ul class="uk-navbar-nav">
-					<li><a href="/home">Home</a></li>	
-					<li><a href="/trackorder">Track Your Order</a></li>
-				</ul>
-				
-				<div class="uk-navbar-flip">
-					<ul class="uk-navbar-nav">
-						<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/administration">Administration</a></li>
-						<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/adminlogout">Logout</a></li>
-						<li><a href="/about">About Us</a></li>
-					</ul>
-				</div>
-			</nav>
-			
-		</div>
+<div th:fragment="header">
 	
-	</body>            
-</html>     
+	<nav class="uk-navbar">
+		<ul class="uk-navbar-nav">
+			<li><a href="/home">Home</a></li>	
+			<li><a href="/trackorder">Track Your Order</a></li>
+		</ul>
+		
+		<div class="uk-navbar-flip">
+			<ul class="uk-navbar-nav">
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/administration">Administration</a></li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/adminlogout">Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+	
+</div>

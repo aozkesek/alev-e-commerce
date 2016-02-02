@@ -1,37 +1,39 @@
 
-	<div class="uk-panel" th:fragment="product(product)">
+	<div class="uk-grid" th:fragment="product(product)">
 	
-		<div class="uk-panel-badge uk-badge">Sale</div>
-		<h3 class="uk-panel-title" th:text="${product.title}"></h3>
-		<div class="uk-grid">
-
-			<div class="uk-width-2-5 uk-slidenav-position">
+			<div class="uk-panel uk-width-2-5 uk-slidenav-position">
 			    <img th:attr="src=@{${product.pictures[0].path+product.pictures[0].name}}" alt=""></img>
 			    <a href="" class="uk-slidenav uk-slidenav-previous"></a>
 			    <a href="" class="uk-slidenav uk-slidenav-next"></a>
 			</div>
 			
-			<div class="uk-width-1-5">
+			<div class="uk-panel uk-width-1-5">
+				<div class="uk-panel-badge uk-badge">Sale</div>
+				<h3 class="uk-panel-title" th:text="${product.title}"></h3>
+				
 				<div>
-				Price:
-					<span th:text="${product.price}"></span>
-					<span th:text="${product.actualPrice}"></span>
+					<label>Price:</label>
+					<span class="uk-icon-gbp" th:utext="${product.actualPrice} &gt; 0 ? ('&lt;del&gt;'+${product.price}+'&lt;/del&gt;') : ${product.price}"></span>
+					<span class="uk-icon-gbp" th:text="${product.actualPrice}" th:if="${product.actualPrice &gt; 0}"></span>
 				</div>
+				
 				<div>
-					<span th:text="'Size: ' + ${product.sizes}"></span>
+					<label>Size</label><span th:text="${product.sizes}"></span>
 				</div>
+				
 				<div>
-					<span th:text="'Color: ' + ${product.colors}"></span>	
+					<label>Color</label><span th:text="' + ${product.colors}"></span>	
 				</div>	
+				
 			</div>
 			
-			<div class="uk-width-2-5" th:attr="id=${'product_'+product.id}"></div>
+			<div class="uk-panel uk-scrollable-text uk-width-2-5" th:utext="${product.description}"></div>
 			
 			<script th:inline="javascript">
 			/*<![CDATA[*/
-			$("#product_[[${product.id}]]").html([[${product.description}]]);       
+			//$("#product_[[${product.id}]]").html([[${product.description}]]);       
 			/*]]>*/	
 			</script>
-		</div>
+
 	</div>
 	

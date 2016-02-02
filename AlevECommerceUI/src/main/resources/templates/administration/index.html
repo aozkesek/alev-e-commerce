@@ -7,51 +7,49 @@
 	</head>
 	
 	<body>
-	
+
 	<section layout:fragment="content">
+		<div th:replace="template/confirmdialog :: confirmdialog"></div>
 		
-		<div id="adminTaskTab" sec:authorize="hasRole('ROLE_ADMIN')">
-			<ul>
-				
-				<li><a href="#adminTask_order">Orders</a></li>
-				<li><a href="/admincategory">Categories</a></li>
-				<li><a href="/adminfee">Fees</a></li>
-				<li><a href="/adminproduct">Products</a></li>
-				
+		<div id="adminTaskContent"></div>
+		
+	</section>	
+
+	<section layout:fragment="leftcontent">
+	
+		<div id="adminTaskTab" class="uk-panel uk-panel-box" sec:authorize="hasRole('ROLE_ADMIN')">
+			<ul class="uk-nav uk-nav-side">
+				<li class="uk-active"><a href="javascript:onAdminNavChange('/adminorder')">Orders</a></li>
+				<li><a href="javascript:onAdminNavChange('/admincategory')">Categories</a></li>
+				<li><a href="javascript:onAdminNavChange('/adminfee')">Fees</a></li>
+				<li><a href="javascript:onAdminNavChange('/adminproduct')">Products</a></li>
 			</ul>	
-			
-			<div id="adminTask_order" >
-			waiting orders ...
-			</div>
-			
 		</div>
 		
-		<div id="confirmDialog">
-			<label></label>
-			<p>Are you sure?</p>
-		</div>
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-		var adminTaskTabs = $("#adminTaskTab").tabs(),
-			activeIndex = [[${param.containsKey("activeIndex") ? param.activeIndex[0] : 0}]];
-		
-		adminTaskTabs.tabs("option", "active", activeIndex);
-		
-		var confirmDialog = $("#confirmDialog").dialog({
-			modal: true,
-			autoOpen: false,
-			buttons: [
-			{ text: "No", click: function() { dialogClose(this); } },
-			{ text: "Yes" }
-			]
-		});
+		function onAdminNavChange(url) {
+			var ul = $("#adminTaskTab").children("ul");
 			
-		/*]]>*/	
+			ul.children(".uk-active").removeClass("uk-active")
+			ul.children("li").children("a[href*='"+url+"']").parent().addClass("uk-active");
+			
+			$.ajax({
+				url: url,
+				success: function(res) { $("#adminTaskContent").html(res); },
+				error: function(res) { $("#adminTaskContent").html(res); }
+			});
+				
+		}
+		
+		/*]]>*/
 		</script>
 	
 	</section>	
 	
+
+			
 	</body>
 			
 </html>

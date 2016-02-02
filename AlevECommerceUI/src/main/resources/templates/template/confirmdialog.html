@@ -1,0 +1,25 @@
+	<div id="confirmDialog" th:fragment="confirmdialog">
+		<label></label>
+		<p>Are you sure?</p>
+
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+	// 		var adminTaskTabs = $("#adminTaskTab").tabs(),
+	// 			activeIndex = [[${param.containsKey("activeIndex") ? param.activeIndex[0] : 0}]];
+			
+	// 		adminTaskTabs.tabs("option", "active", activeIndex);
+			
+			var confirmDialog = $("#confirmDialog").dialog({
+				modal: true,
+				autoOpen: false,
+				buttons: [
+				{ text: "No", click: function() { dialogClose(this); } },
+				{ text: "Yes" }
+				]
+			});
+				
+		/*]]>*/	
+		</script>
+
+	</div>
+

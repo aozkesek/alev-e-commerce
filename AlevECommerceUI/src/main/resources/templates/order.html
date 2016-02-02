@@ -1,16 +1,19 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorator="/layout">
+	
 	<head>
-		<title>Alev E-Commerce</title>
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<title>Track Order</title>
 	</head>
 	
 	<body>
 	
-		<div th:include="header :: header"></div>
-	
-Orders
+		<section layout:fragment="content">
 		
-		<div th:include="footer :: footer"></div>
-	
+		<p >orders ...</p>
+		
+		</section>
+		
 	</body>
+	
 </html>
