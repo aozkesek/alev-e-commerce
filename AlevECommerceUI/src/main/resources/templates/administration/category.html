@@ -1,45 +1,30 @@
-		<script type="text/javascript" th:attr="src=@{/js/site/category.js}"></script>
+<script type="text/javascript" th:attr="src=@{/js/site/category.js}"></script>
+<style type="text/css">
+#categoryList {width:200px;}
+</style>
 
-		<div id="categories" >
-			<table>
-			<tr>
-				<td>
-					<select id="categoryList">
-						<option th:each="category : ${categories}"
-							th:text="${category.categoryName}"
-							th:attr="value=${category.id}" >
-						</option>				
-					</select>
-				</td>
-				<td><button id="categoryUpdate">Update</button></td>
-				<td><button id="categoryDelete">Delete</button></td>
-				<td><button id="categoryAdd">Add</button></td>
-			</tr>
-			</table>
-		</div>
+<div class="uk-panel" >
+	<div class="uk-panel-title">Product Categories</div>
 	
-		<div id="categoryDialog" title="Category">
-			<label>Category Name: </label>
-			<input id="selectedCategory" type="text" class="ui-widget ui-corner-all"/>
+	<div class="uk-panel-box uk-flex uk-form">
+		<div class="uk-panel-box">
+		<select width="200" id="categoryList">
+			<option th:each="category : ${categories}"
+				th:text="${category.categoryName}"
+				th:attr="value=${category.id}" >
+			</option>				
+		</select>
 		</div>
+		<div class="uk-panel-box">
+			<button class="uk-button uk-icon-edit uk-button-primary" onclick="onCategoryButtonsClick('update')">&nbsp;Update</button>
+		</div>
+		<div class="uk-panel-box">
+			<button class="uk-button uk-icon-remove uk-button-primary" onclick="onCategoryButtonsClick('delete')">&nbsp;Delete</button>
+		</div>
+		<div class="uk-panel-box">
+			<button class="uk-button uk-icon-plus uk-button-primary" onclick="onCategoryButtonsClick('add')">&nbsp;Add</button>	
+		</div>
+			
+	</div>
 	
-		<script th:inline="javascript">
-		/*<![CDATA[*/
-		   $("button").button()
-		   	.click(onCategoryButtonsClick);  
-
-			$("#categoryList").selectmenu({width: 200});
-
-			detachCategoryDialog();
-
-			categoryDialog = $("#categoryDialog").dialog({
-				modal: true,
-				autoOpen: false,
-				buttons: [
-				{ text: "Cancel", click: function() { dialogClose(this); } },
-				{ text: "Ok" }
-				]
-			});
-						
-		/*]]>*/	
-		</script>	
+</div>

@@ -8,13 +8,6 @@
 	
 	<body>
 
-	<section layout:fragment="content">
-		<div th:replace="template/confirmdialog :: confirmdialog"></div>
-		
-		<div id="adminTaskContent"></div>
-		
-	</section>	
-
 	<section layout:fragment="leftcontent">
 	
 		<div id="adminTaskTab" class="uk-panel uk-panel-box" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -25,31 +18,16 @@
 				<li><a href="javascript:onAdminNavChange('/adminproduct')">Products</a></li>
 			</ul>	
 		</div>
-		
-		
-		<script th:inline="javascript">
-		/*<![CDATA[*/
-		function onAdminNavChange(url) {
-			var ul = $("#adminTaskTab").children("ul");
-			
-			ul.children(".uk-active").removeClass("uk-active")
-			ul.children("li").children("a[href*='"+url+"']").parent().addClass("uk-active");
-			
-			$.ajax({
-				url: url,
-				success: function(res) { $("#adminTaskContent").html(res); },
-				error: function(res) { $("#adminTaskContent").html(res); }
-			});
-				
-		}
-		
-		/*]]>*/
-		</script>
+
 	
 	</section>	
-	
 
-			
+	<section layout:fragment="content">
+		
+		<div id="adminTaskContent"></div>
+		
+	</section>	
+
 	</body>
 			
 </html>

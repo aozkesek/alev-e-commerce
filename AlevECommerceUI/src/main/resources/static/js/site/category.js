@@ -2,76 +2,75 @@
  * 
  */
 
-function onCategoryButtonsClick(event) {
+function onCategoryButtonsClick(target) {
 	var categoryList = $("#categoryList"),
 		id = categoryList.val(),
-		name = categoryList.children().filter("[value="+id+"]").text(),
-		selectedCategory = $("#selectedCategory"),
-		buttons;
+		name = categoryList.children().filter("[value="+id+"]").text();
 	
-	switch(event.currentTarget.id) {
-	case "categoryUpdate":
-		selectedCategory.val(name);
-		buttons = categoryDialog.dialog("option", "buttons");
-		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {
-			adminAjaxCall({
-				type: "POST",
-				url: "/category/update",
-				dataModel: '[{"categoryName": "'+selectedCategory.val()+'", "id":'+id+'}]'
-			});
-		};
-		categoryDialog.dialog("option","buttons",buttons);
-		categoryDialog.dialog("open");
+	switch(target) {
+	case "update":
+		UIkit.modal.prompt(
+				"<h2 class='uk-text-bold'>Update category,</h2><p>Category name:</p>",
+				name,
+				function(newName) {
+					adminAjaxCall({
+						type: "POST",
+						url: "/category/update",
+						dataModel: '[{"categoryName": "'+newName+'", "id":'+id+'}]',
+						success: function() {
+							growlMessages.puigrowl("show", [{severity: "info", summary: "Update category,", detail: "Done."}]);
+							onAdminNavChange('/admincategory');	
+						},
+						error:  function() {
+							growlMessages.puigrowl("show", [{severity: "error", summary: "Update category,", detail: "Failed."}]);
+						} 
+					});
+				}
+		);
 		break;
 		
-	case "categoryAdd":
-		selectedCategory.val("");
-		buttons = categoryDialog.dialog("option", "buttons");
-		buttons.filter(function(b){return b.text==="Ok"})[0].click = function() {
-			adminAjaxCall({
-				type: "POST",
-				url: "/category/create",
-				dataModel: '[{"categoryName": "'+selectedCategory.val()+'"}]',
-				success: function() {
-					selectedCategory.val("");	
+	case "add":
+		UIkit.modal.prompt(
+				"<h2 class='uk-text-bold'>Add category,</h2><p>Category name:</p>",
+				"",
+				function(newName) {
+					adminAjaxCall({
+						type: "POST",
+						url: "/category/create",
+						dataModel: '[{"categoryName": "'+newName+'"}]',
+						success: function() {
+							growlMessages.puigrowl("show", [{severity: "info", summary: "Add category,", detail: "Done."}]);
+							onAdminNavChange('/admincategory');	
+						},
+						error:  function() {
+							growlMessages.puigrowl("show", [{severity: "error", summary: "Add category,", detail: "Failed."}]);
+						}
+					});
 				}
-			});
-		};
-		categoryDialog.dialog("option","buttons",buttons);
-		categoryDialog.dialog("open");
+		);
 		break;
 		
-	case "categoryDelete":
-		confirmDialog.dialog("option", "title", "Category - Delete");
-		confirmDialog.children("label").text(name + " will be deleted,");
-		buttons = confirmDialog.dialog("option", "buttons");
-		buttons.filter(function(b){return b.text==="Yes"})[0].click = function() {
-			adminAjaxCall({
-				type: "POST",
-				url: "/category/delete",
-				dataModel: '[{"id": '+id+'}]',
-				success: function() {
-					confirmDialog.dialog("close");
-					adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));	
+	case "delete":
+		UIkit.modal.confirm(
+				"<h2 class='uk-text-danger uk-text-bold'>Delete category,</h2><p>" + name + " will be deleted,</p><p class='uk-text-danger'>Are you sure?</p>",
+				function() {
+					adminAjaxCall({
+						type: "POST",
+						url: "/category/delete",
+						dataModel: '[{"id": '+id+'}]',
+						success: function() {
+							growlMessages.puigrowl("show", [{severity: "info", summary: "Delete category,", detail: "Done."}]);
+							onAdminNavChange('/admincategory');
+						},
+						error:  function() {
+							growlMessages.puigrowl("show", [{severity: "error", summary: "Delete category,", detail: "Failed."}]);
+						}
+					});
 				}
-			});
-		};
-		confirmDialog.dialog("option","buttons",buttons);
-		confirmDialog.dialog("open");
+		);
 		break;
 	}
 	
 }
 
-function dialogClose(dialog) {
-	$(dialog).dialog("close");
-	//do not call this every time to pretend network load, try to sense if there is change
-	adminTaskTabs.tabs("load", adminTaskTabs.tabs("option", "active"));
-	
-}
 
-function detachCategoryDialog() {
-	var ariaCategoryDialog = $("div[aria-describedby=categoryDialog]");
-	if (ariaCategoryDialog.length>0)
-		ariaCategoryDialog.detach();		
-}

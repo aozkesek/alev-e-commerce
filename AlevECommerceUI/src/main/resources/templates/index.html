@@ -5,6 +5,18 @@
 
 	<body>
 		
+		<section layout:fragment="topcontent">
+			<div class="uk-panel uk-panel-box uk-text-center">top contents goes here</div>
+		</section>
+		
+		<section layout:fragment="leftcontent">
+			<div class="uk-panel uk-panel-box uk-text-left uk-text-middle">left contents goes here</div>
+		</section>
+		
+		<section layout:fragment="rightcontent">
+			<div class="uk-panel uk-panel-box uk-text-right uk-text-middle">right contents goes here</div>
+		</section>
+		
 		<section layout:fragment="content">
 			
 			<div id="categoryTab" class="uk-tab-center">
@@ -17,25 +29,13 @@
 			</div>
 			
 			<div class="uk-panel uk-panel-divider">
-
 				<div id="categoryProducts" >				
 				</div>
-
 			</div>
 			
 			<script th:inline="javascript">
 			/*<![CDATA[*/
-			
-			$("#categoryTab").on("change.uk.tab", function(evt, actv, prev){
-				var categoryId = actv.context.attributes["category"];
-				if (categoryId !== undefined)
-					$.ajax({
-						url: "/category/products/" + categoryId.nodeValue,
-						success: function(res) { $("#categoryProducts").html(res); },
-						error: function(res) { $("#categoryProducts").html("Uups: I did not expect this either :("); }
-					});
-			});
-			
+			$("#categoryTab").on("change.uk.tab", function(a,b,c) { onChangeTab(a,b,c,"category","/category/products/","#categoryProducts"); });
 			/*]]>*/
 			</script>
 			

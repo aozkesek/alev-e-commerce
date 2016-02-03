@@ -8,8 +8,6 @@
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	});
-	
-
 
 	/*
 	 * settigns: 
@@ -21,8 +19,7 @@
 	 * 		success		: callback function() on successful finish
 	 * 		error		: callback function() on error halt
 	 * 		title		:
-	 *  
-	 */
+	 **/
 	function adminAjaxCall(settings) {
 		
 		if ((settings === undefined) || (settings === null) || ((typeof settings) !== "object"))
@@ -48,12 +45,43 @@
 				}
 			},
 			error: function(e) {
-				console.log(e);
 				growlMessages.puigrowl("show", [{severity: "error", summary: settings.title, detail: "Failed."}]);
-				try{settings.error(response);}catch(e){console.log(e);}
+				console.log(e);
+				try{settings.error(e);}catch(e){console.log(e);}
 			}
 		});
 		
 	}
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 **/
+	function onAdminNavChange(url) {
+		var ul = $("#adminTaskTab").children("ul");
+		
+		ul.children(".uk-active").removeClass("uk-active")
+		ul.children("li").children("a[href*='"+url+"']").parent().addClass("uk-active");
+		
+		$.ajax({
+			url: url,
+			success: function(res) { $("#adminTaskContent").html(res); },
+			error: function(res) { $("#adminTaskContent").html(res); }
+		});
+			
+	}
 	
+	/*
+	 * 
+	 * 
+	 */
+	function onChangeTab(evt, actv, prev, attr, baseUrl, target){
+		var _attr = actv.context.attributes[attr];
+		if (_attr !== undefined)
+			$.ajax({
+				url: baseUrl + _attr.nodeValue,
+				success: function(res) { $(target).html(res); },
+				error: function(res) { $(target).html("Uups: I did not expect this either :("); }
+			});
+	}
