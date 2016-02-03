@@ -8,6 +8,12 @@
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	});
+	
+	$.ajaxSetup({
+		blockUIhandle: undefined,
+		beforeSend: function() { this.blockUIhandle = UIkit.modal.blockUI("<img class='uk-align-center' src='/images/ajax-loader.gif'></img>"); },
+		complete: function() { this.blockUIhandle.hide(); }
+	});
 
 	/*
 	 * settigns: 
