@@ -16,19 +16,19 @@ repositories {
 dependencies {
 	compile 'org.slf4j:slf4j-api:1.7.12'
 
-	compile ('org.springframework.boot:spring-boot-starter-thymeleaf:1.3.1.RELEASE') {
+	compile ('org.springframework.boot:spring-boot-starter-thymeleaf:1.4.0.RELEASE') {
 		exclude module:'spring-boot-starter-tomcat'
 		exclude module:'spring-boot-starter-logging'
 	}
-	compile ('org.springframework.boot:spring-boot-starter-security:1.3.1.RELEASE') {
+	compile ('org.springframework.boot:spring-boot-starter-security:1.4.0.RELEASE') {
 		exclude module:'spring-boot-starter-logging'
 	}
-	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
-	compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.3.1.RELEASE'
-	compile ('org.springframework.boot:spring-boot-starter-jetty:1.3.1.RELEASE') {
+	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.0.RELEASE'
+	compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.0.1'
+	compile ('org.springframework.boot:spring-boot-starter-jetty:1.4.0.RELEASE') {
 		exclude module:'jetty-jndi'
 	}
-	compile 'org.springframework.boot:spring-boot-starter-log4j:1.3.0.RELEASE'
+	compile 'org.springframework.boot:spring-boot-starter-log4j:1.3.7.RELEASE'
 
 	testCompile 'junit:junit:4.12'
 }
