@@ -10,7 +10,6 @@ logs/
 
 .classpath
 .project
-/CrudDao/.nb-gradle/
-/CrudRest/.nb-gradle/
-/AlevECommerce/.nb-gradle/
-/AlevECommerceUI/.nb-gradle/
+.idea/
+.nb-gradle/
+
