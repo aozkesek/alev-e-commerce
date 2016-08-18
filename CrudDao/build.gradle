@@ -37,7 +37,7 @@ dependencies {
 
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'org.springframework:spring-orm:4.3.2.RELEASE'
-    compile 'org.hibernate:hibernate-core:5.0.10.Final'
+    compile 'org.hibernate:hibernate-core:5.2.2.Final'
 
 
     testCompile 'junit:junit:4.12'
