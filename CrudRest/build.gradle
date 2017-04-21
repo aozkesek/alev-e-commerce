@@ -18,6 +18,8 @@ ext {
 
 repositories {
     jcenter()
+    mavenLocal()
+    mavenCentral()
     
 	flatDir {
 		name 'mergeRepo'	
@@ -35,9 +37,9 @@ dependencies {
 	
 	compile 'com.merge:CrudDao:1.0.0'
 	
-	compile 'org.slf4j:slf4j-api:1.7.12'
-	compile 'org.springframework:spring-beans:4.3.2.RELEASE'
-	compile 'org.springframework:spring-web:4.3.2.RELEASE'
+	compile 'org.slf4j:slf4j-api:1.7.25'
+	compile 'org.springframework:spring-beans:4.3.8.RELEASE'
+	compile 'org.springframework:spring-web:4.3.8.RELEASE'
 	
 	 
 	testCompile 'junit:junit:4.12'
