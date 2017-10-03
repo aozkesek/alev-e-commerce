@@ -38,7 +38,7 @@ uploadArchives {
 
 dependencies {
 
-    compile 'org.slf4j:slf4j-api:1.7.12'
+    compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.springframework:spring-orm:5.0.0.RELEASE'
     compile 'org.hibernate:hibernate-core:5.2.11.Final'
 

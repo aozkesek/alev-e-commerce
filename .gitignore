@@ -8,6 +8,11 @@ build/
 data/
 logs/
 
+gradle/
+
+gradlew
+gradlew.bat
+
 .classpath
 .project
 .idea/

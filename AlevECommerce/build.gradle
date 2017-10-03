@@ -20,6 +20,8 @@ ext {
 
 repositories {
     jcenter()
+    mavenLocal()
+    mavenCentral()
     
 	flatDir {
 		name 'mergeRepo'	
@@ -48,8 +50,8 @@ dependencies {
 	compile 'org.hibernate:hibernate-c3p0:5.2.11.Final'
 	compile 'javax.transaction:jta:1.1'
 	compile 'com.mchange:c3p0:0.9.5.2'
-	compile 'org.hsqldb:hsqldb:2.3.3'
-    compile 'org.slf4j:slf4j-api:1.7.21'
+	compile 'org.hsqldb:hsqldb:2.4.0'
+    compile 'org.slf4j:slf4j-api:1.7.25'
     
     testCompile 'junit:junit:4.12'
 }
