@@ -15,6 +15,9 @@ gradlew.bat
 
 .classpath
 .project
+
+*.log
+
 .idea/
 .nb-gradle/
 
